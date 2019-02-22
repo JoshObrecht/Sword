@@ -26,7 +26,6 @@ public class SwordRunner extends JPanel
 		public SwordRunner()
 		{
 			setBackground(Color.LIGHT_GRAY);
-			level.add(new ArrayList<Color>());
 			readLevel();
 			Timer timer = new Timer(10, new ActionListener(){
 				public void actionPerformed(ActionEvent e)
@@ -40,11 +39,17 @@ public class SwordRunner extends JPanel
 		{
 			super.paintComponent(g);
 			int x = 0;
-			for(Color c: level.get(0))
+			int y = 835;
+			for(int r = level.size() - 1; r >= 0; r--)
 				{
-					x += 48;
-					g.setColor(c);
-					g.fillRect(x, 48, 48, 48);
+					for(int c = 0; c < level.get(r).size(); c++)
+						{
+							g.setColor(level.get(r).get(c));
+							g.fillRect(x, y, 48, 48);
+							x += 48;
+						}
+					x = 0;
+					y -= 48;
 				}
 		}
 		
@@ -62,6 +67,7 @@ public class SwordRunner extends JPanel
 				}
 			while(levelReader.hasNextLine())
 				{
+					ArrayList<Color> newLine = new ArrayList<Color>();
 					String levelLine = levelReader.nextLine();
 					char[] levelArray = levelLine.toCharArray();
 					for(char c: levelArray)
@@ -69,13 +75,17 @@ public class SwordRunner extends JPanel
 							switch(c)
 							{
 								case 'g':
-									level.get(0).add(Color.GREEN);
+									newLine.add(Color.GREEN);
 									break;
 								case 'r':
-									level.get(0).add(Color.RED);
+									newLine.add(Color.RED);
+									break;
+								case 'c':
+									newLine.add(Color.CYAN);
 									break;
 							}
 						}
+					level.add(newLine);
 				}
 			
 		}
