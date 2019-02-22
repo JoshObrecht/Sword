@@ -61,6 +61,7 @@ public class SwordRunner extends JPanel
 							{
 								case 'g':
 //									level
+									break;
 							}
 						}
 				}
