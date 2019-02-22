@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class SwordRunner extends JPanel
 	{
-		public ArrayList<ArrayList<String>> level = new ArrayList<ArrayList<String>>();
+		public ArrayList<ArrayList<Color>> level = new ArrayList<ArrayList<Color>>();
 		public static void main(String[] args)
 			{
 				JFrame frame = new JFrame("Sword");
@@ -26,6 +26,8 @@ public class SwordRunner extends JPanel
 		public SwordRunner()
 		{
 			setBackground(Color.LIGHT_GRAY);
+			level.add(new ArrayList<Color>());
+			readLevel();
 			Timer timer = new Timer(10, new ActionListener(){
 				public void actionPerformed(ActionEvent e)
 				{
@@ -37,6 +39,13 @@ public class SwordRunner extends JPanel
 		public void paintComponent(Graphics g)
 		{
 			super.paintComponent(g);
+			int x = 0;
+			for(Color c: level.get(0))
+				{
+					x += 48;
+					g.setColor(c);
+					g.fillRect(x, 48, 48, 48);
+				}
 		}
 		
 		public void readLevel()
@@ -60,7 +69,10 @@ public class SwordRunner extends JPanel
 							switch(c)
 							{
 								case 'g':
-//									level
+									level.get(0).add(Color.GREEN);
+									break;
+								case 'r':
+									level.get(0).add(Color.RED);
 									break;
 							}
 						}
