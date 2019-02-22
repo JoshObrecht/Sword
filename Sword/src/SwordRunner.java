@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class SwordRunner extends JPanel
 	{
-		public ArrayList<ArrayList<Color>> level = new ArrayList<ArrayList<Color>>();
+		public ArrayList<ArrayList<Block>> level = new ArrayList<ArrayList<Block>>();
 		public static void main(String[] args)
 			{
 				JFrame frame = new JFrame("Sword");
@@ -44,8 +44,9 @@ public class SwordRunner extends JPanel
 				{
 					for(int c = 0; c < level.get(r).size(); c++)
 						{
-							g.setColor(level.get(r).get(c));
+							g.setColor(level.get(r).get(c).getColor());
 							g.fillRect(x, y, 48, 48);
+							level.get(r).get(c).setPos(new Vector(x, y));
 							x += 48;
 						}
 					x = 0;
@@ -67,7 +68,7 @@ public class SwordRunner extends JPanel
 				}
 			while(levelReader.hasNextLine())
 				{
-					ArrayList<Color> newLine = new ArrayList<Color>();
+					ArrayList<Block> newLine = new ArrayList<Block>();
 					String levelLine = levelReader.nextLine();
 					char[] levelArray = levelLine.toCharArray();
 					for(char c: levelArray)
@@ -75,13 +76,13 @@ public class SwordRunner extends JPanel
 							switch(c)
 							{
 								case 'g':
-									newLine.add(Color.GREEN);
+									newLine.add(new Block(new Vector(0,0), Color.GREEN));
 									break;
 								case 'r':
-									newLine.add(Color.RED);
+									newLine.add(new Block(new Vector(0,0), Color.RED));
 									break;
 								case 'c':
-									newLine.add(Color.CYAN);
+									newLine.add(new Block(new Vector(0,0), Color.CYAN));
 									break;
 							}
 						}
