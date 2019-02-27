@@ -1,12 +1,12 @@
 
 public class Vector
 	{
-		int x;
-		int y;
-		double r;
-		double o;
-		double xDub;
-		double yDub;
+		private int x;
+		private int y;
+		private double r;
+		private double o;
+		private double xDub;
+		private double yDub;
 		
 		public Vector(int x, int y)
 		{

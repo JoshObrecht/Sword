@@ -11,6 +11,7 @@ import java.util.Scanner;
 
 public class SwordRunner extends JPanel
 	{
+		public Entity guy = new Entity(new Vector(-48, -48));
 		public ArrayList<ArrayList<Block>> level = new ArrayList<ArrayList<Block>>();
 		public static void main(String[] args)
 			{
@@ -22,24 +23,58 @@ public class SwordRunner extends JPanel
 				frame.setVisible(true);
 				frame.setResizable(false);
 				game.setFocusable(true);
+				
 			}
 		public SwordRunner()
 		{
 			setBackground(Color.LIGHT_GRAY);
+			addKeyListener(new KeyAdapter()
+					{
+						@Override
+						public void keyPressed(KeyEvent e)
+						{
+							switch(e.getKeyCode())
+							{
+								case KeyEvent.VK_RIGHT:
+									guy.getVel().setX(4);
+									break;
+								case KeyEvent.VK_LEFT:
+									guy.getVel().setX(-4);
+									break;
+								case KeyEvent.VK_UP:
+									guy.getVel().setY(-4);
+									break;
+							}
+						}
+						public void keyReleased(KeyEvent e)
+						{
+							switch(e.getKeyCode())
+							{
+								case KeyEvent.VK_RIGHT:
+									guy.getVel().setX(0);
+									break;
+								case KeyEvent.VK_LEFT:
+									guy.getVel().setX(0);
+									break;
+							}
+						}
+					});
 			readLevel();
 			Timer timer = new Timer(10, new ActionListener(){
 				public void actionPerformed(ActionEvent e)
 				{
+					guy.tick();
 					repaint();
 				}
 			});
+			timer.start();
 		}
 		
 		public void paintComponent(Graphics g)
 		{
 			super.paintComponent(g);
 			int x = 0;
-			int y = 835;
+			int y = 865;
 			for(int r = level.size() - 1; r >= 0; r--)
 				{
 					for(int c = 0; c < level.get(r).size(); c++)
@@ -52,6 +87,8 @@ public class SwordRunner extends JPanel
 					x = 0;
 					y -= 48;
 				}
+			g.setColor(Color.black);
+			g.fillRect(guy.getPos().getX(), guy.getPos().getY(), 48, 48);
 		}
 		
 		public void readLevel()
@@ -82,6 +119,10 @@ public class SwordRunner extends JPanel
 									newLine.add(new Block(new Vector(0,0), Color.RED));
 									break;
 								case 'c':
+									newLine.add(new Block(new Vector(0,0), Color.CYAN));
+									break;
+								case 'p':
+									guy = new Entity(new Vector(48, 769));
 									newLine.add(new Block(new Vector(0,0), Color.CYAN));
 									break;
 							}
