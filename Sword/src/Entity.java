@@ -19,6 +19,7 @@ public class Entity extends SwordObject
 		
 		public void tick()
 		{
+//			if(pos)
 			pos.setX(pos.getX() + vel.getX());
 			pos.setY(pos.getY() + vel.getY());
 			if(pos.getY() < 769)

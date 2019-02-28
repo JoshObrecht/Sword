@@ -13,6 +13,8 @@ public class SwordRunner extends JPanel
 	{
 		public Entity guy = new Entity(new Vector(-48, -48));
 		public ArrayList<ArrayList<Block>> level = new ArrayList<ArrayList<Block>>();
+		public Vector levelVel = new Vector(0,0);
+		
 		public static void main(String[] args)
 			{
 				JFrame frame = new JFrame("Sword");
@@ -27,7 +29,7 @@ public class SwordRunner extends JPanel
 			}
 		public SwordRunner()
 		{
-			setBackground(Color.LIGHT_GRAY);
+			setBackground(Color.BLUE);
 			addKeyListener(new KeyAdapter()
 					{
 						@Override
@@ -36,13 +38,13 @@ public class SwordRunner extends JPanel
 							switch(e.getKeyCode())
 							{
 								case KeyEvent.VK_RIGHT:
-									guy.getVel().setX(4);
+									move(4, levelVel.getY());
 									break;
 								case KeyEvent.VK_LEFT:
-									guy.getVel().setX(-4);
+									move(-4, levelVel.getY());
 									break;
 								case KeyEvent.VK_UP:
-									guy.getVel().setY(-4);
+									move(levelVel.getX(), -4);
 									break;
 							}
 						}
@@ -51,10 +53,13 @@ public class SwordRunner extends JPanel
 							switch(e.getKeyCode())
 							{
 								case KeyEvent.VK_RIGHT:
-									guy.getVel().setX(0);
+									move(0, levelVel.getY());
 									break;
 								case KeyEvent.VK_LEFT:
-									guy.getVel().setX(0);
+									move(0, levelVel.getY());
+									break;
+								case KeyEvent.VK_UP:
+									move(levelVel.getX(), 0);
 									break;
 							}
 						}
@@ -64,6 +69,7 @@ public class SwordRunner extends JPanel
 				public void actionPerformed(ActionEvent e)
 				{
 					guy.tick();
+					tick();
 					repaint();
 				}
 			});
@@ -73,19 +79,13 @@ public class SwordRunner extends JPanel
 		public void paintComponent(Graphics g)
 		{
 			super.paintComponent(g);
-			int x = 0;
-			int y = 865;
 			for(int r = level.size() - 1; r >= 0; r--)
 				{
 					for(int c = 0; c < level.get(r).size(); c++)
 						{
 							g.setColor(level.get(r).get(c).getColor());
-							g.fillRect(x, y, 48, 48);
-							level.get(r).get(c).setPos(new Vector(x, y));
-							x += 48;
+							g.fillRect(level.get(r).get(c).getPos().getX(), level.get(r).get(c).getPos().getY(), 48, 48);
 						}
-					x = 0;
-					y -= 48;
 				}
 			g.setColor(Color.black);
 			g.fillRect(guy.getPos().getX(), guy.getPos().getY(), 48, 48);
@@ -129,6 +129,49 @@ public class SwordRunner extends JPanel
 						}
 					level.add(newLine);
 				}
+			int x = 0;
+			int y = 865;
+			for(int r = level.size() - 1; r >= 0; r--)
+				{
+					for(int c = 0; c < level.get(r).size(); c++)
+						{
+							level.get(r).get(c).setPos(new Vector(x, y));
+							x += 48;
+						}
+					x = 0;
+					y -= 48;
+				}
 			
+		}
+		public void move(int xV, int yV)
+		{
+			if(guy.getPos().getX() <= 456 && xV > 0)
+				{
+					guy.getVel().setX(xV);
+					guy.getVel().setY(yV);
+				}
+			else if(guy.getPos().getX() >= 48 && xV < 0)
+				{
+					guy.getVel().setX(xV);
+					guy.getVel().setY(yV);
+				}
+			else
+				{
+					System.out.println(guy.getPos().getX());
+					levelVel.setX(xV);
+					levelVel.setY(yV);
+					guy.getVel().setX(0);
+				}
+		}
+		public void tick()
+		{
+			for(ArrayList<Block> line: level)
+				{
+					for(Block b: line)
+						{
+							b.getPos().setX(b.getPos().getX() - levelVel.getX());
+							b.getPos().setY(b.getPos().getY() - levelVel.getY());
+						}
+				}
 		}
 	}
