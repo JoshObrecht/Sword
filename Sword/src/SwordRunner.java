@@ -46,6 +46,9 @@ public class SwordRunner extends JPanel
 								case KeyEvent.VK_UP:
 									move(levelVel.getX(), -4);
 									break;
+								case KeyEvent.VK_DOWN:
+									move(levelVel.getX(), 4);
+									break;
 							}
 						}
 						public void keyReleased(KeyEvent e)
@@ -59,6 +62,9 @@ public class SwordRunner extends JPanel
 									move(0, levelVel.getY());
 									break;
 								case KeyEvent.VK_UP:
+									move(levelVel.getX(), 0);
+									break;
+								case KeyEvent.VK_DOWN:
 									move(levelVel.getX(), 0);
 									break;
 							}
