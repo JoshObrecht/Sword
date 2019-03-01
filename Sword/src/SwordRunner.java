@@ -11,22 +11,27 @@ import java.util.Scanner;
 
 public class SwordRunner extends JPanel
 	{
+		static JFrame frame = new JFrame("Sword");
+		public double height;
+		public double width;
 		public ArrayList<ArrayList<Block>> level = new ArrayList<ArrayList<Block>>();
 		public static void main(String[] args)
 			{
-				JFrame frame = new JFrame("Sword");
+				frame = new JFrame("Sword");
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				frame.setSize(1013, 913);
+				frame.setBounds(((int)Toolkit.getDefaultToolkit().getScreenSize().getWidth()-1013)/2, ((int)Toolkit.getDefaultToolkit().getScreenSize().getHeight()-913)/2, 1013, 913);
 				SwordRunner game = new SwordRunner();
 				frame.add(game);
 				frame.setVisible(true);
-				frame.setResizable(false);
+				frame.setResizable(true);
 				game.setFocusable(true);
+				
 			}
 		public SwordRunner()
 		{
 			setBackground(Color.LIGHT_GRAY);
 			readLevel();
+			getFrameDimensions();
 			Timer timer = new Timer(10, new ActionListener(){
 				public void actionPerformed(ActionEvent e)
 				{
@@ -38,19 +43,22 @@ public class SwordRunner extends JPanel
 		public void paintComponent(Graphics g)
 		{
 			super.paintComponent(g);
+			getFrameDimensions();
+			int blockX = (int)((width*.0473840079));
+			int blockY = (int)((height*.0525739321));
 			int x = 0;
-			int y = 835;
+			int y = (int) (height-blockY);
 			for(int r = level.size() - 1; r >= 0; r--)
 				{
 					for(int c = 0; c < level.get(r).size(); c++)
 						{
 							g.setColor(level.get(r).get(c).getColor());
-							g.fillRect(x, y, 48, 48);
+							g.fillRect(x, y, blockX, blockY);
 							level.get(r).get(c).setPos(new Vector(x, y));
-							x += 48;
+							x += blockX;
 						}
 					x = 0;
-					y -= 48;
+					y -= blockY;
 				}
 		}
 		
@@ -89,5 +97,11 @@ public class SwordRunner extends JPanel
 					level.add(newLine);
 				}
 			
+		}
+		
+		public void getFrameDimensions()
+		{
+			height = frame.getContentPane().getHeight();
+			width = frame.getContentPane().getWidth();
 		}
 	}
