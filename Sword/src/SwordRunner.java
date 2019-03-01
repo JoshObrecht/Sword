@@ -14,6 +14,8 @@ public class SwordRunner extends JPanel
 		public Entity guy = new Entity(new Vector(-48, -48));
 		public ArrayList<ArrayList<Block>> level = new ArrayList<ArrayList<Block>>();
 		public Vector levelVel = new Vector(0,0);
+		public String xDir = "";
+		public boolean isJumping = false;
 		
 		public static void main(String[] args)
 			{
@@ -29,7 +31,7 @@ public class SwordRunner extends JPanel
 			}
 		public SwordRunner()
 		{
-			setBackground(Color.BLUE);
+			setBackground(Color.CYAN);
 			addKeyListener(new KeyAdapter()
 					{
 						@Override
@@ -38,16 +40,13 @@ public class SwordRunner extends JPanel
 							switch(e.getKeyCode())
 							{
 								case KeyEvent.VK_RIGHT:
-									move(4, levelVel.getY());
+									xDir = "r";
 									break;
 								case KeyEvent.VK_LEFT:
-									move(-4, levelVel.getY());
+									xDir = "l";
 									break;
 								case KeyEvent.VK_UP:
-									move(levelVel.getX(), -4);
-									break;
-								case KeyEvent.VK_DOWN:
-									move(levelVel.getX(), 4);
+									isJumping = true;
 									break;
 							}
 						}
@@ -56,16 +55,13 @@ public class SwordRunner extends JPanel
 							switch(e.getKeyCode())
 							{
 								case KeyEvent.VK_RIGHT:
-									move(0, levelVel.getY());
+									xDir = "";
 									break;
 								case KeyEvent.VK_LEFT:
-									move(0, levelVel.getY());
+									xDir = "";
 									break;
 								case KeyEvent.VK_UP:
-									move(levelVel.getX(), 0);
-									break;
-								case KeyEvent.VK_DOWN:
-									move(levelVel.getX(), 0);
+									isJumping = false;
 									break;
 							}
 						}
@@ -74,8 +70,39 @@ public class SwordRunner extends JPanel
 			Timer timer = new Timer(10, new ActionListener(){
 				public void actionPerformed(ActionEvent e)
 				{
+					if(xDir.equals("r"))
+						{
+							guy.getVel().setX(4);
+						}
+					else if(xDir.equals("l"))
+						{
+							guy.getVel().setX(-4);
+						}
+					else
+						{
+							guy.getVel().setX(0);
+						}
+					if(isJumping)
+						{
+							guy.getVel().setY(-4);
+						}
 					guy.tick();
 					tick();
+					guy.setStanding(false);
+					for(ArrayList<Block> line: level)
+						{
+							for(Block b: line)
+								{
+									if(b != null)
+										{
+											b.tick();
+											if(b.getBounds().contains(guy.getFeet()))
+												{
+													guy.setStanding(true);
+												}
+										}								
+								}
+						}
 					repaint();
 				}
 			});
@@ -89,12 +116,17 @@ public class SwordRunner extends JPanel
 				{
 					for(int c = 0; c < level.get(r).size(); c++)
 						{
-							g.setColor(level.get(r).get(c).getColor());
-							g.fillRect(level.get(r).get(c).getPos().getX(), level.get(r).get(c).getPos().getY(), 48, 48);
+							if(level.get(r).get(c) != null)
+								{
+									g.setColor(level.get(r).get(c).getColor());
+									g.fillRect(level.get(r).get(c).getPos().getX(), level.get(r).get(c).getPos().getY(), 48, 48);
+								}
 						}
 				}
 			g.setColor(Color.black);
 			g.fillRect(guy.getPos().getX(), guy.getPos().getY(), 48, 48);
+			g.setColor(Color.MAGENTA);
+			g.fillRect((int)guy.getFeet().getX(), (int)guy.getFeet().getY(), 3, 3);
 		}
 		
 		public void readLevel()
@@ -129,7 +161,9 @@ public class SwordRunner extends JPanel
 									break;
 								case 'p':
 									guy = new Entity(new Vector(48, 769));
-									newLine.add(new Block(new Vector(0,0), Color.CYAN));
+									break;
+								case ' ':
+									newLine.add(null);
 									break;
 							}
 						}
@@ -141,7 +175,8 @@ public class SwordRunner extends JPanel
 				{
 					for(int c = 0; c < level.get(r).size(); c++)
 						{
-							level.get(r).get(c).setPos(new Vector(x, y));
+							if(level.get(r).get(c) != null)
+								level.get(r).get(c).setPos(new Vector(x, y));
 							x += 48;
 						}
 					x = 0;
@@ -149,34 +184,18 @@ public class SwordRunner extends JPanel
 				}
 			
 		}
-		public void move(int xV, int yV)
-		{
-			if(guy.getPos().getX() <= 456 && xV > 0)
-				{
-					guy.getVel().setX(xV);
-					guy.getVel().setY(yV);
-				}
-			else if(guy.getPos().getX() >= 48 && xV < 0)
-				{
-					guy.getVel().setX(xV);
-					guy.getVel().setY(yV);
-				}
-			else
-				{
-					System.out.println(guy.getPos().getX());
-					levelVel.setX(xV);
-					levelVel.setY(yV);
-					guy.getVel().setX(0);
-				}
-		}
+
 		public void tick()
 		{
 			for(ArrayList<Block> line: level)
 				{
 					for(Block b: line)
 						{
-							b.getPos().setX(b.getPos().getX() - levelVel.getX());
-							b.getPos().setY(b.getPos().getY() - levelVel.getY());
+							if(b != null)
+								{
+									b.getPos().setX(b.getPos().getX() - levelVel.getX());
+									b.getPos().setY(b.getPos().getY() - levelVel.getY());
+								}
 						}
 				}
 		}
