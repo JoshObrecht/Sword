@@ -200,12 +200,13 @@ public class SwordRunner extends JPanel
 							int increment = guy.getVel().getY() / Math.abs(guy.getVel().getY());
 							guy.getPos().setY(guy.getPos().getY() + increment);
 						}
-					else if(guy.isStanding)
+					else if(guy.isStanding())
 						{
 							guy.getVel().setY(0);
+							break;
 						}
+					guy.getFeet().setLocation(guy.getPos().getX() + 20, guy.getPos().getY() + 40);
 				}
-			guy.setFeet(new Point(guy.getPos().getX() + 20, guy.getPos().getY() + 40));
 			if(!guy.isStanding())
 				{
 					guy.getVel().setY(guy.getVel().getY() + 1);

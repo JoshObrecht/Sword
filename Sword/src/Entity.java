@@ -12,6 +12,7 @@ public class Entity extends SwordObject
 				super(v);
 				vel = new Vector(0,0);
 				isStanding = true;
+				feet = new Point();
 			}
 		
 		public Vector getVel()
