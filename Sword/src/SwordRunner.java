@@ -85,6 +85,7 @@ public class SwordRunner extends JPanel
 						}
 					if(isJumping)
 						{
+							checkStanding();
 							if(guy.isStanding())
 								guy.getVel().setY(-20);
 						}
@@ -114,6 +115,9 @@ public class SwordRunner extends JPanel
 			g.fillRect((int)guy.getBounds().getX(), (int)guy.getBounds().getY(), 42, 42);
 			g.setColor(Color.black);
 			g.fillRect(guy.getPos().getX(), guy.getPos().getY(), size, size);
+			g.setColor(Color.RED);
+			g.drawLine(40, 0, 40, 830);
+			g.drawLine(500, 0, 500, 830);
 		}
 		
 		public void readLevel()
