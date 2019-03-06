@@ -73,11 +73,11 @@ public class SwordRunner extends JPanel
 				{
 					if(xDir.equals("r"))
 						{
-							guy.getVel().setX(4);
+							guy.getVel().setX(5);
 						}
 					else if(xDir.equals("l"))
 						{
-							guy.getVel().setX(-4);
+							guy.getVel().setX(-5);
 						}
 					else
 						{
@@ -85,7 +85,8 @@ public class SwordRunner extends JPanel
 						}
 					if(isJumping)
 						{
-							guy.getVel().setY(-4);
+							if(guy.isStanding())
+								guy.getVel().setY(-20);
 						}
 					playerTick();
 					tick();
@@ -109,10 +110,10 @@ public class SwordRunner extends JPanel
 								}
 						}
 				}
+			g.setColor(Color.MAGENTA);
+			g.fillRect((int)guy.getBounds().getX(), (int)guy.getBounds().getY(), 42, 42);
 			g.setColor(Color.black);
 			g.fillRect(guy.getPos().getX(), guy.getPos().getY(), size, size);
-			g.setColor(Color.MAGENTA);
-			g.fillRect((int)guy.getFeet().getX(), (int)guy.getFeet().getY(), 3, 3);
 		}
 		
 		public void readLevel()
@@ -205,9 +206,10 @@ public class SwordRunner extends JPanel
 							guy.getVel().setY(0);
 							break;
 						}
-					guy.getFeet().setLocation(guy.getPos().getX() + 20, guy.getPos().getY() + 40);
+					guy.getBounds().setLocation(guy.getPos().getX() - 1, guy.getPos().getY() - 1);
 				}
-			guy.getFeet().x = guy.getPos().getX() + 20;
+			guy.getBounds().x = guy.getPos().getX() - 1;
+			checkStanding();
 			if(!guy.isStanding())
 				{
 					guy.getVel().setY(guy.getVel().getY() + 1);
@@ -223,7 +225,7 @@ public class SwordRunner extends JPanel
 							if(b != null)
 								{
 									b.tick();
-									if(b.getBounds().contains(guy.getFeet()))
+									if(b.getBounds().intersects(guy.getBounds()))
 										{
 											guy.setStanding(true);
 										}

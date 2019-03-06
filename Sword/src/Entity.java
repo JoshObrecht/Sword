@@ -1,10 +1,10 @@
-import java.awt.Point;
+import java.awt.Rectangle;
 
 public class Entity extends SwordObject
 	{
 		protected Vector vel;
 		protected final int gravity = 1;
-		protected Point feet;
+		protected Rectangle bounds;
 		protected boolean isStanding;
 		
 		public Entity(Vector v)
@@ -12,7 +12,7 @@ public class Entity extends SwordObject
 				super(v);
 				vel = new Vector(0,0);
 				isStanding = true;
-				feet = new Point(pos.getX() + 20, pos.getY() + 40);
+				bounds = new Rectangle(pos.getX() - 1, pos.getY() - 1, 42, 42);
 			}
 		
 		public Vector getVel()
@@ -23,13 +23,13 @@ public class Entity extends SwordObject
 			{
 				this.vel = vel;
 			}
-		public Point getFeet()
+		public Rectangle getBounds()
 			{
-				return feet;
+				return bounds;
 			}
-		public void setFeet(Point feet)
+		public void setBounds(Rectangle bounds)
 			{
-				this.feet = feet;
+				this.bounds = bounds;
 			}
 		public boolean isStanding()
 			{
@@ -52,7 +52,7 @@ public class Entity extends SwordObject
 					int increment = vel.getY() / Math.abs(vel.getY());
 					pos.setY(pos.getY() + increment);
 				}
-			feet = new Point(pos.getX() + 20, pos.getY() + 40);
+			bounds = new Rectangle(pos.getX() - 1, pos.getY() + 40);
 			if(!isStanding)
 				{
 					vel.setY(vel.getY() + gravity);
