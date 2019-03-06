@@ -207,6 +207,7 @@ public class SwordRunner extends JPanel
 						}
 					guy.getFeet().setLocation(guy.getPos().getX() + 20, guy.getPos().getY() + 40);
 				}
+			guy.getFeet().x = guy.getPos().getX() + 20;
 			if(!guy.isStanding())
 				{
 					guy.getVel().setY(guy.getVel().getY() + 1);
