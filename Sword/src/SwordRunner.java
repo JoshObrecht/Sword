@@ -16,12 +16,13 @@ public class SwordRunner extends JPanel
 		public Vector levelVel = new Vector(0,0);
 		public String xDir = "";
 		public boolean isJumping = false;
+		public final int size = 40;
 		
 		public static void main(String[] args)
 			{
 				JFrame frame = new JFrame("Sword");
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				frame.setSize(1013, 913);
+				frame.setSize(1000, 880);
 				SwordRunner game = new SwordRunner();
 				frame.add(game);
 				frame.setVisible(true);
@@ -86,23 +87,8 @@ public class SwordRunner extends JPanel
 						{
 							guy.getVel().setY(-4);
 						}
-					guy.tick();
+					playerTick();
 					tick();
-					guy.setStanding(false);
-					for(ArrayList<Block> line: level)
-						{
-							for(Block b: line)
-								{
-									if(b != null)
-										{
-											b.tick();
-											if(b.getBounds().contains(guy.getFeet()))
-												{
-													guy.setStanding(true);
-												}
-										}								
-								}
-						}
 					repaint();
 				}
 			});
@@ -119,12 +105,12 @@ public class SwordRunner extends JPanel
 							if(level.get(r).get(c) != null)
 								{
 									g.setColor(level.get(r).get(c).getColor());
-									g.fillRect(level.get(r).get(c).getPos().getX(), level.get(r).get(c).getPos().getY(), 48, 48);
+									g.fillRect(level.get(r).get(c).getPos().getX(), level.get(r).get(c).getPos().getY(), size, size);
 								}
 						}
 				}
 			g.setColor(Color.black);
-			g.fillRect(guy.getPos().getX(), guy.getPos().getY(), 48, 48);
+			g.fillRect(guy.getPos().getX(), guy.getPos().getY(), size, size);
 			g.setColor(Color.MAGENTA);
 			g.fillRect((int)guy.getFeet().getX(), (int)guy.getFeet().getY(), 3, 3);
 		}
@@ -160,7 +146,7 @@ public class SwordRunner extends JPanel
 									newLine.add(new Block(new Vector(0,0), Color.CYAN));
 									break;
 								case 'p':
-									guy = new Entity(new Vector(48, 769));
+									guy = new Entity(new Vector(40, 721));
 									break;
 								case ' ':
 									newLine.add(null);
@@ -170,17 +156,17 @@ public class SwordRunner extends JPanel
 					level.add(newLine);
 				}
 			int x = 0;
-			int y = 865;
+			int y = 812;
 			for(int r = level.size() - 1; r >= 0; r--)
 				{
 					for(int c = 0; c < level.get(r).size(); c++)
 						{
 							if(level.get(r).get(c) != null)
 								level.get(r).get(c).setPos(new Vector(x, y));
-							x += 48;
+							x += size;
 						}
 					x = 0;
-					y -= 48;
+					y -= size;
 				}
 			
 		}
@@ -196,6 +182,50 @@ public class SwordRunner extends JPanel
 									b.getPos().setX(b.getPos().getX() - levelVel.getX());
 									b.getPos().setY(b.getPos().getY() - levelVel.getY());
 								}
+						}
+				}
+		}
+		public void playerTick()
+		{
+			for(int i = 0; i < Math.abs(guy.getVel().getX()); i++)
+				{
+					int increment = guy.getVel().getX() / Math.abs(guy.getVel().getX());
+					guy.getPos().setX(guy.getPos().getX() + increment);
+				}
+			for(int i = 0; i < Math.abs(guy.getVel().getY()); i++)
+				{
+					checkStanding();
+					if(!guy.isStanding() || guy.getVel().getY() < 0)
+						{
+							int increment = guy.getVel().getY() / Math.abs(guy.getVel().getY());
+							guy.getPos().setY(guy.getPos().getY() + increment);
+						}
+					else if(guy.isStanding)
+						{
+							guy.getVel().setY(0);
+						}
+				}
+			guy.setFeet(new Point(guy.getPos().getX() + 20, guy.getPos().getY() + 40));
+			if(!guy.isStanding())
+				{
+					guy.getVel().setY(guy.getVel().getY() + 1);
+				}
+		}
+		public void checkStanding()
+		{
+			guy.setStanding(false);
+			for(ArrayList<Block> line: level)
+				{
+					for(Block b: line)
+						{
+							if(b != null)
+								{
+									b.tick();
+									if(b.getBounds().contains(guy.getFeet()))
+										{
+											guy.setStanding(true);
+										}
+								}								
 						}
 				}
 		}

@@ -41,9 +41,17 @@ public class Entity extends SwordObject
 
 		public void tick()
 		{
-			pos.setX(pos.getX() + vel.getX());
-			pos.setY(pos.getY() + vel.getY());
-			feet = new Point(pos.getX() + 24, pos.getY() + 48);
+			for(int i = 0; i < Math.abs(vel.getX()); i++)
+				{
+					int increment = vel.getX() / Math.abs(vel.getX());
+					pos.setX(pos.getX() + increment);
+				}
+			for(int i = 0; i < Math.abs(vel.getY()); i++)
+				{
+					int increment = vel.getY() / Math.abs(vel.getY());
+					pos.setY(pos.getY() + increment);
+				}
+			feet = new Point(pos.getX() + 20, pos.getY() + 40);
 			if(!isStanding)
 				{
 					vel.setY(vel.getY() + gravity);
