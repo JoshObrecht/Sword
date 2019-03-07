@@ -266,7 +266,6 @@ public class SwordRunner extends JPanel
 								}								
 						}
 				}
-//			if(inWall)
-			return false;
+			return inWall;
 		}
 	}
