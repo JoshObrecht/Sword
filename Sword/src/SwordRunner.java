@@ -90,7 +90,6 @@ public class SwordRunner extends JPanel
 								guy.getVel().setY(-20);
 						}
 					playerTick();
-					tick();
 					repaint();
 				}
 			});
@@ -115,9 +114,6 @@ public class SwordRunner extends JPanel
 			g.fillRect((int)guy.getBounds().getX(), (int)guy.getBounds().getY(), 42, 42);
 			g.setColor(Color.black);
 			g.fillRect(guy.getPos().getX(), guy.getPos().getY(), size, size);
-			g.setColor(Color.RED);
-			g.drawLine(40, 0, 40, 830);
-			g.drawLine(500, 0, 500, 830);
 		}
 		
 		public void readLevel()
@@ -151,7 +147,7 @@ public class SwordRunner extends JPanel
 									newLine.add(new Block(new Vector(0,0), Color.CYAN));
 									break;
 								case 'p':
-									guy = new Entity(new Vector(40, 721));
+									guy = new Entity(new Vector(44, 721));
 									break;
 								case ' ':
 									newLine.add(null);
@@ -176,7 +172,7 @@ public class SwordRunner extends JPanel
 			
 		}
 
-		public void tick()
+		public void tick(int incX, int incY)
 		{
 			for(ArrayList<Block> line: level)
 				{
@@ -184,8 +180,8 @@ public class SwordRunner extends JPanel
 						{
 							if(b != null)
 								{
-									b.getPos().setX(b.getPos().getX() - levelVel.getX());
-									b.getPos().setY(b.getPos().getY() - levelVel.getY());
+									b.getPos().setX(b.getPos().getX() - incX);
+									b.getPos().setY(b.getPos().getY() + incY);
 								}
 						}
 				}
@@ -195,7 +191,10 @@ public class SwordRunner extends JPanel
 			for(int i = 0; i < Math.abs(guy.getVel().getX()); i++)
 				{
 					int increment = guy.getVel().getX() / Math.abs(guy.getVel().getX());
-					guy.getPos().setX(guy.getPos().getX() + increment);
+					if(checkLevelMove())
+						tick(increment, 0);
+					else
+						guy.getPos().setX(guy.getPos().getX() + increment);
 				}
 			for(int i = 0; i < Math.abs(guy.getVel().getY()); i++)
 				{
@@ -236,5 +235,13 @@ public class SwordRunner extends JPanel
 								}								
 						}
 				}
+		}
+		public boolean checkLevelMove()
+		{
+			if((guy.getPos().getX() == 40 && guy.getVel().getX() < 0) || (guy.getPos().getX() == 460 && guy.getVel().getX() > 0))
+				{
+					return true;
+				}
+			return false;
 		}
 	}
