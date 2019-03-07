@@ -4,7 +4,8 @@ public class Entity extends SwordObject
 	{
 		protected Vector vel;
 		protected final int gravity = 1;
-		protected Rectangle bounds;
+		protected Rectangle yBounds;
+		protected Rectangle xBounds;
 		protected boolean isStanding;
 		
 		public Entity(Vector v)
@@ -12,7 +13,7 @@ public class Entity extends SwordObject
 				super(v);
 				vel = new Vector(0,0);
 				isStanding = true;
-				bounds = new Rectangle(pos.getX() - 1, pos.getY() - 1, 42, 42);
+				yBounds = new Rectangle(pos.getX(), pos.getY() - 1, 40, 42);
 			}
 		
 		public Vector getVel()
@@ -23,13 +24,21 @@ public class Entity extends SwordObject
 			{
 				this.vel = vel;
 			}
-		public Rectangle getBounds()
+		public Rectangle getyBounds()
 			{
-				return bounds;
+				return yBounds;
 			}
-		public void setBounds(Rectangle bounds)
+		public void setyBounds(Rectangle bounds)
 			{
-				this.bounds = bounds;
+				this.yBounds = bounds;
+			}
+		public Rectangle getxBounds()
+			{
+				return xBounds;
+			}
+		public void setxBounds(Rectangle bounds)
+			{
+				this.xBounds = bounds;
 			}
 		public boolean isStanding()
 			{
@@ -52,7 +61,7 @@ public class Entity extends SwordObject
 					int increment = vel.getY() / Math.abs(vel.getY());
 					pos.setY(pos.getY() + increment);
 				}
-			bounds = new Rectangle(pos.getX() - 1, pos.getY() + 40);
+			yBounds = new Rectangle(pos.getX(), pos.getY() + 40);
 			if(!isStanding)
 				{
 					vel.setY(vel.getY() + gravity);

@@ -111,7 +111,7 @@ public class SwordRunner extends JPanel
 						}
 				}
 			g.setColor(Color.MAGENTA);
-			g.fillRect((int)guy.getBounds().getX(), (int)guy.getBounds().getY(), 42, 42);
+			g.fillRect((int)guy.getyBounds().getX(), (int)guy.getyBounds().getY(), 40, 42);
 			g.setColor(Color.black);
 			g.fillRect(guy.getPos().getX(), guy.getPos().getY(), size, size);
 		}
@@ -209,9 +209,9 @@ public class SwordRunner extends JPanel
 							guy.getVel().setY(0);
 							break;
 						}
-					guy.getBounds().setLocation(guy.getPos().getX() - 1, guy.getPos().getY() - 1);
+					guy.getyBounds().setLocation(guy.getPos().getX(), guy.getPos().getY() - 1);
 				}
-			guy.getBounds().x = guy.getPos().getX() - 1;
+			guy.getyBounds().x = guy.getPos().getX();
 			checkStanding();
 			if(!guy.isStanding())
 				{
@@ -228,7 +228,7 @@ public class SwordRunner extends JPanel
 							if(b != null)
 								{
 									b.tick();
-									if(b.getBounds().intersects(guy.getBounds()))
+									if(b.getBounds().intersects(guy.getyBounds()))
 										{
 											guy.setStanding(true);
 										}
@@ -241,6 +241,24 @@ public class SwordRunner extends JPanel
 			if((guy.getPos().getX() == 40 && guy.getVel().getX() < 0) || (guy.getPos().getX() == 460 && guy.getVel().getX() > 0))
 				{
 					return true;
+				}
+			return false;
+		}
+		public boolean checkWall()
+		{
+			for(ArrayList<Block> line: level)
+				{
+					for(Block b: line)
+						{
+							if(b != null)
+								{
+									b.tick();
+									if(b.getBounds().intersects(guy.getxBounds()))
+										{
+											return true;
+										}
+								}								
+						}
 				}
 			return false;
 		}

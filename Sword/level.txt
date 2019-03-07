@@ -5,15 +5,15 @@
 
                    gggg
                    g
-      gg
-
+      gg                                                   gg
+                                                          gggg
 
            gggg
+                                   gggggg
 
-
-                   g
-
-
- p   ggg
-ggggggggggggggggggggggggggg
-rrrrrrrrrrrrrrrrrrrrrrrrrrr
+                   g                                                               rrr             rrrrr
+                                                           g                      rrr               ggg
+                                                                                 rrr                 r
+ p   ggg                                         ggg                            rrr
+gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggrrrgggggggggggggggggggggggggggggggggggggggg
+rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
