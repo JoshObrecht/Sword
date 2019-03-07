@@ -14,6 +14,7 @@ public class Entity extends SwordObject
 				vel = new Vector(0,0);
 				isStanding = true;
 				yBounds = new Rectangle(pos.getX(), pos.getY() - 1, 40, 42);
+				xBounds = new Rectangle(pos.getX() - 1, pos.getY(), 42, 40);
 			}
 		
 		public Vector getVel()
