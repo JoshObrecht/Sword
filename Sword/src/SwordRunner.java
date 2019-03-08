@@ -107,7 +107,7 @@ public class SwordRunner extends JPanel
 						{
 							if(level.get(r).get(c) != null)
 								{
-									if(level.get(r).get(c).getColor()==Color.GREEN)
+									if(level.get(r).get(c).getColor()==Color.GREEN||level.get(r).get(c).getColor()==Color.RED)
 										{
 											g.drawImage(level.get(r).get(c).getImage(), level.get(r).get(c).getPos().getX(), level.get(r).get(c).getPos().getY(), null);	
 										}
@@ -145,6 +145,7 @@ public class SwordRunner extends JPanel
 					ArrayList<Block> newLine = new ArrayList<Block>();
 					String levelLine = levelReader.nextLine();
 					char[] levelArray = levelLine.toCharArray();
+					Block b;
 					try
 						{
 					for(char c: levelArray)
@@ -152,12 +153,14 @@ public class SwordRunner extends JPanel
 							switch(c)
 							{
 								case 'g':
-									Block b = new Block(new Vector(0,0), Color.GREEN, null);
+									b = new Block(new Vector(0,0), Color.GREEN, null);
 									newLine.add(b);
 									b.loadInformation();
 									break;
 								case 'r':
-									newLine.add(new Block(new Vector(0,0), Color.RED, null));
+									b = new Block(new Vector(0,0), Color.RED, null);
+									newLine.add(b);
+									b.loadInformation();
 									break;
 								case 'c':
 									newLine.add(new Block(new Vector(0,0), Color.CYAN, null));
