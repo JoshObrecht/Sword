@@ -105,24 +105,19 @@ public class SwordRunner extends JPanel
 				{
 					for(int c = 0; c < level.get(r).size(); c++)
 						{
-
-				
-
 							if(level.get(r).get(c) != null)
 								{
-                if(level.get(r).get(c).getColor()==Color.GREEN)
-								{
-								level.get(r).get(c).loadInformation();
-							    g.drawImage(level.get(r).get(c).getImage(), x, y, null);
+									if(level.get(r).get(c).getColor()==Color.GREEN)
+										{
+											g.drawImage(level.get(r).get(c).getImage(), level.get(r).get(c).getPos().getX(), level.get(r).get(c).getPos().getY(), null);	
+										}
+									else
+										{	
+											g.setColor(level.get(r).get(c).getColor());
+											g.fillRect(level.get(r).get(c).getPos().getX(), level.get(r).get(c).getPos().getY(), size, size);
+										}	
 								}
-                else
-                {
-									g.setColor(level.get(r).get(c).getColor());
-									g.fillRect(level.get(r).get(c).getPos().getX(), level.get(r).get(c).getPos().getY(), size, size);
-                }
-								}
-						}
-
+						}	
 				}
 			g.setColor(Color.MAGENTA);
 			g.fillRect((int)guy.getyBounds().getX(), (int)guy.getyBounds().getY(), 40, 42);
@@ -157,7 +152,9 @@ public class SwordRunner extends JPanel
 							switch(c)
 							{
 								case 'g':
-									newLine.add(new Block(new Vector(0,0), Color.GREEN, null));
+									Block b = new Block(new Vector(0,0), Color.GREEN, null);
+									newLine.add(b);
+									b.loadInformation();
 									break;
 								case 'r':
 									newLine.add(new Block(new Vector(0,0), Color.RED, null));

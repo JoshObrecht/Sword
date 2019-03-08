@@ -45,6 +45,7 @@ public class Block extends SwordObject
 				{
 					e.printStackTrace();
 				}
+		}
 		public Rectangle getBounds()
 			{
 				return bounds;
