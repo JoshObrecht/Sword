@@ -7,7 +7,7 @@ public class Block extends SwordObject
 		{
 			super(pos);
 			this.color = c;
-			bounds = new Rectangle(pos.getX(), pos.getY(), 48, 48);
+			bounds = new Rectangle(pos.getX(), pos.getY(), 40, 40);
 		}
 		
 		public Color getColor()

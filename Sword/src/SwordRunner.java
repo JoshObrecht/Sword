@@ -149,6 +149,7 @@ public class SwordRunner extends JPanel
 									break;
 								case 'p':
 									guy = new Entity(new Vector(44, 721));
+									newLine.add(null);
 									break;
 								case ' ':
 									newLine.add(null);
