@@ -4,16 +4,16 @@
 
 
                    gggg
-                   g
+                   r
       gg                                                   gg
-                                                          gggg
+                                                          grrg
 
            gggg
                                    gggggg
 
-                   g                                                               rrr             rrrrr
-                                                           g                      rrr               ggg
-                                                                                 rrr                 r
- p   ggg                                         ggg                            rrr
-gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggrrrgggggggggggggggggggggggggggggggggggggggg
+                   g                                                               ggg             ggggg
+                                                           g                      grr               rrr
+                                                                                 grr                 r
+ p   ggg                                         ggg                             gr
+ggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggrrgggggggggggggggggggggggggggggggggggggggg
 rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr

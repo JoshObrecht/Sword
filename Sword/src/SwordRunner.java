@@ -199,6 +199,7 @@ public class SwordRunner extends JPanel
 							else
 								guy.getPos().setX(guy.getPos().getX() + increment);
 						}
+					guy.getxBounds().setLocation(guy.getPos().getX() - 1, guy.getPos().getY());
 				}
 			for(int i = 0; i < Math.abs(guy.getVel().getY()); i++)
 				{
@@ -218,7 +219,7 @@ public class SwordRunner extends JPanel
 			guy.getyBounds().x = guy.getPos().getX();
 			guy.getxBounds().setLocation(guy.getPos().getX() - 1, guy.getPos().getY());
 			checkStanding();
-			if(!guy.isStanding())
+			if(!guy.isStanding() && guy.getVel().getY() < 15)
 				{
 					guy.getVel().setY(guy.getVel().getY() + 1);
 				}

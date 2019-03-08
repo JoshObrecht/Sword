@@ -52,7 +52,7 @@ public class Entity extends SwordObject
 
 		public void tick()
 		{
-			for(int i = 0; i < Math.abs(vel.getX()); i++)
+			/*for(int i = 0; i < Math.abs(vel.getX()); i++)
 				{
 					int increment = vel.getX() / Math.abs(vel.getX());
 					pos.setX(pos.getX() + increment);
@@ -70,6 +70,6 @@ public class Entity extends SwordObject
 			else
 				{
 					vel.setY(0);
-				}
+				}*/
 		}
 	}
