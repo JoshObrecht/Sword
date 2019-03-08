@@ -2,6 +2,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.JFrame;
 import javax.swing.Timer;
@@ -11,7 +13,7 @@ import java.util.Scanner;
 
 public class SwordRunner extends JPanel
 	{
-		public Entity guy = new Entity(new Vector(-48, -48));
+		public Entity guy = new Entity(new Vector(-40, -40));
 		public ArrayList<ArrayList<Block>> level = new ArrayList<ArrayList<Block>>();
 		public Vector levelVel = new Vector(0,0);
 		public String xDir = "";
@@ -103,18 +105,32 @@ public class SwordRunner extends JPanel
 				{
 					for(int c = 0; c < level.get(r).size(); c++)
 						{
+
+				
+
 							if(level.get(r).get(c) != null)
 								{
+                if(level.get(r).get(c).getColor()==Color.GREEN)
+								{
+								level.get(r).get(c).loadInformation();
+							    g.drawImage(level.get(r).get(c).getImage(), x, y, null);
+								}
+                else
+                {
 									g.setColor(level.get(r).get(c).getColor());
 									g.fillRect(level.get(r).get(c).getPos().getX(), level.get(r).get(c).getPos().getY(), size, size);
+                }
 								}
 						}
+
 				}
 			g.setColor(Color.MAGENTA);
 			g.fillRect((int)guy.getyBounds().getX(), (int)guy.getyBounds().getY(), 40, 42);
 			g.fillRect((int)guy.getxBounds().getX(), (int)guy.getxBounds().getY(), 42, 40);
 			g.setColor(Color.black);
+
 			g.fillRect(guy.getPos().getX(), guy.getPos().getY(), size, size);
+
 		}
 		
 		public void readLevel()
@@ -134,18 +150,20 @@ public class SwordRunner extends JPanel
 					ArrayList<Block> newLine = new ArrayList<Block>();
 					String levelLine = levelReader.nextLine();
 					char[] levelArray = levelLine.toCharArray();
+					try
+						{
 					for(char c: levelArray)
 						{
 							switch(c)
 							{
 								case 'g':
-									newLine.add(new Block(new Vector(0,0), Color.GREEN));
+									newLine.add(new Block(new Vector(0,0), Color.GREEN, null));
 									break;
 								case 'r':
-									newLine.add(new Block(new Vector(0,0), Color.RED));
+									newLine.add(new Block(new Vector(0,0), Color.RED, null));
 									break;
 								case 'c':
-									newLine.add(new Block(new Vector(0,0), Color.CYAN));
+									newLine.add(new Block(new Vector(0,0), Color.CYAN, null));
 									break;
 								case 'p':
 									guy = new Entity(new Vector(44, 721));
@@ -155,6 +173,8 @@ public class SwordRunner extends JPanel
 									break;
 							}
 						}
+						}
+					catch(Exception e){};
 					level.add(newLine);
 				}
 			int x = 0;
