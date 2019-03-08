@@ -2,6 +2,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.JFrame;
 import javax.swing.Timer;
@@ -11,7 +13,7 @@ import java.util.Scanner;
 
 public class SwordRunner extends JPanel
 	{
-		public Entity guy = new Entity(new Vector(-48, -48));
+		public Entity guy = new Entity(new Vector(-40, -40));
 		public ArrayList<ArrayList<Block>> level = new ArrayList<ArrayList<Block>>();
 		public static void main(String[] args)
 			{
@@ -79,16 +81,25 @@ public class SwordRunner extends JPanel
 				{
 					for(int c = 0; c < level.get(r).size(); c++)
 						{
+							if(level.get(r).get(c).getColor()==Color.GREEN)
+								{
+								level.get(r).get(c).loadInformation();
+							    g.drawImage(level.get(r).get(c).getImage(), x, y, null);
+								}
+							else
+								{
 							g.setColor(level.get(r).get(c).getColor());
-							g.fillRect(x, y, 48, 48);
+							g.fillRect(x, y, 40, 40);
+								}
+							
 							level.get(r).get(c).setPos(new Vector(x, y));
-							x += 48;
+							x += 40;
 						}
 					x = 0;
-					y -= 48;
+					y -= 40;
 				}
 			g.setColor(Color.black);
-			g.fillRect(guy.getPos().getX(), guy.getPos().getY(), 48, 48);
+			g.fillRect(guy.getPos().getX(), guy.getPos().getY(), 40, 40);
 		}
 		
 		public void readLevel()
@@ -108,25 +119,29 @@ public class SwordRunner extends JPanel
 					ArrayList<Block> newLine = new ArrayList<Block>();
 					String levelLine = levelReader.nextLine();
 					char[] levelArray = levelLine.toCharArray();
+					try
+						{
 					for(char c: levelArray)
 						{
 							switch(c)
 							{
 								case 'g':
-									newLine.add(new Block(new Vector(0,0), Color.GREEN));
+									newLine.add(new Block(new Vector(0,0), Color.GREEN, null));
 									break;
 								case 'r':
-									newLine.add(new Block(new Vector(0,0), Color.RED));
+									newLine.add(new Block(new Vector(0,0), Color.RED, null));
 									break;
 								case 'c':
-									newLine.add(new Block(new Vector(0,0), Color.CYAN));
+									newLine.add(new Block(new Vector(0,0), Color.CYAN, null));
 									break;
 								case 'p':
 									guy = new Entity(new Vector(48, 769));
-									newLine.add(new Block(new Vector(0,0), Color.CYAN));
+									newLine.add(new Block(new Vector(0,0), Color.CYAN, null));
 									break;
 							}
 						}
+						}
+					catch(Exception e){};
 					level.add(newLine);
 				}
 			
