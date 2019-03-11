@@ -13,6 +13,7 @@ public class SwordRunner extends JPanel
 	{
 		public Entity guy = new Entity(new Vector(-48, -48));
 		public ArrayList<ArrayList<Block>> level = new ArrayList<ArrayList<Block>>();
+		public ArrayList<Enemy> goombas = new ArrayList<Enemy>();
 		public Vector levelVel = new Vector(0,0);
 		public String xDir = "";
 		public boolean isJumping = false;
@@ -119,7 +120,12 @@ public class SwordRunner extends JPanel
 								}
 						}
 				}
-			g.setColor(Color.black);
+			for(Enemy e: goombas)
+				{
+					g.setColor(Color.MAGENTA);
+					g.fillRect(e.getPos().getX(), e.getPos().getY(), size, size);
+				}
+			g.setColor(Color.BLACK);
 			g.fillRect(guy.getPos().getX(), guy.getPos().getY(), size, size);
 		}
 		
@@ -135,6 +141,8 @@ public class SwordRunner extends JPanel
 //					System.out.println("Level not found");
 					System.out.println("BET");
 				}
+			int x = 0;
+			int y = 0;
 			while(levelReader.hasNextLine())
 				{
 					ArrayList<Block> newLine = new ArrayList<Block>();
@@ -146,41 +154,47 @@ public class SwordRunner extends JPanel
 							switch(c)
 							{
 								case 'g':
-									b = new Block(new Vector(0,0), Color.GREEN, null);
+									b = new Block(new Vector(x,y), Color.GREEN, null);
 									newLine.add(b);
 									b.loadInformation();
 									break;
 								case 'r':
-									b = new Block(new Vector(0,0), Color.RED, null);
+									b = new Block(new Vector(x,y), Color.RED, null);
 									newLine.add(b);
 									b.loadInformation();
 									break;
 								case 'c':
-									newLine.add(new Block(new Vector(0,0), Color.CYAN, null));
+									newLine.add(new Block(new Vector(x,y), Color.CYAN, null));
 									break;
 								case 'p':
-									guy = new Entity(new Vector(44, 721));
+									guy = new Entity(new Vector(x, y));
+									break;
+								case 'e':
+									goombas.add(new Enemy(new Vector(x,y)));
 									break;
 								case ' ':
 									newLine.add(null);
 									break;
 							}
-						}
-					level.add(newLine);
-				}
-			int x = 0;
-			int y = 812;
-			for(int r = level.size() - 1; r >= 0; r--)
-				{
-					for(int c = 0; c < level.get(r).size(); c++)
-						{
-							if(level.get(r).get(c) != null)
-								level.get(r).get(c).setPos(new Vector(x, y));
 							x += size;
 						}
+					level.add(newLine);
 					x = 0;
-					y -= size;
+					y += size;
 				}
+//			x = 0;
+//			y = 812;
+//			for(int r = level.size() - 1; r >= 0; r--)
+//				{
+//					for(int c = 0; c < level.get(r).size(); c++)
+//						{
+//							if(level.get(r).get(c) != null)
+//								level.get(r).get(c).setPos(new Vector(x, y));
+//							x += size;
+//						}
+//					x = 0;
+//					y -= size;
+//				}
 			
 		}
 
@@ -196,6 +210,11 @@ public class SwordRunner extends JPanel
 									b.getPos().setY(b.getPos().getY() + incY);
 								}
 						}
+				}
+			for(Enemy e: goombas)
+				{
+					e.getPos().setX(e.getPos().getX() - incX);
+					e.getPos().setY(e.getPos().getY() + incY);
 				}
 		}
 		public void playerTick()
