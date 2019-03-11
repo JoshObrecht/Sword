@@ -1,15 +1,33 @@
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 public class Block extends SwordObject
 	{
 		Color color;
-		Rectangle bounds;
-		public Block(Vector pos, Color c)
+    Rectangle bounds;
+		BufferedImage image;
+		public Block(Vector pos, Color c, BufferedImage i)
 		{
 			super(pos);
 			this.color = c;
+			this.image = i;
 			bounds = new Rectangle(pos.getX(), pos.getY(), 40, 40);
 		}
 		
+		public Image getImage()
+			{
+				return image;
+			}
+
+		public void setImage(BufferedImage image)
+			{
+				this.image = image;
+			}
+
 		public Color getColor()
 			{
 				return color;
@@ -18,6 +36,19 @@ public class Block extends SwordObject
 			{
 				this.color = c;
 			}
+		public void loadInformation()
+		{
+			try
+				{
+				  if(color==Color.GREEN)
+					  image = ImageIO.read(new File("src/Images/grassblock.png"));
+				  else if(color==Color.RED)
+					  image = ImageIO.read(new File("src/Images/dirtblock.png"));
+				} catch (IOException e)
+				{
+					e.printStackTrace();
+				}
+		}
 		public Rectangle getBounds()
 			{
 				return bounds;

@@ -141,17 +141,20 @@ public class SwordRunner extends JPanel
 							switch(c)
 							{
 								case 'g':
-									newLine.add(new Block(new Vector(0,0), Color.GREEN));
+									b = new Block(new Vector(0,0), Color.GREEN, null);
+									newLine.add(b);
+									b.loadInformation();
 									break;
 								case 'r':
-									newLine.add(new Block(new Vector(0,0), Color.RED));
+									b = new Block(new Vector(0,0), Color.RED, null);
+									newLine.add(b);
+									b.loadInformation();
 									break;
 								case 'c':
-									newLine.add(new Block(new Vector(0,0), Color.CYAN));
+									newLine.add(new Block(new Vector(0,0), Color.CYAN, null));
 									break;
 								case 'p':
 									guy = new Entity(new Vector(44, 721));
-									newLine.add(null);
 									break;
 								case ' ':
 									newLine.add(null);

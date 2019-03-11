@@ -8,12 +8,12 @@
       gg                                                   gg
                                                           grrg
 
-           ggggg
-               g                   gggggg
-               g                    
-               g   g                                                               ggg             ggggg
-               g                                           g                      grr               rrr
-               g                                                                 grr                 r
- p   ggg       g                                 ggg                             gr
-ggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggrrgggggggggggggggggggggggggggggggggggggggg
+           gggg
+                                   gggggg
+
+                   g                                                               rrr             ggggg
+                                                           g                      rrr               rrr
+                                                                                 rrr                 r
+ p   ggg                                         ggg                            rrr
+ggggrrrgggggggggggggggggggggggggggggggggggggggggrrrggggggggggggggggggggggggggggrrrgggggggggggggggggggggggggggggggggggggggg
 rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
