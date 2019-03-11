@@ -19,6 +19,7 @@ public class SwordRunner extends JPanel
 		public String xDir = "";
 		public boolean isJumping = false;
 		public final int size = 40;
+		public Image skybox;
 		
 		public static void main(String[] args)
 			{
@@ -101,6 +102,7 @@ public class SwordRunner extends JPanel
 		public void paintComponent(Graphics g)
 		{
 			super.paintComponent(g);
+			g.drawImage(skybox, 0, 0, null);
 			for(int r = level.size() - 1; r >= 0; r--)
 				{
 					for(int c = 0; c < level.get(r).size(); c++)
@@ -190,6 +192,11 @@ public class SwordRunner extends JPanel
 					x = 0;
 					y -= size;
 				}
+			try
+				{
+			skybox = ImageIO.read(new File("src/Images/skybox.png"));
+				}
+			catch(Exception e){}
 			
 		}
 

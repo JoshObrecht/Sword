@@ -41,7 +41,7 @@ public class Block extends SwordObject
 			try
 				{
 				  if(color==Color.GREEN)
-					  image = ImageIO.read(new File("src/Images/grassblock.png"));
+					  image = ImageIO.read(new File("src/Images/grassblock2.png"));
 				  else if(color==Color.RED)
 					  image = ImageIO.read(new File("src/Images/dirtblock.png"));
 				} catch (IOException e)
