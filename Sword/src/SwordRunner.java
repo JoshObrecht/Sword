@@ -252,7 +252,7 @@ public class SwordRunner extends JPanel
 							if(b != null)
 								{
 									b.tick();
-									if(b.getBounds().intersects(guy.getDownB()))
+									if(b.getBounds().intersects(guy.getDownB()) || b.getBounds().intersects(guy.getUpB()))
 										{
 											guy.setStanding(true);
 										}
@@ -260,10 +260,10 @@ public class SwordRunner extends JPanel
 //										{
 //											check upB as well;
 //										}
-									if(b.getBounds().intersects(guy.getUpB()))
-										{
-											guy.getVel().setY(0);
-										}
+//									if(b.getBounds().intersects(guy.getUpB())) makes you collide with bottoms of blocks
+//										{
+//											guy.getVel().setY(0);
+//										}
 								}								
 						}
 				}
