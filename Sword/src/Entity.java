@@ -4,8 +4,10 @@ public class Entity extends SwordObject
 	{
 		protected Vector vel;
 		protected final int gravity = 1;
-		protected Rectangle yBounds;
-		protected Rectangle xBounds;
+		protected Rectangle leftB;
+		protected Rectangle rightB;
+		protected Rectangle upB;
+		protected Rectangle downB;
 		protected boolean isStanding;
 		
 		public Entity(Vector v)
@@ -13,8 +15,10 @@ public class Entity extends SwordObject
 				super(v);
 				vel = new Vector(0,0);
 				isStanding = true;
-				yBounds = new Rectangle(pos.getX(), pos.getY() - 1, 40, 42);
-				xBounds = new Rectangle(pos.getX() - 1, pos.getY(), 42, 40);
+				leftB = new Rectangle(pos.getX() - 1, pos.getY(), 1, 40);
+				rightB = new Rectangle(pos.getX() + 40, pos.getY(), 1, 40);
+				upB = new Rectangle(pos.getX(), pos.getY() - 1, 40, 1);
+				downB = new Rectangle(pos.getX(), pos.getY() + 40, 40, 1);
 			}
 		
 		public Vector getVel()
@@ -25,21 +29,37 @@ public class Entity extends SwordObject
 			{
 				this.vel = vel;
 			}
-		public Rectangle getyBounds()
+		public Rectangle getLeftB()
 			{
-				return yBounds;
+				return leftB;
 			}
-		public void setyBounds(Rectangle bounds)
+		public void setLeftB(Rectangle leftB)
 			{
-				this.yBounds = bounds;
+				this.leftB = leftB;
 			}
-		public Rectangle getxBounds()
+		public Rectangle getRightB()
 			{
-				return xBounds;
+				return rightB;
 			}
-		public void setxBounds(Rectangle bounds)
+		public void setRightB(Rectangle rightB)
 			{
-				this.xBounds = bounds;
+				this.rightB = rightB;
+			}
+		public Rectangle getUpB()
+			{
+				return upB;
+			}
+		public void setUpB(Rectangle upB)
+			{
+				this.upB = upB;
+			}
+		public Rectangle getDownB()
+			{
+				return downB;
+			}
+		public void setDownB(Rectangle downB)
+			{
+				this.downB = downB;
 			}
 		public boolean isStanding()
 			{
@@ -52,7 +72,7 @@ public class Entity extends SwordObject
 
 		public void tick()
 		{
-			for(int i = 0; i < Math.abs(vel.getX()); i++)
+			/*for(int i = 0; i < Math.abs(vel.getX()); i++)
 				{
 					int increment = vel.getX() / Math.abs(vel.getX());
 					pos.setX(pos.getX() + increment);
@@ -70,6 +90,6 @@ public class Entity extends SwordObject
 			else
 				{
 					vel.setY(0);
-				}
+				}*/
 		}
 	}
