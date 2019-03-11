@@ -105,16 +105,20 @@ public class SwordRunner extends JPanel
 						{
 							if(level.get(r).get(c) != null)
 								{
-									g.setColor(level.get(r).get(c).getColor());
-									g.fillRect(level.get(r).get(c).getPos().getX(), level.get(r).get(c).getPos().getY(), size, size);
+									if(level.get(r).get(c).getColor()==Color.GREEN||level.get(r).get(c).getColor()==Color.RED)
+										{
+											g.drawImage(level.get(r).get(c).getImage(), level.get(r).get(c).getPos().getX(), level.get(r).get(c).getPos().getY(), null);	
+										}
+									else
+										{	
+											g.setColor(level.get(r).get(c).getColor());
+											g.fillRect(level.get(r).get(c).getPos().getX(), level.get(r).get(c).getPos().getY(), size, size);
+										}	
+//									g.setColor(level.get(r).get(c).getColor());
+//									g.fillRect(level.get(r).get(c).getPos().getX(), level.get(r).get(c).getPos().getY(), size, size);
 								}
 						}
 				}
-			g.setColor(Color.MAGENTA);
-			g.fillRect((int)guy.getLeftB().getX(), (int)guy.getLeftB().getY(), 1, 40);
-			g.fillRect((int)guy.getRightB().getX(), (int)guy.getRightB().getY(), 1, 40);
-			g.fillRect((int)guy.getUpB().getX(), (int)guy.getUpB().getY(), 40, 1);
-			g.fillRect((int)guy.getDownB().getX(), (int)guy.getDownB().getY(), 40, 1);
 			g.setColor(Color.black);
 			g.fillRect(guy.getPos().getX(), guy.getPos().getY(), size, size);
 		}
@@ -138,6 +142,7 @@ public class SwordRunner extends JPanel
 					char[] levelArray = levelLine.toCharArray();
 					for(char c: levelArray)
 						{
+							Block b;
 							switch(c)
 							{
 								case 'g':
@@ -206,7 +211,7 @@ public class SwordRunner extends JPanel
 								guy.getPos().setX(guy.getPos().getX() + increment);
 						}
 					guy.getLeftB().setLocation(guy.getPos().getX() - 1, guy.getPos().getY());
-					guy.getRightB().setLocation(guy.getPos().getX() + 40, guy.getPos().getY());
+					guy.getRightB().setLocation(guy.getPos().getX() + size, guy.getPos().getY());
 				}
 			for(int i = 0; i < Math.abs(guy.getVel().getY()); i++)
 				{
@@ -225,12 +230,12 @@ public class SwordRunner extends JPanel
 							break;
 						}
 					guy.getUpB().setLocation(guy.getPos().getX(), guy.getPos().getY() - 1);
-					guy.getDownB().setLocation(guy.getPos().getX(), guy.getPos().getY() + 40);
+					guy.getDownB().setLocation(guy.getPos().getX(), guy.getPos().getY() + size);
 				}
 			guy.getLeftB().setLocation(guy.getPos().getX() - 1, guy.getPos().getY());
-			guy.getRightB().setLocation(guy.getPos().getX() + 40, guy.getPos().getY());
+			guy.getRightB().setLocation(guy.getPos().getX() + size, guy.getPos().getY());
 			guy.getUpB().setLocation(guy.getPos().getX(), guy.getPos().getY() - 1);
-			guy.getDownB().setLocation(guy.getPos().getX(), guy.getPos().getY() + 40);
+			guy.getDownB().setLocation(guy.getPos().getX(), guy.getPos().getY() + size);
 			checkStanding();
 			if(!guy.isStanding() && guy.getVel().getY() < 15)
 				{
