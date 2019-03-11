@@ -29,6 +29,6 @@ public class Block extends SwordObject
 
 		public void tick()
 		{
-			bounds = new Rectangle(pos.getX(), pos.getY(), 48, 48);
+			bounds = new Rectangle(pos.getX(), pos.getY(), 40, 40);
 		}
 	}

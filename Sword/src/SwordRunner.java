@@ -111,8 +111,10 @@ public class SwordRunner extends JPanel
 						}
 				}
 			g.setColor(Color.MAGENTA);
-			g.fillRect((int)guy.getyBounds().getX(), (int)guy.getyBounds().getY(), 40, 42);
-			g.fillRect((int)guy.getxBounds().getX(), (int)guy.getxBounds().getY(), 42, 40);
+			g.fillRect((int)guy.getLeftB().getX(), (int)guy.getLeftB().getY(), 1, 40);
+			g.fillRect((int)guy.getRightB().getX(), (int)guy.getRightB().getY(), 1, 40);
+			g.fillRect((int)guy.getUpB().getX(), (int)guy.getUpB().getY(), 40, 1);
+			g.fillRect((int)guy.getDownB().getX(), (int)guy.getDownB().getY(), 40, 1);
 			g.setColor(Color.black);
 			g.fillRect(guy.getPos().getX(), guy.getPos().getY(), size, size);
 		}
@@ -200,25 +202,32 @@ public class SwordRunner extends JPanel
 							else
 								guy.getPos().setX(guy.getPos().getX() + increment);
 						}
-					guy.getxBounds().setLocation(guy.getPos().getX() - 1, guy.getPos().getY());
+					guy.getLeftB().setLocation(guy.getPos().getX() - 1, guy.getPos().getY());
+					guy.getRightB().setLocation(guy.getPos().getX() + 40, guy.getPos().getY());
 				}
 			for(int i = 0; i < Math.abs(guy.getVel().getY()); i++)
 				{
 					checkStanding();
 					if(!guy.isStanding() || guy.getVel().getY() < 0)
 						{
-							int increment = guy.getVel().getY() / Math.abs(guy.getVel().getY());
-							guy.getPos().setY(guy.getPos().getY() + increment);
+							if(guy.getVel().getY() != 0)
+								{
+									int increment = guy.getVel().getY() / Math.abs(guy.getVel().getY());
+									guy.getPos().setY(guy.getPos().getY() + increment);
+								}
 						}
 					else if(guy.isStanding())
 						{
 							guy.getVel().setY(0);
 							break;
 						}
-					guy.getyBounds().setLocation(guy.getPos().getX(), guy.getPos().getY() - 1);
+					guy.getUpB().setLocation(guy.getPos().getX(), guy.getPos().getY() - 1);
+					guy.getDownB().setLocation(guy.getPos().getX(), guy.getPos().getY() + 40);
 				}
-			guy.getyBounds().x = guy.getPos().getX();
-			guy.getxBounds().setLocation(guy.getPos().getX() - 1, guy.getPos().getY());
+			guy.getLeftB().setLocation(guy.getPos().getX() - 1, guy.getPos().getY());
+			guy.getRightB().setLocation(guy.getPos().getX() + 40, guy.getPos().getY());
+			guy.getUpB().setLocation(guy.getPos().getX(), guy.getPos().getY() - 1);
+			guy.getDownB().setLocation(guy.getPos().getX(), guy.getPos().getY() + 40);
 			checkStanding();
 			if(!guy.isStanding() && guy.getVel().getY() < 15)
 				{
@@ -235,9 +244,17 @@ public class SwordRunner extends JPanel
 							if(b != null)
 								{
 									b.tick();
-									if(b.getBounds().intersects(guy.getyBounds()))
+									if(b.getBounds().intersects(guy.getDownB()))
 										{
 											guy.setStanding(true);
+										}
+//									else if(b is a double-jumpy block)
+//										{
+//											check upB as well;
+//										}
+									if(b.getBounds().intersects(guy.getUpB()))
+										{
+											guy.getVel().setY(0);
 										}
 								}								
 						}
@@ -261,7 +278,11 @@ public class SwordRunner extends JPanel
 							if(b != null)
 								{
 									b.tick();
-									if(b.getBounds().intersects(guy.getxBounds()))
+									if(b.getBounds().intersects(guy.getLeftB()) && guy.getVel().getX() < 0)
+										{
+											inWall = true;;
+										}
+									else if(b.getBounds().intersects(guy.getRightB()) && guy.getVel().getX() > 0)
 										{
 											inWall = true;;
 										}
