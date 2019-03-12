@@ -5,6 +5,9 @@ import java.io.FileNotFoundException;
 import javax.swing.*;
 import javax.swing.JFrame;
 import javax.swing.Timer;
+
+import sun.invoke.empty.Empty;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
@@ -18,6 +21,8 @@ public class SwordRunner extends JPanel
 		public String xDir = "";
 		public boolean isJumping = false;
 		public final int size = 40;
+		public Entity skybox1;
+		public Entity skybox2;
 		
 		public static void main(String[] args)
 			{
@@ -101,6 +106,8 @@ public class SwordRunner extends JPanel
 		public void paintComponent(Graphics g)
 		{
 			super.paintComponent(g);
+			g.drawImage(skybox1.getImage(), skybox1.getPos().getX(), skybox1.getPos().getY(), null);
+			g.drawImage(skybox1.getImage(), skybox2.getPos().getX(), skybox2.getPos().getY(), null);
 			for(int r = level.size() - 1; r >= 0; r--)
 				{
 					for(int c = 0; c < level.get(r).size(); c++)
@@ -183,19 +190,17 @@ public class SwordRunner extends JPanel
 					x = 0;
 					y += size;
 				}
-//			x = 0;
-//			y = 812;
-//			for(int r = level.size() - 1; r >= 0; r--)
-//				{
-//					for(int c = 0; c < level.get(r).size(); c++)
-//						{
-//							if(level.get(r).get(c) != null)
-//								level.get(r).get(c).setPos(new Vector(x, y));
-//							x += size;
-//						}
-//					x = 0;
-//					y -= size;
-//				}
+			try
+				{
+					
+			skybox1 = new Entity(new Vector(0,0));
+			skybox1.setImage(ImageIO.read(new File("src/Images/skybox.png")));
+			
+			skybox2 = new Entity(new Vector(1000,0));
+			skybox2.setImage(ImageIO.read(new File("src/Images/skybox.png")));
+			
+				}
+			catch(Exception e){}
 			
 		}
 
@@ -216,6 +221,23 @@ public class SwordRunner extends JPanel
 				{
 					e.getPos().setX(e.getPos().getX() - incX);
 					e.getPos().setY(e.getPos().getY() + incY);
+        }
+			skybox1.setCounter(skybox1.getCounter()+1);
+			if(skybox1.getCounter()==3)
+				{
+					if(skybox1.getPos().getX()<-1000)
+						skybox1.getPos().setX(999);
+					if(skybox2.getPos().getX()<-1000)
+						skybox2.getPos().setX(999);
+					
+					if(skybox1.getPos().getX()>1000)
+						skybox1.getPos().setX(-999);
+					if(skybox2.getPos().getX()>1000)
+						skybox2.getPos().setX(-999);
+					
+					skybox1.getPos().setX(skybox1.getPos().getX() - incX);
+					skybox2.getPos().setX(skybox2.getPos().getX() -incX);
+					skybox1.setCounter(0);
 				}
 		}
 		public void playerTick()
