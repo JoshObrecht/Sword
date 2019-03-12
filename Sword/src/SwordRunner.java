@@ -16,6 +16,7 @@ public class SwordRunner extends JPanel
 	{
 		public Entity guy = new Entity(new Vector(-48, -48));
 		public ArrayList<ArrayList<Block>> level = new ArrayList<ArrayList<Block>>();
+		public ArrayList<Enemy> goombas = new ArrayList<Enemy>();
 		public Vector levelVel = new Vector(0,0);
 		public String xDir = "";
 		public boolean isJumping = false;
@@ -95,6 +96,7 @@ public class SwordRunner extends JPanel
 								guy.getVel().setY(-20);
 						}
 					playerTick();
+					enemyTick();
 					repaint();
 				}
 			});
@@ -126,7 +128,12 @@ public class SwordRunner extends JPanel
 								}
 						}
 				}
-			g.setColor(Color.black);
+			for(Enemy e: goombas)
+				{
+					g.setColor(Color.MAGENTA);
+					g.fillRect(e.getPos().getX(), e.getPos().getY(), size, size);
+				}
+			g.setColor(Color.BLACK);
 			g.fillRect(guy.getPos().getX(), guy.getPos().getY(), size, size);
 		}
 		
@@ -142,6 +149,8 @@ public class SwordRunner extends JPanel
 //					System.out.println("Level not found");
 					System.out.println("BET");
 				}
+			int x = 0;
+			int y = 0;
 			while(levelReader.hasNextLine())
 				{
 					ArrayList<Block> newLine = new ArrayList<Block>();
@@ -153,40 +162,33 @@ public class SwordRunner extends JPanel
 							switch(c)
 							{
 								case 'g':
-									b = new Block(new Vector(0,0), Color.GREEN);
+									b = new Block(new Vector(x,y), Color.GREEN, null);
 									newLine.add(b);
 									b.loadInformation();
 									break;
 								case 'r':
-									b = new Block(new Vector(0,0), Color.RED);
+									b = new Block(new Vector(x,y), Color.RED, null);
 									newLine.add(b);
 									b.loadInformation();
 									break;
 								case 'c':
-									newLine.add(new Block(new Vector(0,0), Color.CYAN));
+									newLine.add(new Block(new Vector(x,y), Color.CYAN, null));
 									break;
 								case 'p':
-									guy = new Entity(new Vector(44, 721));
+									guy = new Entity(new Vector(x, y));
+									break;
+								case 'e':
+									goombas.add(new Enemy(new Vector(x,y)));
 									break;
 								case ' ':
 									newLine.add(null);
 									break;
 							}
-						}
-					level.add(newLine);
-				}
-			int x = 0;
-			int y = 812;
-			for(int r = level.size() - 1; r >= 0; r--)
-				{
-					for(int c = 0; c < level.get(r).size(); c++)
-						{
-							if(level.get(r).get(c) != null)
-								level.get(r).get(c).setPos(new Vector(x, y));
 							x += size;
 						}
+					level.add(newLine);
 					x = 0;
-					y -= size;
+					y += size;
 				}
 			try
 				{
@@ -215,6 +217,11 @@ public class SwordRunner extends JPanel
 								}
 						}
 				}
+			for(Enemy e: goombas)
+				{
+					e.getPos().setX(e.getPos().getX() - incX);
+					e.getPos().setY(e.getPos().getY() + incY);
+        }
 			skybox1.setCounter(skybox1.getCounter()+1);
 			if(skybox1.getCounter()==3)
 				{
@@ -237,7 +244,7 @@ public class SwordRunner extends JPanel
 		{
 			for(int i = 0; i < Math.abs(guy.getVel().getX()); i++)
 				{
-					if(!checkWall())
+					if(!checkWall(guy))
 						{
 							int increment = guy.getVel().getX() / Math.abs(guy.getVel().getX());
 							if(checkLevelMove())
@@ -277,6 +284,26 @@ public class SwordRunner extends JPanel
 					guy.getVel().setY(guy.getVel().getY() + 1);
 				}
 		}
+		public void enemyTick()
+		{
+			for(Enemy e: goombas)
+				{
+					for(int i = 0; i < Math.abs(e.getVel().getX()); i++)
+						{
+							if(!checkWall(e))
+								{
+									int increment = e.getVel().getX() / Math.abs(e.getVel().getX());
+									e.getPos().setX(e.getPos().getX() + increment);
+								}
+							else
+								{
+									e.getVel().setX(e.getVel().getX() * -1);
+								}
+							e.getLeftB().setLocation(e.getPos().getX() - 1, e.getPos().getY());
+							e.getRightB().setLocation(e.getPos().getX() + size, e.getPos().getY());
+						}
+				}
+		}
 		public void checkStanding()
 		{
 			guy.setStanding(false);
@@ -311,7 +338,7 @@ public class SwordRunner extends JPanel
 				}
 			return false;
 		}
-		public boolean checkWall()
+		public boolean checkWall(Entity e)
 		{
 			boolean inWall = false;
 			for(ArrayList<Block> line: level)
@@ -321,11 +348,11 @@ public class SwordRunner extends JPanel
 							if(b != null)
 								{
 									b.tick();
-									if(b.getBounds().intersects(guy.getLeftB()) && guy.getVel().getX() < 0)
+									if(b.getBounds().intersects(e.getLeftB()) && e.getVel().getX() < 0)
 										{
 											inWall = true;;
 										}
-									else if(b.getBounds().intersects(guy.getRightB()) && guy.getVel().getX() > 0)
+									else if(b.getBounds().intersects(e.getRightB()) && e.getVel().getX() > 0)
 										{
 											inWall = true;;
 										}

@@ -1,8 +1,11 @@
-
-
-
-
-
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
                    gggg
                    r
       gg                                                   gg
@@ -14,6 +17,6 @@
                    g                                                               rrr             ggggg
                                                            g                      rrr               rrr
                                                                                  rrr                 r
- p   ggg                                         ggg                            rrr
+ p  ggg                     e                   ggg                            rrr
 ggggrrrgggggggggggggggggggggggggggggggggggggggggrrrggggggggggggggggggggggggggggrrrgggggggggggggggggggggggggggggggggggggggg
 rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
