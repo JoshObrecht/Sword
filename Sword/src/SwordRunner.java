@@ -2,6 +2,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.JFrame;
 import javax.swing.Timer;
@@ -162,17 +164,17 @@ public class SwordRunner extends JPanel
 							switch(c)
 							{
 								case 'g':
-									b = new Block(new Vector(x,y), Color.GREEN, null);
+									b = new Block(new Vector(x,y), Color.GREEN);
 									newLine.add(b);
 									b.loadInformation();
 									break;
 								case 'r':
-									b = new Block(new Vector(x,y), Color.RED, null);
+									b = new Block(new Vector(x,y), Color.RED);
 									newLine.add(b);
 									b.loadInformation();
 									break;
 								case 'c':
-									newLine.add(new Block(new Vector(x,y), Color.CYAN, null));
+									newLine.add(new Block(new Vector(x,y), Color.CYAN));
 									break;
 								case 'p':
 									guy = new Entity(new Vector(x, y));
