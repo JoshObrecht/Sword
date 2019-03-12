@@ -5,6 +5,6 @@ public class Enemy extends Entity
 		public Enemy(Vector v)
 			{
 				super(v);
-				vel.setX(-1);
+				vel.setX(-4);
 			}
 	}

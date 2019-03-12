@@ -91,6 +91,7 @@ public class SwordRunner extends JPanel
 								guy.getVel().setY(-20);
 						}
 					playerTick();
+					enemyTick();
 					repaint();
 				}
 			});
@@ -221,7 +222,7 @@ public class SwordRunner extends JPanel
 		{
 			for(int i = 0; i < Math.abs(guy.getVel().getX()); i++)
 				{
-					if(!checkWall())
+					if(!checkWall(guy))
 						{
 							int increment = guy.getVel().getX() / Math.abs(guy.getVel().getX());
 							if(checkLevelMove())
@@ -261,6 +262,26 @@ public class SwordRunner extends JPanel
 					guy.getVel().setY(guy.getVel().getY() + 1);
 				}
 		}
+		public void enemyTick()
+		{
+			for(Enemy e: goombas)
+				{
+					for(int i = 0; i < Math.abs(e.getVel().getX()); i++)
+						{
+							if(!checkWall(e))
+								{
+									int increment = e.getVel().getX() / Math.abs(e.getVel().getX());
+									e.getPos().setX(e.getPos().getX() + increment);
+								}
+							else
+								{
+									e.getVel().setX(e.getVel().getX() * -1);
+								}
+							e.getLeftB().setLocation(e.getPos().getX() - 1, e.getPos().getY());
+							e.getRightB().setLocation(e.getPos().getX() + size, e.getPos().getY());
+						}
+				}
+		}
 		public void checkStanding()
 		{
 			guy.setStanding(false);
@@ -295,7 +316,7 @@ public class SwordRunner extends JPanel
 				}
 			return false;
 		}
-		public boolean checkWall()
+		public boolean checkWall(Entity e)
 		{
 			boolean inWall = false;
 			for(ArrayList<Block> line: level)
@@ -305,11 +326,11 @@ public class SwordRunner extends JPanel
 							if(b != null)
 								{
 									b.tick();
-									if(b.getBounds().intersects(guy.getLeftB()) && guy.getVel().getX() < 0)
+									if(b.getBounds().intersects(e.getLeftB()) && e.getVel().getX() < 0)
 										{
 											inWall = true;;
 										}
-									else if(b.getBounds().intersects(guy.getRightB()) && guy.getVel().getX() > 0)
+									else if(b.getBounds().intersects(e.getRightB()) && e.getVel().getX() > 0)
 										{
 											inWall = true;;
 										}
