@@ -5,6 +5,9 @@ import java.io.FileNotFoundException;
 import javax.swing.*;
 import javax.swing.JFrame;
 import javax.swing.Timer;
+
+import sun.invoke.empty.Empty;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
@@ -17,6 +20,8 @@ public class SwordRunner extends JPanel
 		public String xDir = "";
 		public boolean isJumping = false;
 		public final int size = 40;
+		public Entity skybox1;
+		public Entity skybox2;
 		
 		public static void main(String[] args)
 			{
@@ -99,6 +104,8 @@ public class SwordRunner extends JPanel
 		public void paintComponent(Graphics g)
 		{
 			super.paintComponent(g);
+			g.drawImage(skybox1.getImage(), skybox1.getPos().getX(), skybox1.getPos().getY(), null);
+			g.drawImage(skybox1.getImage(), skybox2.getPos().getX(), skybox2.getPos().getY(), null);
 			for(int r = level.size() - 1; r >= 0; r--)
 				{
 					for(int c = 0; c < level.get(r).size(); c++)
@@ -146,17 +153,17 @@ public class SwordRunner extends JPanel
 							switch(c)
 							{
 								case 'g':
-									b = new Block(new Vector(0,0), Color.GREEN, null);
+									b = new Block(new Vector(0,0), Color.GREEN);
 									newLine.add(b);
 									b.loadInformation();
 									break;
 								case 'r':
-									b = new Block(new Vector(0,0), Color.RED, null);
+									b = new Block(new Vector(0,0), Color.RED);
 									newLine.add(b);
 									b.loadInformation();
 									break;
 								case 'c':
-									newLine.add(new Block(new Vector(0,0), Color.CYAN, null));
+									newLine.add(new Block(new Vector(0,0), Color.CYAN));
 									break;
 								case 'p':
 									guy = new Entity(new Vector(44, 721));
@@ -181,6 +188,17 @@ public class SwordRunner extends JPanel
 					x = 0;
 					y -= size;
 				}
+			try
+				{
+					
+			skybox1 = new Entity(new Vector(0,0));
+			skybox1.setImage(ImageIO.read(new File("src/Images/skybox.png")));
+			
+			skybox2 = new Entity(new Vector(1000,0));
+			skybox2.setImage(ImageIO.read(new File("src/Images/skybox.png")));
+			
+				}
+			catch(Exception e){}
 			
 		}
 
@@ -196,6 +214,23 @@ public class SwordRunner extends JPanel
 									b.getPos().setY(b.getPos().getY() + incY);
 								}
 						}
+				}
+			skybox1.setCounter(skybox1.getCounter()+1);
+			if(skybox1.getCounter()==3)
+				{
+					if(skybox1.getPos().getX()<-1000)
+						skybox1.getPos().setX(999);
+					if(skybox2.getPos().getX()<-1000)
+						skybox2.getPos().setX(999);
+					
+					if(skybox1.getPos().getX()>1000)
+						skybox1.getPos().setX(-999);
+					if(skybox2.getPos().getX()>1000)
+						skybox2.getPos().setX(-999);
+					
+					skybox1.getPos().setX(skybox1.getPos().getX() - incX);
+					skybox2.getPos().setX(skybox2.getPos().getX() -incX);
+					skybox1.setCounter(0);
 				}
 		}
 		public void playerTick()

@@ -9,11 +9,13 @@ public class Entity extends SwordObject
 		protected Rectangle upB;
 		protected Rectangle downB;
 		protected boolean isStanding;
+		protected int counter;
 		
 		public Entity(Vector v)
 			{
 				super(v);
 				vel = new Vector(0,0);
+				counter = 0;
 				isStanding = true;
 				leftB = new Rectangle(pos.getX() - 1, pos.getY(), 1, 40);
 				rightB = new Rectangle(pos.getX() + 40, pos.getY(), 1, 40);
@@ -21,6 +23,16 @@ public class Entity extends SwordObject
 				downB = new Rectangle(pos.getX(), pos.getY() + 40, 40, 1);
 			}
 		
+		public int getCounter()
+			{
+				return counter;
+			}
+
+		public void setCounter(int counter)
+			{
+				this.counter = counter;
+			}
+
 		public Vector getVel()
 			{
 				return vel;
