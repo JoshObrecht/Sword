@@ -7,16 +7,28 @@ public class Entity extends SwordObject
 		protected Rectangle yBounds;
 		protected Rectangle xBounds;
 		protected boolean isStanding;
+		protected int counter;
 		
 		public Entity(Vector v)
 			{
 				super(v);
 				vel = new Vector(0,0);
+				counter = 0;
 				isStanding = true;
 				yBounds = new Rectangle(pos.getX(), pos.getY() - 1, 40, 42);
 				xBounds = new Rectangle(pos.getX() - 1, pos.getY(), 42, 40);
 			}
 		
+		public int getCounter()
+			{
+				return counter;
+			}
+
+		public void setCounter(int counter)
+			{
+				this.counter = counter;
+			}
+
 		public Vector getVel()
 			{
 				return vel;

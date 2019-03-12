@@ -8,17 +8,17 @@ import javax.swing.ImageIcon;
 public class Block extends SwordObject
 	{
 		Color color;
-    Rectangle bounds;
-		BufferedImage image;
-		public Block(Vector pos, Color c, BufferedImage i)
+		Rectangle bounds;
+	
+		public Block(Vector pos, Color c)
 		{
 			super(pos);
 			this.color = c;
-			this.image = i;
+
 			bounds = new Rectangle(pos.getX(), pos.getY(), 48, 48);
 		}
 		
-		public Image getImage()
+		public BufferedImage getImage()
 			{
 				return image;
 			}
