@@ -14,8 +14,9 @@ public class Block extends SwordObject
 		{
 			super(pos);
 			this.color = c;
+			this.image = i;
+			bounds = new Rectangle(pos.getX(), pos.getY(), 40, 40);
 
-			bounds = new Rectangle(pos.getX(), pos.getY(), 48, 48);
 		}
 		
 		public BufferedImage getImage()
@@ -60,6 +61,6 @@ public class Block extends SwordObject
 
 		public void tick()
 		{
-			bounds = new Rectangle(pos.getX(), pos.getY(), 48, 48);
+			bounds = new Rectangle(pos.getX(), pos.getY(), 40, 40);
 		}
 	}

@@ -2,8 +2,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.FileNotFoundException;
-
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.JFrame;
 import javax.swing.Timer;
@@ -16,7 +14,7 @@ import java.util.Scanner;
 
 public class SwordRunner extends JPanel
 	{
-		public Entity guy = new Entity(new Vector(-40, -40));
+		public Entity guy = new Entity(new Vector(-48, -48));
 		public ArrayList<ArrayList<Block>> level = new ArrayList<ArrayList<Block>>();
 		public Vector levelVel = new Vector(0,0);
 		public String xDir = "";
@@ -123,16 +121,13 @@ public class SwordRunner extends JPanel
 											g.setColor(level.get(r).get(c).getColor());
 											g.fillRect(level.get(r).get(c).getPos().getX(), level.get(r).get(c).getPos().getY(), size, size);
 										}	
+//									g.setColor(level.get(r).get(c).getColor());
+//									g.fillRect(level.get(r).get(c).getPos().getX(), level.get(r).get(c).getPos().getY(), size, size);
 								}
-						}	
+						}
 				}
-			g.setColor(Color.MAGENTA);
-			g.fillRect((int)guy.getyBounds().getX(), (int)guy.getyBounds().getY(), 40, 42);
-			g.fillRect((int)guy.getxBounds().getX(), (int)guy.getxBounds().getY(), 42, 40);
 			g.setColor(Color.black);
-
 			g.fillRect(guy.getPos().getX(), guy.getPos().getY(), size, size);
-
 		}
 		
 		public void readLevel()
@@ -152,11 +147,9 @@ public class SwordRunner extends JPanel
 					ArrayList<Block> newLine = new ArrayList<Block>();
 					String levelLine = levelReader.nextLine();
 					char[] levelArray = levelLine.toCharArray();
-					Block b;
-					try
-						{
 					for(char c: levelArray)
 						{
+							Block b;
 							switch(c)
 							{
 								case 'g':
@@ -180,8 +173,6 @@ public class SwordRunner extends JPanel
 									break;
 							}
 						}
-						}
-					catch(Exception e){};
 					level.add(newLine);
 				}
 			int x = 0;
@@ -254,26 +245,34 @@ public class SwordRunner extends JPanel
 							else
 								guy.getPos().setX(guy.getPos().getX() + increment);
 						}
+					guy.getLeftB().setLocation(guy.getPos().getX() - 1, guy.getPos().getY());
+					guy.getRightB().setLocation(guy.getPos().getX() + size, guy.getPos().getY());
 				}
 			for(int i = 0; i < Math.abs(guy.getVel().getY()); i++)
 				{
 					checkStanding();
 					if(!guy.isStanding() || guy.getVel().getY() < 0)
 						{
-							int increment = guy.getVel().getY() / Math.abs(guy.getVel().getY());
-							guy.getPos().setY(guy.getPos().getY() + increment);
+							if(guy.getVel().getY() != 0)
+								{
+									int increment = guy.getVel().getY() / Math.abs(guy.getVel().getY());
+									guy.getPos().setY(guy.getPos().getY() + increment);
+								}
 						}
 					else if(guy.isStanding())
 						{
 							guy.getVel().setY(0);
 							break;
 						}
-					guy.getyBounds().setLocation(guy.getPos().getX(), guy.getPos().getY() - 1);
+					guy.getUpB().setLocation(guy.getPos().getX(), guy.getPos().getY() - 1);
+					guy.getDownB().setLocation(guy.getPos().getX(), guy.getPos().getY() + size);
 				}
-			guy.getyBounds().x = guy.getPos().getX();
-			guy.getxBounds().setLocation(guy.getPos().getX() - 1, guy.getPos().getY());
+			guy.getLeftB().setLocation(guy.getPos().getX() - 1, guy.getPos().getY());
+			guy.getRightB().setLocation(guy.getPos().getX() + size, guy.getPos().getY());
+			guy.getUpB().setLocation(guy.getPos().getX(), guy.getPos().getY() - 1);
+			guy.getDownB().setLocation(guy.getPos().getX(), guy.getPos().getY() + size);
 			checkStanding();
-			if(!guy.isStanding())
+			if(!guy.isStanding() && guy.getVel().getY() < 15)
 				{
 					guy.getVel().setY(guy.getVel().getY() + 1);
 				}
@@ -288,10 +287,18 @@ public class SwordRunner extends JPanel
 							if(b != null)
 								{
 									b.tick();
-									if(b.getBounds().intersects(guy.getyBounds()))
+									if(b.getBounds().intersects(guy.getDownB()) || b.getBounds().intersects(guy.getUpB()))
 										{
 											guy.setStanding(true);
 										}
+//									else if(b is a double-jumpy block)
+//										{
+//											check upB as well;
+//										}
+//									if(b.getBounds().intersects(guy.getUpB())) makes you collide with bottoms of blocks
+//										{
+//											guy.getVel().setY(0);
+//										}
 								}								
 						}
 				}
@@ -314,14 +321,17 @@ public class SwordRunner extends JPanel
 							if(b != null)
 								{
 									b.tick();
-									if(b.getBounds().intersects(guy.getxBounds()))
+									if(b.getBounds().intersects(guy.getLeftB()) && guy.getVel().getX() < 0)
+										{
+											inWall = true;;
+										}
+									else if(b.getBounds().intersects(guy.getRightB()) && guy.getVel().getX() > 0)
 										{
 											inWall = true;;
 										}
 								}								
 						}
 				}
-//			if(inWall)
-			return false;
+			return inWall;
 		}
 	}
