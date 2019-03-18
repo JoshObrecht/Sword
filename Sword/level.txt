@@ -1,22 +1,22 @@
- 
- 
- 
- 
- 
- 
- 
- 
-                   gggg
-                   r
-      gg                                                   gg
-                                                          grrg
-
-           gggg
-                                   gggggg
-
-                   g                                                               rrr             ggggg
-                                                           g                      rrr               rrr
-                                                                                 rrr                 r
- p  ggg                     e                   ggg                            rrr
-ggggrrrgggggggggggggggggggggggggggggggggggggggggrrrggggggggggggggggggggggggggggrrrgggggggggggggggggggggggggggggggggggggggg
-rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
+w 
+w 
+w 
+w 
+w                        ccccc
+w                         ccc
+w 
+w 
+w                   gggg
+w                   r
+w      gg                                                   gg
+w                                                          grrg
+w
+w           gggg
+w                                   gggggg
+w
+w                   g                                                               rrr             ggggg
+w                                                           g                      rrr               rrr
+w                                                                                 rrr                 r
+w p  ggg                     e                   ggg             e e            rrr
+wggggrrrgggggggggggggggggggggggggggggggggggggggggrrrggggggggggggggggggggggggggggrrrgggggggggggggggggggggggggggggggggggggggg
+wrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr

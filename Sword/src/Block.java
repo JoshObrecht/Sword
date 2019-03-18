@@ -7,15 +7,16 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 public class Block extends SwordObject
 	{
-		Color color;
-		Rectangle bounds;
+		protected Color color;
+		protected Rectangle bounds;
+		protected String type;
 	
-		public Block(Vector pos, Color c)
+		public Block(Vector pos, Color c, String t)
 		{
 			super(pos);
 			this.color = c;
 			bounds = new Rectangle(pos.getX(), pos.getY(), 40, 40);
-
+			type = t;
 		}
 		
 		public BufferedImage getImage()
@@ -44,6 +45,8 @@ public class Block extends SwordObject
 					  image = ImageIO.read(new File("src/Images/grassblock2.png"));
 				  else if(color==Color.RED)
 					  image = ImageIO.read(new File("src/Images/dirtblock.png"));
+				  else if(type.equals("cloud"))
+					  image = ImageIO.read(new File("src/Images/cloud.png"));
 				} catch (IOException e)
 				{
 					e.printStackTrace();
@@ -56,6 +59,14 @@ public class Block extends SwordObject
 		public void setBounds(Rectangle bounds)
 			{
 				this.bounds = bounds;
+			}
+		public String getType()
+			{
+				return type;
+			}
+		public void setType(String type)
+			{
+				this.type = type;
 			}
 
 		public void tick()

@@ -116,14 +116,14 @@ public class SwordRunner extends JPanel
 						{
 							if(level.get(r).get(c) != null)
 								{
-									if(level.get(r).get(c).getColor()==Color.GREEN||level.get(r).get(c).getColor()==Color.RED)
+									if(!level.get(r).get(c).getType().equals(""))
 										{
 											g.drawImage(level.get(r).get(c).getImage(), level.get(r).get(c).getPos().getX(), level.get(r).get(c).getPos().getY(), null);	
 										}
 									else
 										{	
-											g.setColor(level.get(r).get(c).getColor());
-											g.fillRect(level.get(r).get(c).getPos().getX(), level.get(r).get(c).getPos().getY(), size, size);
+//											g.setColor(level.get(r).get(c).getColor());
+//											g.fillRect(level.get(r).get(c).getPos().getX(), level.get(r).get(c).getPos().getY(), size, size);
 										}	
 //									g.setColor(level.get(r).get(c).getColor());
 //									g.fillRect(level.get(r).get(c).getPos().getX(), level.get(r).get(c).getPos().getY(), size, size);
@@ -151,7 +151,7 @@ public class SwordRunner extends JPanel
 //					System.out.println("Level not found");
 					System.out.println("BET");
 				}
-			int x = 0;
+			int x = size * -1;
 			int y = 0;
 			while(levelReader.hasNextLine())
 				{
@@ -164,23 +164,28 @@ public class SwordRunner extends JPanel
 							switch(c)
 							{
 								case 'g':
-									b = new Block(new Vector(x,y), Color.GREEN);
+									b = new Block(new Vector(x,y), Color.GREEN, "grass");
 									newLine.add(b);
 									b.loadInformation();
 									break;
 								case 'r':
-									b = new Block(new Vector(x,y), Color.RED);
+									b = new Block(new Vector(x,y), Color.RED, "dirt");
 									newLine.add(b);
 									b.loadInformation();
 									break;
-								case 'c':
-									newLine.add(new Block(new Vector(x,y), Color.CYAN));
+								case 'w':
+									newLine.add(new Block(new Vector(x,y), Color.CYAN, ""));
 									break;
 								case 'p':
 									guy = new Entity(new Vector(x, y));
 									break;
 								case 'e':
 									goombas.add(new Enemy(new Vector(x,y)));
+									break;
+								case 'c':
+									b = new Block(new Vector(x,y), Color.CYAN, "cloud");
+									newLine.add(b);
+									b.loadInformation();
 									break;
 								case ' ':
 									newLine.add(null);
@@ -189,7 +194,7 @@ public class SwordRunner extends JPanel
 							x += size;
 						}
 					level.add(newLine);
-					x = 0;
+					x = size * -1;
 					y += size;
 				}
 			try
@@ -334,10 +339,10 @@ public class SwordRunner extends JPanel
 		}
 		public boolean checkLevelMove()
 		{
-			if((guy.getPos().getX() == 40 && guy.getVel().getX() < 0) || (guy.getPos().getX() == 460 && guy.getVel().getX() > 0))
-				{
-					return true;
-				}
+			if(level.get(0).get(0).getPos().getX() == -40 && guy.getVel().getX() < 0)
+				return false;
+			else if((guy.getPos().getX() == 40 && guy.getVel().getX() < 0) || (guy.getPos().getX() == 460 && guy.getVel().getX() > 0))
+				return true;
 			return false;
 		}
 		public boolean checkWall(Entity e)
