@@ -16,7 +16,7 @@ w                                   gggggg
 w
 w                   g                                                               rrr             ggggg
 w                                                           g                      rrr               rrr
-w                                                                                 rrr                 r
-w p  ggg                     e                   ggg             e e            rrr
+w            ccc                                                                  rrr                 r
+w p  ggg     ccc             e                   ggg             e e            rrr
 wggggrrrgggggggggggggggggggggggggggggggggggggggggrrrggggggggggggggggggggggggggggrrrgggggggggggggggggggggggggggggggggggggggg
 wrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr

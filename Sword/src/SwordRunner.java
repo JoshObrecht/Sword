@@ -93,7 +93,7 @@ public class SwordRunner extends JPanel
 						}
 					if(isJumping)
 						{
-							checkStanding();
+							checkStanding(guy);
 							if(guy.isStanding())
 								guy.getVel().setY(-20);
 						}
@@ -264,7 +264,7 @@ public class SwordRunner extends JPanel
 				}
 			for(int i = 0; i < Math.abs(guy.getVel().getY()); i++)
 				{
-					checkStanding();
+					checkStanding(guy);
 					if(!guy.isStanding() || guy.getVel().getY() < 0)
 						{
 							if(guy.getVel().getY() != 0)
@@ -285,7 +285,7 @@ public class SwordRunner extends JPanel
 			guy.getRightB().setLocation(guy.getPos().getX() + size, guy.getPos().getY());
 			guy.getUpB().setLocation(guy.getPos().getX(), guy.getPos().getY() - 1);
 			guy.getDownB().setLocation(guy.getPos().getX(), guy.getPos().getY() + size);
-			checkStanding();
+			checkStanding(guy);
 			if(!guy.isStanding() && guy.getVel().getY() < 15)
 				{
 					guy.getVel().setY(guy.getVel().getY() + 1);
@@ -311,9 +311,9 @@ public class SwordRunner extends JPanel
 						}
 				}
 		}
-		public void checkStanding()
+		public void checkStanding(Entity e)
 		{
-			guy.setStanding(false);
+			e.setStanding(false);
 			for(ArrayList<Block> line: level)
 				{
 					for(Block b: line)
@@ -321,9 +321,9 @@ public class SwordRunner extends JPanel
 							if(b != null)
 								{
 									b.tick();
-									if(b.getBounds().intersects(guy.getDownB()) || b.getBounds().intersects(guy.getUpB()))
+									if(b.getBounds().intersects(e.getDownB()) || b.getBounds().intersects(e.getUpB()))
 										{
-											guy.setStanding(true);
+											e.setStanding(true);
 										}
 //									else if(b is a double-jumpy block)
 //										{
@@ -352,7 +352,7 @@ public class SwordRunner extends JPanel
 				{
 					for(Block b: line)
 						{
-							if(b != null)
+							if(b != null && !b.getType().equals("cloud"))
 								{
 									b.tick();
 									if(b.getBounds().intersects(e.getLeftB()) && e.getVel().getX() < 0)
