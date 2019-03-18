@@ -267,6 +267,10 @@ public class SwordRunner extends JPanel
 					checkStanding(guy);
 					if(!guy.isStanding() || guy.getVel().getY() < 0)
 						{
+							if(checkCeil(guy))
+								{
+									guy.getVel().setY(0);
+								}
 							if(guy.getVel().getY() != 0)
 								{
 									int increment = guy.getVel().getY() / Math.abs(guy.getVel().getY());
@@ -321,17 +325,13 @@ public class SwordRunner extends JPanel
 							if(b != null)
 								{
 									b.tick();
-									if(b.getBounds().intersects(e.getDownB()) || b.getBounds().intersects(e.getUpB()))
+									if(b.getBounds().intersects(e.getDownB()))
 										{
 											e.setStanding(true);
 										}
 //									else if(b is a double-jumpy block)
 //										{
 //											check upB as well;
-//										}
-//									if(b.getBounds().intersects(guy.getUpB())) makes you collide with bottoms of blocks
-//										{
-//											guy.getVel().setY(0);
 //										}
 								}								
 						}
@@ -367,5 +367,22 @@ public class SwordRunner extends JPanel
 						}
 				}
 			return inWall;
+		}
+		public boolean checkCeil(Entity e)
+		{
+			boolean ceil = false;
+			for(ArrayList<Block> line: level)
+				{
+					for(Block b: line)
+						{
+							if(b != null && !b.getType().equals("cloud"))
+								{
+									b.tick();
+									if(b.getBounds().intersects(e.getUpB()) && e.getVel().getY() < 0)
+										ceil = true;
+								}
+						}
+				}
+			return ceil;
 		}
 	}
