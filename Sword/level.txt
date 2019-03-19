@@ -8,8 +8,8 @@ w
 w 
 w                   gggg
 w                   r
-w      gg                                                   gg
-w                                                          grrg
+w      gg        c                                          gg
+w             ccc                                         grrg
 w
 w           gggg
 w                                   gggggg

@@ -25,6 +25,7 @@ public class SwordRunner extends JPanel
 		public final int size = 40;
 		public Entity skybox1;
 		public Entity skybox2;
+		public int levelNum = 1;
 		
 		public static void main(String[] args)
 			{
@@ -145,7 +146,7 @@ public class SwordRunner extends JPanel
 			int position = 0;
 			try
 				{
-					levelReader = new Scanner(new File("level.txt"));
+					levelReader = new Scanner(new File("level" + levelNum +".txt"));
 				} catch (FileNotFoundException e)
 				{
 //					System.out.println("Level not found");
@@ -315,6 +316,7 @@ public class SwordRunner extends JPanel
 						}
 				}
 		}
+		
 		public void checkStanding(Entity e)
 		{
 			e.setStanding(false);
