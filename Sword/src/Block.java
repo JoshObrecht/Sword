@@ -47,6 +47,8 @@ public class Block extends SwordObject
 					  image = ImageIO.read(new File("src/Images/dirtblock.png"));
 				  else if(type.equals("cloud"))
 					  image = ImageIO.read(new File("src/Images/cloud.png"));
+				  else if(type.equals("end"))
+					  image = ImageIO.read(new File("src/Images/curtains.png"));
 				} catch (IOException e)
 				{
 					e.printStackTrace();

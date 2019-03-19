@@ -17,7 +17,7 @@ import java.util.Scanner;
 public class SwordRunner extends JPanel
 	{
 		public Entity guy = new Entity(new Vector(-48, -48));
-		public ArrayList<ArrayList<Block>> level = new ArrayList<ArrayList<Block>>();
+		public ArrayList<ArrayList<Block>> level;
 		public ArrayList<Enemy> goombas = new ArrayList<Enemy>();
 		public Vector levelVel = new Vector(0,0);
 		public String xDir = "";
@@ -139,9 +139,9 @@ public class SwordRunner extends JPanel
 			g.setColor(Color.BLACK);
 			g.fillRect(guy.getPos().getX(), guy.getPos().getY(), size, size);
 		}
-		
 		public void readLevel()
 		{
+			level = new ArrayList<ArrayList<Block>>();
 			Scanner levelReader = null;
 			int position = 0;
 			try
@@ -185,6 +185,11 @@ public class SwordRunner extends JPanel
 									break;
 								case 'c':
 									b = new Block(new Vector(x,y), Color.CYAN, "cloud");
+									newLine.add(b);
+									b.loadInformation();
+									break;
+								case 'x':
+									b = new Block(new Vector(x,y), Color.DARK_GRAY, "end");
 									newLine.add(b);
 									b.loadInformation();
 									break;
@@ -295,6 +300,11 @@ public class SwordRunner extends JPanel
 				{
 					guy.getVel().setY(guy.getVel().getY() + 1);
 				}
+			if(checkEnd())
+				{
+					levelNum++;
+					readLevel();
+				}
 		}
 		public void enemyTick()
 		{
@@ -386,5 +396,22 @@ public class SwordRunner extends JPanel
 						}
 				}
 			return ceil;
+		}
+		public boolean checkEnd()
+		{
+			for(ArrayList<Block> line: level)
+				{
+					for(Block b: line)
+						{
+							if(b != null && b.getType().equals("end"))
+								{
+									if(b.getBounds().intersects(guy.getUpB()) || b.getBounds().intersects(guy.getLeftB()) || b.getBounds().intersects(guy.getRightB()) || b.getBounds().intersects(guy.getDownB()))
+										{
+											return true;
+										}
+								}
+						}
+				}
+			return false;
 		}
 	}
