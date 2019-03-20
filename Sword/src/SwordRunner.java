@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
 
+@SuppressWarnings({ "serial", "unused" })
 public class SwordRunner extends JPanel
 	{
 		public Entity guy = new Entity(new Vector(-48, -48));

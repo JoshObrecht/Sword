@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+@SuppressWarnings("unused")
 public class Block extends SwordObject
 	{
 		protected Color color;
