@@ -14,9 +14,9 @@ w
 w
 w
 w                           
-w              gggccccccccccg
-w             grrr
-w            grrrr
-w  p        grrrrr                                                                                                       x
+w              gggccccccccc g
+w             grrr cccccccccr
+w            grrrrccccccccc r
+w  p        grrrrr ccccccccc                                                                                            x
 wccccccccccgrrccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 wcccccccccgrrcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
