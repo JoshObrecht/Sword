@@ -14,7 +14,6 @@ public class Block extends SwordObject
 		{
 			super(pos);
 			this.color = c;
-			this.image = i;
 			bounds = new Rectangle(pos.getX(), pos.getY(), 40, 40);
 
 		}

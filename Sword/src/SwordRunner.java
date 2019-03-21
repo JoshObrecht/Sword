@@ -2,6 +2,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.JFrame;
 import javax.swing.Timer;
@@ -105,7 +107,7 @@ public class SwordRunner extends JPanel
 		{
 			super.paintComponent(g);
 			g.drawImage(skybox1.getImage(), skybox1.getPos().getX(), skybox1.getPos().getY(), null);
-			g.drawImage(skybox1.getImage(), skybox2.getPos().getX(), skybox2.getPos().getY(), null);
+			g.drawImage(skybox2.getImage(), skybox2.getPos().getX(), skybox2.getPos().getY(), null);
 			for(int r = level.size() - 1; r >= 0; r--)
 				{
 					for(int c = 0; c < level.get(r).size(); c++)
@@ -192,10 +194,10 @@ public class SwordRunner extends JPanel
 				{
 					
 			skybox1 = new Entity(new Vector(0,0));
-			skybox1.setImage(ImageIO.read(new File("src/Images/skybox.png")));
+			skybox1.setImage(ImageIO.read(new File("src/Images/grasslandskybox1.png")));
 			
 			skybox2 = new Entity(new Vector(1000,0));
-			skybox2.setImage(ImageIO.read(new File("src/Images/skybox.png")));
+			skybox2.setImage(ImageIO.read(new File("src/Images/grasslandskybox2.png")));
 			
 				}
 			catch(Exception e){}
