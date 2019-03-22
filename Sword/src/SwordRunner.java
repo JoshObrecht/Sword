@@ -31,6 +31,7 @@ public class SwordRunner extends JPanel
 		
 		public static void main(String[] args)
 			{
+				Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 				JFrame frame = new JFrame("Sword");
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				frame.setSize(1000, 880);
@@ -39,6 +40,7 @@ public class SwordRunner extends JPanel
 				frame.setVisible(true);
 				frame.setResizable(false);
 				game.setFocusable(true);
+				frame.setLocation((int)(screenSize.getWidth() / 2) - 600, (int)(screenSize.getHeight() / 2) - 480);
 				
 			}
 		public SwordRunner()
