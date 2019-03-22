@@ -10,6 +10,7 @@ public class Entity extends SwordObject
 		protected Rectangle upB;
 		protected Rectangle downB;
 		protected int counter;
+		protected int lives;
 		
 		public Entity(Vector v)
 			{
@@ -20,6 +21,7 @@ public class Entity extends SwordObject
 				rightB = new Rectangle(pos.getX() + 40, pos.getY(), 1, 40);
 				upB = new Rectangle(pos.getX(), pos.getY() - 1, 40, 1);
 				downB = new Rectangle(pos.getX(), pos.getY() + 40, 40, 1);
+				lives = 1;
 			}
 		
 		public int getCounter()
@@ -70,11 +72,15 @@ public class Entity extends SwordObject
 			{
 				this.downB = downB;
 			}
+		public int getLives()
+			{
+				return lives;
+			}
+		public void setLives(int lives)
+			{
+				this.lives = lives;
+			}
 
-		public void tick()
-		{
-			
-		}
 		public boolean[] checkEverything()
 		{
 			/*

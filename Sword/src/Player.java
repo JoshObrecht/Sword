@@ -5,6 +5,7 @@ public class Player extends Entity
 		public Player(Vector v)
 		{
 			super(v);
+			lives = 3;
 		}
 		
 		

@@ -18,6 +18,7 @@ import java.util.Scanner;
 public class SwordRunner extends JPanel
 	{
 		public Player guy;
+		public Ghost guyLives = new Ghost(new Vector(5,10));
 		public static ArrayList<ArrayList<Block>> level;
 		public ArrayList<Enemy> goombas = new ArrayList<Enemy>();
 		public Vector levelVel = new Vector(0,0);
@@ -138,6 +139,10 @@ public class SwordRunner extends JPanel
 				}
 			g.setColor(Color.BLACK);
 			g.fillRect(guy.getPos().getX(), guy.getPos().getY(), size, size);
+			for(int i = 0; i < guy.getLives(); i++)
+				{
+					g.drawImage(guyLives.getImage(), guyLives.getPos().getX() + (45 * i), guyLives.getPos().getY(), null);
+				}
 		}
 		public void readLevel()
 		{
