@@ -7,6 +7,7 @@ public class Player extends Entity
 			super(v);
 		}
 		
+		
 		public boolean[] checkEverything()
 		{
 			boolean[] checks = super.checkEverything();

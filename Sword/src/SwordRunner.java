@@ -297,6 +297,7 @@ public class SwordRunner extends JPanel
 			guy.getRightB().setLocation(guy.getPos().getX() + size, guy.getPos().getY());
 			guy.getUpB().setLocation(guy.getPos().getX(), guy.getPos().getY() - 1);
 			guy.getDownB().setLocation(guy.getPos().getX(), guy.getPos().getY() + size);
+			
 			checks = guy.checkEverything();
 			if(!checks[0] && guy.getVel().getY() < 15)
 				{
