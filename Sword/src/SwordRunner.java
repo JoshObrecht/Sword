@@ -17,8 +17,8 @@ import java.util.Scanner;
 @SuppressWarnings({ "serial", "unused" })
 public class SwordRunner extends JPanel
 	{
-		public Entity guy = new Entity(new Vector(-48, -48));
-		public ArrayList<ArrayList<Block>> level;
+		public Player guy;
+		public static ArrayList<ArrayList<Block>> level;
 		public ArrayList<Enemy> goombas = new ArrayList<Enemy>();
 		public Vector levelVel = new Vector(0,0);
 		public String xDir = "";
@@ -95,8 +95,7 @@ public class SwordRunner extends JPanel
 						}
 					if(isJumping)
 						{
-							checkStanding(guy);
-							if(guy.isStanding())
+							if(guy.checkEverything()[0])
 								guy.getVel().setY(-20);
 						}
 					playerTick();
@@ -179,7 +178,7 @@ public class SwordRunner extends JPanel
 									newLine.add(new Block(new Vector(x,y), Color.CYAN, ""));
 									break;
 								case 'p':
-									guy = new Entity(new Vector(x, y));
+									guy = new Player(new Vector(x, y));
 									break;
 								case 'e':
 									goombas.add(new Enemy(new Vector(x,y)));
@@ -256,12 +255,14 @@ public class SwordRunner extends JPanel
 		}
 		public void playerTick()
 		{
+			boolean[] checks;
 			for(int i = 0; i < Math.abs(guy.getVel().getX()); i++)
 				{
-					if(!checkWall(guy))
+					checks = guy.checkEverything();
+					if(!checks[1])
 						{
 							int increment = guy.getVel().getX() / Math.abs(guy.getVel().getX());
-							if(checkLevelMove())
+							if(checks[4])
 								tick(increment, 0);
 							else
 								guy.getPos().setX(guy.getPos().getX() + increment);
@@ -271,10 +272,10 @@ public class SwordRunner extends JPanel
 				}
 			for(int i = 0; i < Math.abs(guy.getVel().getY()); i++)
 				{
-					checkStanding(guy);
-					if(!guy.isStanding() || guy.getVel().getY() < 0)
+					checks = guy.checkEverything();
+					if(!checks[0] || guy.getVel().getY() < 0)
 						{
-							if(checkCeil(guy))
+							if(checks[2])
 								{
 									guy.getVel().setY(0);
 								}
@@ -284,7 +285,7 @@ public class SwordRunner extends JPanel
 									guy.getPos().setY(guy.getPos().getY() + increment);
 								}
 						}
-					else if(guy.isStanding())
+					else if(checks[0])
 						{
 							guy.getVel().setY(0);
 							break;
@@ -296,12 +297,13 @@ public class SwordRunner extends JPanel
 			guy.getRightB().setLocation(guy.getPos().getX() + size, guy.getPos().getY());
 			guy.getUpB().setLocation(guy.getPos().getX(), guy.getPos().getY() - 1);
 			guy.getDownB().setLocation(guy.getPos().getX(), guy.getPos().getY() + size);
-			checkStanding(guy);
-			if(!guy.isStanding() && guy.getVel().getY() < 15)
+			
+			checks = guy.checkEverything();
+			if(!checks[0] && guy.getVel().getY() < 15)
 				{
 					guy.getVel().setY(guy.getVel().getY() + 1);
 				}
-			if(checkEnd())
+			if(checks[3])
 				{
 					levelNum++;
 					readLevel();
@@ -313,7 +315,8 @@ public class SwordRunner extends JPanel
 				{
 					for(int i = 0; i < Math.abs(e.getVel().getX()); i++)
 						{
-							if(!checkWall(e))
+							boolean[] checks = e.checkEverything();
+							if(!checks[1])
 								{
 									int increment = e.getVel().getX() / Math.abs(e.getVel().getX());
 									e.getPos().setX(e.getPos().getX() + increment);
@@ -326,93 +329,5 @@ public class SwordRunner extends JPanel
 							e.getRightB().setLocation(e.getPos().getX() + size, e.getPos().getY());
 						}
 				}
-		}
-		
-		public void checkStanding(Entity e)
-		{
-			e.setStanding(false);
-			for(ArrayList<Block> line: level)
-				{
-					for(Block b: line)
-						{
-							if(b != null)
-								{
-									b.tick();
-									if(b.getBounds().intersects(e.getDownB()))
-										{
-											e.setStanding(true);
-										}
-//									else if(b is a double-jumpy block)
-//										{
-//											check upB as well;
-//										}
-								}								
-						}
-				}
-		}
-		public boolean checkLevelMove()
-		{
-			if(level.get(0).get(0).getPos().getX() == -40 && guy.getVel().getX() < 0)
-				return false;
-			else if((guy.getPos().getX() == 40 && guy.getVel().getX() < 0) || (guy.getPos().getX() == 460 && guy.getVel().getX() > 0))
-				return true;
-			return false;
-		}
-		public boolean checkWall(Entity e)
-		{
-			boolean inWall = false;
-			for(ArrayList<Block> line: level)
-				{
-					for(Block b: line)
-						{
-							if(b != null && !b.getType().equals("cloud"))
-								{
-									b.tick();
-									if(b.getBounds().intersects(e.getLeftB()) && e.getVel().getX() < 0)
-										{
-											inWall = true;;
-										}
-									else if(b.getBounds().intersects(e.getRightB()) && e.getVel().getX() > 0)
-										{
-											inWall = true;;
-										}
-								}								
-						}
-				}
-			return inWall;
-		}
-		public boolean checkCeil(Entity e)
-		{
-			boolean ceil = false;
-			for(ArrayList<Block> line: level)
-				{
-					for(Block b: line)
-						{
-							if(b != null && !b.getType().equals("cloud"))
-								{
-									b.tick();
-									if(b.getBounds().intersects(e.getUpB()) && e.getVel().getY() < 0)
-										ceil = true;
-								}
-						}
-				}
-			return ceil;
-		}
-		public boolean checkEnd()
-		{
-			for(ArrayList<Block> line: level)
-				{
-					for(Block b: line)
-						{
-							if(b != null && b.getType().equals("end"))
-								{
-									if(b.getBounds().intersects(guy.getUpB()) || b.getBounds().intersects(guy.getLeftB()) || b.getBounds().intersects(guy.getRightB()) || b.getBounds().intersects(guy.getDownB()))
-										{
-											return true;
-										}
-								}
-						}
-				}
-			return false;
 		}
 	}
