@@ -5,10 +5,7 @@ public class Entity extends SwordObject
 	{
 		protected Vector vel;
 		protected final int gravity = 1;
-		protected Rectangle leftB;
-		protected Rectangle rightB;
-		protected Rectangle upB;
-		protected Rectangle downB;
+		protected Rectangle[] hitBoxes; //hitboxes stored clockwise starting with left
 		protected int counter;
 		protected int lives;
 		
@@ -17,10 +14,11 @@ public class Entity extends SwordObject
 				super(v);
 				vel = new Vector(0,0);
 				counter = 0;
-				leftB = new Rectangle(pos.getX() - 1, pos.getY(), 1, 40);
-				rightB = new Rectangle(pos.getX() + 40, pos.getY(), 1, 40);
-				upB = new Rectangle(pos.getX(), pos.getY() - 1, 40, 1);
-				downB = new Rectangle(pos.getX(), pos.getY() + 40, 40, 1);
+				hitBoxes = new Rectangle[4];
+				hitBoxes[0] = new Rectangle(pos.getX() - 1, pos.getY(), 1, 40);
+				hitBoxes[2] = new Rectangle(pos.getX() + 40, pos.getY(), 1, 40);
+				hitBoxes[1] = new Rectangle(pos.getX(), pos.getY() - 1, 40, 1);
+				hitBoxes[3] = new Rectangle(pos.getX(), pos.getY() + 40, 40, 1);
 				lives = 1;
 			}
 		
@@ -42,35 +40,43 @@ public class Entity extends SwordObject
 			}
 		public Rectangle getLeftB()
 			{
-				return leftB;
+				return hitBoxes[0];
 			}
 		public void setLeftB(Rectangle leftB)
 			{
-				this.leftB = leftB;
+				hitBoxes[0] = leftB;
 			}
 		public Rectangle getRightB()
 			{
-				return rightB;
+				return hitBoxes[2];
 			}
 		public void setRightB(Rectangle rightB)
 			{
-				this.rightB = rightB;
+				hitBoxes[2] = rightB;
 			}
 		public Rectangle getUpB()
 			{
-				return upB;
+				return hitBoxes[1];
 			}
 		public void setUpB(Rectangle upB)
 			{
-				this.upB = upB;
+				hitBoxes[1] = upB;
 			}
 		public Rectangle getDownB()
 			{
-				return downB;
+				return hitBoxes[3];
 			}
 		public void setDownB(Rectangle downB)
 			{
-				this.downB = downB;
+				hitBoxes[3] = downB;
+			}
+		public Rectangle[] getHitBoxes()
+			{
+				return hitBoxes;
+			}
+		public void setHitBoxes(Rectangle[] hitBoxes)
+			{
+				this.hitBoxes = hitBoxes;
 			}
 		public int getLives()
 			{
@@ -94,15 +100,15 @@ public class Entity extends SwordObject
 							if(b != null)
 								{
 									b.tick();
-									if(b.getBounds().intersects(downB))
+									if(b.getBounds().intersects(hitBoxes[3]))
 										checks[0] = true;
 									if(!b.getType().equals("cloud"))
 										{
-											if(b.getBounds().intersects(leftB) && vel.getX() < 0)
+											if(b.getBounds().intersects(hitBoxes[0]) && vel.getX() < 0)
 												checks[1] = true;
-											else if(b.getBounds().intersects(rightB) && vel.getX() > 0)
+											else if(b.getBounds().intersects(hitBoxes[2]) && vel.getX() > 0)
 												checks[1] = true;	
-											if(b.getBounds().intersects(upB) && vel.getY() < 0)
+											if(b.getBounds().intersects(hitBoxes[1]) && vel.getY() < 0)
 												checks[2] = true;
 										}
 									

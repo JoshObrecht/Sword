@@ -241,7 +241,7 @@ public class SwordRunner extends JPanel
 				{
 					e.getPos().setX(e.getPos().getX() - incX);
 					e.getPos().setY(e.getPos().getY() + incY);
-        }
+				}
 			skybox1.setCounter(skybox1.getCounter()+1);
 			if(skybox1.getCounter()==3)
 				{
@@ -276,6 +276,7 @@ public class SwordRunner extends JPanel
 						}
 					guy.getLeftB().setLocation(guy.getPos().getX() - 1, guy.getPos().getY());
 					guy.getRightB().setLocation(guy.getPos().getX() + size, guy.getPos().getY());
+					checkEnemyCollide();
 				}
 			for(int i = 0; i < Math.abs(guy.getVel().getY()); i++)
 				{
@@ -299,6 +300,7 @@ public class SwordRunner extends JPanel
 						}
 					guy.getUpB().setLocation(guy.getPos().getX(), guy.getPos().getY() - 1);
 					guy.getDownB().setLocation(guy.getPos().getX(), guy.getPos().getY() + size);
+					checkEnemyCollide();
 				}
 			guy.getLeftB().setLocation(guy.getPos().getX() - 1, guy.getPos().getY());
 			guy.getRightB().setLocation(guy.getPos().getX() + size, guy.getPos().getY());
@@ -336,5 +338,20 @@ public class SwordRunner extends JPanel
 							e.getRightB().setLocation(e.getPos().getX() + size, e.getPos().getY());
 						}
 				}
+		}
+		public void checkEnemyCollide()
+		{
+			ArrayList<Enemy> gc = new ArrayList<Enemy>();
+			for(Enemy e: goombas)
+				{
+					boolean found = false;
+					for(Rectangle r: e.getHitBoxes())
+						for(Rectangle h: guy.getHitBoxes())
+							if(r.intersects(h))
+								found = true;
+					if(found)
+						gc.add(e);
+				}
+			goombas.removeAll(gc);
 		}
 	}

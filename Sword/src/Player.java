@@ -1,3 +1,4 @@
+import java.awt.Rectangle;
 import java.util.ArrayList;
 
 public class Player extends Entity
@@ -18,9 +19,12 @@ public class Player extends Entity
 						{
 							if(b != null && b.getType().equals("end"))
 								{
-									if(b.getBounds().intersects(upB) || b.getBounds().intersects(leftB) || b.getBounds().intersects(rightB) || b.getBounds().intersects(downB))
+									for(Rectangle r: hitBoxes)
 										{
-											checks[3] = true;
+											if(b.getBounds().intersects(r))
+												{
+													checks[3] = true;
+												}
 										}
 								}
 						}
