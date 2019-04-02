@@ -276,7 +276,7 @@ public class SwordRunner extends JPanel
 						}
 					guy.getLeftB().setLocation(guy.getPos().getX() - 1, guy.getPos().getY());
 					guy.getRightB().setLocation(guy.getPos().getX() + size, guy.getPos().getY());
-					checkEnemyCollide();
+//					checkEnemyCollide();
 				}
 			for(int i = 0; i < Math.abs(guy.getVel().getY()); i++)
 				{
@@ -300,7 +300,7 @@ public class SwordRunner extends JPanel
 						}
 					guy.getUpB().setLocation(guy.getPos().getX(), guy.getPos().getY() - 1);
 					guy.getDownB().setLocation(guy.getPos().getX(), guy.getPos().getY() + size);
-					checkEnemyCollide();
+//					checkEnemyCollide();
 				}
 			guy.getLeftB().setLocation(guy.getPos().getX() - 1, guy.getPos().getY());
 			guy.getRightB().setLocation(guy.getPos().getX() + size, guy.getPos().getY());
@@ -338,6 +338,7 @@ public class SwordRunner extends JPanel
 							e.getRightB().setLocation(e.getPos().getX() + size, e.getPos().getY());
 						}
 				}
+			checkEnemyCollide();
 		}
 		public void checkEnemyCollide()
 		{

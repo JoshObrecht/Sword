@@ -14,11 +14,12 @@ public class Entity extends SwordObject
 				super(v);
 				vel = new Vector(0,0);
 				counter = 0;
-				hitBoxes = new Rectangle[4];
+				hitBoxes = new Rectangle[5];
 				hitBoxes[0] = new Rectangle(pos.getX() - 1, pos.getY(), 1, 40);
 				hitBoxes[2] = new Rectangle(pos.getX() + 40, pos.getY(), 1, 40);
 				hitBoxes[1] = new Rectangle(pos.getX(), pos.getY() - 1, 40, 1);
 				hitBoxes[3] = new Rectangle(pos.getX(), pos.getY() + 40, 40, 1);
+				hitBoxes[4] = new Rectangle(pos.getX(), pos.getY(), 40, 40);
 				lives = 1;
 			}
 		
