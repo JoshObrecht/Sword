@@ -18,7 +18,7 @@ import java.util.Scanner;
 public class SwordRunner extends JPanel
 	{
 		public Player guy;
-		public Ghost guyLives = new Ghost(new Vector(5,10));
+		public Ghost guyLives = new Ghost(new Vector(5,10), "life");
 		public static ArrayList<ArrayList<Block>> level;
 		public ArrayList<Enemy> goombas = new ArrayList<Enemy>();
 		public Vector levelVel = new Vector(0,0);
@@ -136,8 +136,10 @@ public class SwordRunner extends JPanel
 				}
 			for(Enemy e: goombas)
 				{
-					g.setColor(Color.MAGENTA);
-					g.fillRect(e.getPos().getX(), e.getPos().getY(), size, size);
+					if(e.getVel().getX() > 0)
+						g.drawImage(e.getAnim().get(0), e.getPos().getX(), e.getPos().getY(), e.getPos().getX() + 40, e.getPos().getY() + 40, 0, 0, 40, 40, null, null);
+					else if(e.getVel().getX() < 0)
+						g.drawImage(e.getAnim().get(0), e.getPos().getX(), e.getPos().getY(), e.getPos().getX() + 40, e.getPos().getY() + 40, 40, 0, 0, 40, null, null);
 				}
 			g.setColor(Color.BLACK);
 			g.fillRect(guy.getPos().getX(), guy.getPos().getY(), size, size);
@@ -174,31 +176,27 @@ public class SwordRunner extends JPanel
 								case 'g':
 									b = new Block(new Vector(x,y), Color.GREEN, "grass");
 									newLine.add(b);
-									b.loadInformation();
 									break;
 								case 'r':
 									b = new Block(new Vector(x,y), Color.RED, "dirt");
 									newLine.add(b);
-									b.loadInformation();
 									break;
 								case 'w':
 									newLine.add(new Block(new Vector(x,y), Color.CYAN, ""));
 									break;
 								case 'p':
-									guy = new Player(new Vector(x, y));
+									guy = new Player(new Vector(x, y), "player");
 									break;
 								case 'e':
-									goombas.add(new Enemy(new Vector(x,y)));
+									goombas.add(new Enemy(new Vector(x,y), "enemy"));
 									break;
 								case 'c':
 									b = new Block(new Vector(x,y), Color.CYAN, "cloud");
 									newLine.add(b);
-									b.loadInformation();
 									break;
 								case 'x':
 									b = new Block(new Vector(x,y), Color.DARK_GRAY, "end");
 									newLine.add(b);
-									b.loadInformation();
 									break;
 								case ' ':
 									newLine.add(null);
@@ -213,10 +211,10 @@ public class SwordRunner extends JPanel
 			try
 				{
 					
-			skybox1 = new Entity(new Vector(0,0));
+			skybox1 = new Entity(new Vector(0,0), "");
 			skybox1.setImage(ImageIO.read(new File("src/Images/grasslandskybox1.png")));
 			
-			skybox2 = new Entity(new Vector(1000,0));
+			skybox2 = new Entity(new Vector(1000,0), "");
 			skybox2.setImage(ImageIO.read(new File("src/Images/grasslandskybox2.png")));
 			
 				}
@@ -338,7 +336,7 @@ public class SwordRunner extends JPanel
 							e.getRightB().setLocation(e.getPos().getX() + size, e.getPos().getY());
 						}
 				}
-			checkEnemyCollide();
+//			checkEnemyCollide();
 		}
 		public void checkEnemyCollide()
 		{

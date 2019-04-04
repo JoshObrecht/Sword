@@ -7,26 +7,10 @@ public class Ghost extends SwordObject
 	{
 		protected String type;
 		
-		public Ghost(Vector v)
+		public Ghost(Vector v, String t)
 		{
-			super(v);
-			type = "life";
+			super(v, t);
 			loadInformation();
 		}
 		
-		public void loadInformation()
-		{
-			switch(type)
-			{
-				case "life":
-				try
-					{
-						image = ImageIO.read(new File("src/Images/heart.png"));
-					} catch (IOException e)
-					{
-						e.printStackTrace();
-					}
-					break;
-			}
-		}
 	}

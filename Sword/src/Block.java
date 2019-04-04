@@ -10,14 +10,12 @@ public class Block extends SwordObject
 	{
 		protected Color color;
 		protected Rectangle bounds;
-		protected String type;
 	
 		public Block(Vector pos, Color c, String t)
 		{
-			super(pos);
+			super(pos, t);
 			this.color = c;
 			bounds = new Rectangle(pos.getX(), pos.getY(), 40, 40);
-			type = t;
 		}
 		
 		public BufferedImage getImage()
@@ -38,23 +36,6 @@ public class Block extends SwordObject
 			{
 				this.color = c;
 			}
-		public void loadInformation()
-		{
-			try
-				{
-				  if(color==Color.GREEN)
-					  image = ImageIO.read(new File("src/Images/grassblock2.png"));
-				  else if(color==Color.RED)
-					  image = ImageIO.read(new File("src/Images/dirtblock.png"));
-				  else if(type.equals("cloud"))
-					  image = ImageIO.read(new File("src/Images/cloud.png"));
-				  else if(type.equals("end"))
-					  image = ImageIO.read(new File("src/Images/curtains.png"));
-				} catch (IOException e)
-				{
-					e.printStackTrace();
-				}
-		}
 		public Rectangle getBounds()
 			{
 				return bounds;

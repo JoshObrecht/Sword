@@ -1,9 +1,9 @@
 
 public class Enemy extends Entity
 	{
-		public Enemy(Vector v)
+		public Enemy(Vector v, String t)
 			{
-				super(v);
+				super(v, t);
 				vel.setX(-4);
 			}
 	}

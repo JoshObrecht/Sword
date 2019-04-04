@@ -9,9 +9,9 @@ public class Entity extends SwordObject
 		protected int counter;
 		protected int lives;
 		
-		public Entity(Vector v)
+		public Entity(Vector v, String t)
 			{
-				super(v);
+				super(v, t);
 				vel = new Vector(0,0);
 				counter = 0;
 				hitBoxes = new Rectangle[5];
@@ -88,6 +88,7 @@ public class Entity extends SwordObject
 				this.lives = lives;
 			}
 
+		
 		public boolean[] checkEverything()
 		{
 			/*

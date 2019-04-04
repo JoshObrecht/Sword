@@ -3,9 +3,9 @@ import java.util.ArrayList;
 
 public class Player extends Entity
 	{
-		public Player(Vector v)
+		public Player(Vector v, String t)
 		{
-			super(v);
+			super(v, t);
 			lives = 3;
 		}
 		
