@@ -19,7 +19,7 @@ public abstract class SwordObject
 			image = null;
 			loadInformation();
 			if(type.equals("enemy"))
-				anim = fillAnim(image);
+				anim = fillAnim(3);
 		}
 		
 		public Vector getPos()
@@ -46,12 +46,21 @@ public abstract class SwordObject
 		{
 			this.anim = anim;
 		}
-		public ArrayList<BufferedImage> fillAnim(BufferedImage i)
+		public ArrayList<BufferedImage> fillAnim(int frames)
 		{
 			ArrayList<BufferedImage> newAnim = new ArrayList<BufferedImage>();
-			newAnim.add(image.getSubimage(0, 0, 40, 40));
-			newAnim.add(image.getSubimage(40, 0, 40, 40));
-			newAnim.add(image.getSubimage(0, 40, 40, 40));
+			int frameNum = 0;
+			for(int j = 0; j < image.getHeight(); j+=40)
+				{
+					for(int k = 0; k < image.getWidth(); k+=40)
+						{
+							if(frameNum <= frames)
+								{
+									newAnim.add(image.getSubimage(k, j, 40, 40));
+									frameNum++;
+								}
+						}
+				}
 			return newAnim;
 		}
 		public void loadInformation()
