@@ -28,6 +28,7 @@ public class SwordRunner extends JPanel
 		public Entity skybox1;
 		public Entity skybox2;
 		public int levelNum = 1;
+		public int frameNum = 0;
 		
 		public static void main(String[] args)
 			{
@@ -107,6 +108,16 @@ public class SwordRunner extends JPanel
 				}
 			});
 			timer.start();
+			Timer animTimer = new Timer(125, new ActionListener(){
+				public void actionPerformed(ActionEvent arg0)
+					{
+						if(frameNum < 2)
+							frameNum++;
+						else
+							frameNum = 0;
+					}
+			});
+			animTimer.start();
 		}
 		
 		public void paintComponent(Graphics g)
@@ -137,9 +148,9 @@ public class SwordRunner extends JPanel
 			for(Enemy e: goombas)
 				{
 					if(e.getVel().getX() > 0)
-						g.drawImage(e.getAnim().get(0), e.getPos().getX(), e.getPos().getY(), e.getPos().getX() + 40, e.getPos().getY() + 40, 0, 0, 40, 40, null, null);
+						g.drawImage(e.getAnim().get(frameNum), e.getPos().getX(), e.getPos().getY(), e.getPos().getX() + 40, e.getPos().getY() + 40, 0, 0, 40, 40, null, null);
 					else if(e.getVel().getX() < 0)
-						g.drawImage(e.getAnim().get(0), e.getPos().getX(), e.getPos().getY(), e.getPos().getX() + 40, e.getPos().getY() + 40, 40, 0, 0, 40, null, null);
+						g.drawImage(e.getAnim().get(frameNum), e.getPos().getX(), e.getPos().getY(), e.getPos().getX() + 40, e.getPos().getY() + 40, 40, 0, 0, 40, null, null);
 				}
 			g.setColor(Color.BLACK);
 			g.fillRect(guy.getPos().getX(), guy.getPos().getY(), size, size);
