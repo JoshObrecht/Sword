@@ -72,6 +72,9 @@ public abstract class SwordObject
 							case "life":
 								image = ImageIO.read(new File("src/Images/heart.png"));
 								break;
+							case "death":
+								image = ImageIO.read(new File("src/Images/lostLife.png"));
+								break;
 							case "grass":
 								image = ImageIO.read(new File("src/Images/grassblock2.png"));
 								break;
