@@ -335,10 +335,16 @@ public class SwordRunner extends JPanel
 		}
 		public void enemyTick()
 		{
+			ArrayList<Enemy> gc = new ArrayList<Enemy>();
 			for(Enemy e: goombas)
 				{
 					for(int i = 0; i < Math.abs(e.getVel().getX()); i++)
 						{
+							if(checkEnemyCollide(e))
+								{
+									gc.add(e);
+									break;
+								}
 							boolean[] checks = e.checkEverything();
 							if(!checks[1])
 								{
@@ -353,21 +359,14 @@ public class SwordRunner extends JPanel
 							e.getRightB().setLocation(e.getPos().getX() + size, e.getPos().getY());
 						}
 				}
-//			checkEnemyCollide();
-		}
-		public void checkEnemyCollide()
-		{
-			ArrayList<Enemy> gc = new ArrayList<Enemy>();
-			for(Enemy e: goombas)
-				{
-					boolean found = false;
-					for(Rectangle r: e.getHitBoxes())
-						for(Rectangle h: guy.getHitBoxes())
-							if(r.intersects(h))
-								found = true;
-					if(found)
-						gc.add(e);
-				}
 			goombas.removeAll(gc);
+		}
+		public boolean checkEnemyCollide(Enemy e)
+		{
+			for(Rectangle r: e.getHitBoxes())
+				for(Rectangle h: guy.getHitBoxes())
+					if(r.intersects(h))
+						return true;
+			return false;
 		}
 	}
