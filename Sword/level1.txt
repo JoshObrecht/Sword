@@ -18,5 +18,5 @@ w                   g                                                           
 w                                                           g                        g               rrr
 w            ccc                                                                    g                 r
 w p  ggg         e e e    e  e                   ggg             e e               g                                  x
-wggggrrrgggggggggggggggggggggggggggggggggggggggggrrrggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
+wggggrrrgggggggggggggggggggggggggggggggggggggggggrrrgggggggggggggggggggggggggggggggrggggggggggggggggggggggggggggggggggggggg
 wrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
