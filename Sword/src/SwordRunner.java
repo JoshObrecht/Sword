@@ -115,7 +115,7 @@ public class SwordRunner extends JPanel
 					{
 						if(frameNum < 2)
 							frameNum++;
-						else
+						else	
 							frameNum = 0;
 					}
 			});
@@ -212,7 +212,7 @@ public class SwordRunner extends JPanel
 									newLine.add(b);
 									break;
 								case 'x':
-									b = new Block(new Vector(x,y), Color.DARK_GRAY, "end");
+									b = new Curtains(new Vector(x,y), levelNum++);
 									newLine.add(b);
 									break;
 								case ' ':
