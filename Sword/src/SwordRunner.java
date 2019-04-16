@@ -25,12 +25,12 @@ public class SwordRunner extends JPanel
 		public ArrayList<Enemy> goombas = new ArrayList<Enemy>();
 		public Vector levelVel = new Vector(0,0);
 		public String xDir = "";
+		public String lastDir = "r";
 		public boolean isJumping = false;
 		public final int size = 40;
 		public Entity skybox1;
 		public Entity skybox2;
 		public int levelNum = 1;
-		public int frameNum = 0;
 		
 		public static void main(String[] args)
 			{
@@ -65,6 +65,10 @@ public class SwordRunner extends JPanel
 								case KeyEvent.VK_UP:
 									isJumping = true;
 									break;
+								default:
+									xDir = "";
+									guy.setCurrFrame(0);
+									break;
 							}
 						}
 						public void keyReleased(KeyEvent e)
@@ -73,8 +77,10 @@ public class SwordRunner extends JPanel
 							{
 								case KeyEvent.VK_RIGHT:
 									xDir = "";
+									lastDir = "r";
 									break;
 								case KeyEvent.VK_LEFT:
+									lastDir = "l";
 									xDir = "";
 									break;
 								case KeyEvent.VK_UP:
@@ -97,7 +103,7 @@ public class SwordRunner extends JPanel
 						}
 					else
 						{
-							guy.getVel().setX(0);
+							guy.getVel().setX(0); 
 						}
 					if(isJumping)
 						{
@@ -113,10 +119,23 @@ public class SwordRunner extends JPanel
 			Timer animTimer = new Timer(125, new ActionListener(){
 				public void actionPerformed(ActionEvent arg0)
 					{
-						if(frameNum < 2)
-							frameNum++;
+						for(Enemy e: goombas)
+							{
+							if(e.getCurrFrame()<e.getMaxFrames())
+								{
+								e.setCurrFrame(e.getCurrFrame()+1);
+								if(e.getCurrFrame()==e.getMaxFrames())
+									e.setCurrFrame(0);
+								}
+							}
+						if(guy.getCurrFrame()<guy.getMaxFrames()&&!(xDir.equals("")))
+							{
+								guy.setCurrFrame(guy.getCurrFrame()+1);
+								if(guy.getCurrFrame()==guy.getMaxFrames())
+									guy.setCurrFrame(0);
+							}
 						else
-							frameNum = 0;
+							guy.setCurrFrame(0);
 					}
 			});
 			animTimer.start();
@@ -150,12 +169,20 @@ public class SwordRunner extends JPanel
 			for(Enemy e: goombas)
 				{
 					if(e.getVel().getX() > 0)
-						g.drawImage(e.getAnim().get(frameNum), e.getPos().getX(), e.getPos().getY(), e.getPos().getX() + 40, e.getPos().getY() + 40, 0, 0, 40, 40, null, null);
+						g.drawImage(e.getAnim().get(e.getCurrFrame()), e.getPos().getX(), e.getPos().getY(), e.getPos().getX() + 40, e.getPos().getY() + 40, 0, 0, 40, 40, null, null);
 					else if(e.getVel().getX() < 0)
-						g.drawImage(e.getAnim().get(frameNum), e.getPos().getX(), e.getPos().getY(), e.getPos().getX() + 40, e.getPos().getY() + 40, 40, 0, 0, 40, null, null);
+						g.drawImage(e.getAnim().get(e.getCurrFrame()), e.getPos().getX(), e.getPos().getY(), e.getPos().getX() + 40, e.getPos().getY() + 40, 40, 0, 0, 40, null, null);
 				}
-			g.setColor(Color.BLACK);
-			g.fillRect(guy.getPos().getX(), guy.getPos().getY(), size, size);
+			
+			if(guy.getVel().getX() > 0)
+				g.drawImage(guy.getAnim().get(guy.getCurrFrame()), guy.getPos().getX(), guy.getPos().getY(), guy.getPos().getX() + 40, guy.getPos().getY() + 40, 0, 0, 40, 40, null, null);
+			else if(guy.getVel().getX() < 0)
+				g.drawImage(guy.getAnim().get(guy.getCurrFrame()), guy.getPos().getX(), guy.getPos().getY(), guy.getPos().getX() + 40, guy.getPos().getY() + 40, 40, 0, 0, 40, null, null);
+			else if(guy.getVel().getX() == 0 && lastDir.equals("r"))
+				g.drawImage(guy.getAnim().get(guy.getCurrFrame()), guy.getPos().getX(), guy.getPos().getY(), guy.getPos().getX() + 40, guy.getPos().getY() + 40, 0, 0, 40, 40, null, null);
+			else if(guy.getVel().getX() == 0 && lastDir.equals("l"))
+				g.drawImage(guy.getAnim().get(guy.getCurrFrame()), guy.getPos().getX(), guy.getPos().getY(), guy.getPos().getX() + 40, guy.getPos().getY() + 40, 40, 0, 0, 40, null, null);
+			
 			for(int i = 0; i < guy.getLives(); i++)
 				{
 					g.drawImage(guyLives.getImage(), guyLives.getPos().getX() + (45 * i), guyLives.getPos().getY(), null);

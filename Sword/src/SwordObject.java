@@ -11,15 +11,17 @@ public abstract class SwordObject
 		protected BufferedImage image;
 		protected ArrayList<BufferedImage> anim;
 		protected String type;
+		protected int maxFrames;
+		protected int currFrame;
 		
 		public SwordObject(Vector v, String t)
 		{
+			currFrame = 0;
 			pos = v;
 			type = t;
 			image = null;
 			loadInformation();
-			if(type.equals("enemy"))
-				anim = fillAnim(3);
+			
 		}
 		
 		public Vector getPos()
@@ -46,7 +48,7 @@ public abstract class SwordObject
 		{
 			this.anim = anim;
 		}
-		public ArrayList<BufferedImage> fillAnim(int frames)
+		public ArrayList<BufferedImage> fillAnim()
 		{
 			ArrayList<BufferedImage> newAnim = new ArrayList<BufferedImage>();
 			int frameNum = 0;
@@ -54,7 +56,7 @@ public abstract class SwordObject
 				{
 					for(int k = 0; k < image.getWidth(); k+=40)
 						{
-							if(frameNum <= frames)
+							if(frameNum <= maxFrames)
 								{
 									newAnim.add(image.getSubimage(k, j, 40, 40));
 									frameNum++;
@@ -89,6 +91,13 @@ public abstract class SwordObject
 								break;
 							case "enemy":
 								image = ImageIO.read(new File("src/Images/slime.png"));
+								maxFrames = 3;
+								anim = fillAnim();
+								break;
+							case "player":
+								image = ImageIO.read(new File("src/Images/swordsprites.png"));
+								maxFrames = 4;
+								anim = fillAnim();
 								break;
 						}
 					} catch (IOException e)
@@ -96,5 +105,37 @@ public abstract class SwordObject
 						e.printStackTrace();
 					}
 			}
+
+		public String getType()
+			{
+				return type;
+			}
+
+		public void setType(String type)
+			{
+				this.type = type;
+			}
+
+		public int getMaxFrames()
+			{
+				return maxFrames;
+			}
+
+		public void setMaxFrames(int maxFrames)
+			{
+				this.maxFrames = maxFrames;
+			}
+
+		public int getCurrFrame()
+			{
+				return currFrame;
+			}
+
+		public void setCurrFrame(int currFrame)
+			{
+				this.currFrame = currFrame;
+			}
+		
+		
 		
 	}
