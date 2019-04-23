@@ -239,7 +239,7 @@ public class SwordRunner extends JPanel
 									newLine.add(b);
 									break;
 								case 'x':
-									b = new Curtains(new Vector(x,y), levelNum++);
+									b = new Block(new Vector(x,y), Color.RED, "end");
 									newLine.add(b);
 									break;
 								case ' ':
