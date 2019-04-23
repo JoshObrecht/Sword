@@ -17,7 +17,7 @@ import java.util.Scanner;
 @SuppressWarnings({ "serial", "unused" })
 public class SwordRunner extends JPanel
 	{
-		public Player guy;
+		public Player guy = new Player(new Vector(-40,-40), "player");
 		public final int maxLives = 3;
 		public Ghost guyLives = new Ghost(new Vector(5,10), "life");
 		public Ghost lostLives = new Ghost(new Vector(5, 10), "death");
@@ -229,7 +229,7 @@ public class SwordRunner extends JPanel
 									newLine.add(new Block(new Vector(x,y), Color.CYAN, ""));
 									break;
 								case 'p':
-									guy = new Player(new Vector(x, y), "player");
+									guy.setPos(new Vector(x, y));
 									break;
 								case 'e':
 									goombas.add(new Enemy(new Vector(x,y), "enemy"));
@@ -239,7 +239,7 @@ public class SwordRunner extends JPanel
 									newLine.add(b);
 									break;
 								case 'x':
-									b = new Block(new Vector(x,y), Color.DARK_GRAY, "end");
+									b = new Curtains(new Vector(x,y), levelNum++);
 									newLine.add(b);
 									break;
 								case ' ':
@@ -318,7 +318,7 @@ public class SwordRunner extends JPanel
 						}
 					guy.getLeftB().setLocation(guy.getPos().getX() - 1, guy.getPos().getY());
 					guy.getRightB().setLocation(guy.getPos().getX() + size, guy.getPos().getY());
-//					checkEnemyCollide();
+					guy.getHitBoxes()[4].setLocation(guy.getPos().getX(), guy.getPos().getY());
 				}
 			for(int i = 0; i < Math.abs(guy.getVel().getY()); i++)
 				{
@@ -342,12 +342,14 @@ public class SwordRunner extends JPanel
 						}
 					guy.getUpB().setLocation(guy.getPos().getX(), guy.getPos().getY() - 1);
 					guy.getDownB().setLocation(guy.getPos().getX(), guy.getPos().getY() + size);
+					guy.getHitBoxes()[4].setLocation(guy.getPos().getX(), guy.getPos().getY());
 //					checkEnemyCollide();
 				}
 			guy.getLeftB().setLocation(guy.getPos().getX() - 1, guy.getPos().getY());
 			guy.getRightB().setLocation(guy.getPos().getX() + size, guy.getPos().getY());
 			guy.getUpB().setLocation(guy.getPos().getX(), guy.getPos().getY() - 1);
 			guy.getDownB().setLocation(guy.getPos().getX(), guy.getPos().getY() + size);
+			guy.getHitBoxes()[4].setLocation(guy.getPos().getX(), guy.getPos().getY());
 			
 			checks = guy.checkEverything();
 			if(!checks[0] && guy.getVel().getY() < 15)
@@ -362,14 +364,23 @@ public class SwordRunner extends JPanel
 		}
 		public void enemyTick()
 		{
+			boolean shouldReset = false;
 			ArrayList<Enemy> gc = new ArrayList<Enemy>();
 			for(Enemy e: goombas)
 				{
 					for(int i = 0; i < Math.abs(e.getVel().getX()); i++)
 						{
-							if(checkEnemyCollide(e))
+							String collideCheck = checkEnemyCollide(e);
+							if(collideCheck.substring(0, 5).equals("death"))
 								{
 									gc.add(e);
+									getHurt(collideCheck.substring(5));
+									break;
+								}
+							else if(collideCheck.equals("bounce"))
+								{
+									gc.add(e);
+									guy.getVel().setY(-15);
 									break;
 								}
 							boolean[] checks = e.checkEverything();
@@ -387,13 +398,31 @@ public class SwordRunner extends JPanel
 						}
 				}
 			goombas.removeAll(gc);
+//			if(shouldReset)
+//				deathReset();
 		}
-		public boolean checkEnemyCollide(Enemy e)
+		public String checkEnemyCollide(Enemy e)
 		{
 			for(Rectangle r: e.getHitBoxes())
 				for(Rectangle h: guy.getHitBoxes())
-					if(r.intersects(h))
-						return true;
-			return false;
+					{
+						if(r.intersects(h) && !h.equals(guy.getDownB()) && h.equals(guy.getRightB()))
+							return "deathl";
+						else if(r.intersects(h) && !h.equals(guy.getDownB()) && h.equals(guy.getLeftB()))
+							return "deathr";
+						else if(r.intersects(h) && h.equals(guy.getDownB()))
+							return "bounce";
+					}
+					
+			return "nooooooo";
+		}
+		public void getHurt(String dir)
+		{
+			guy.setLives(guy.getLives() - 1);
+			guy.getVel().setY(-10);
+			if(dir.equals("l"))
+				guy.getVel().setX(-10);
+			else if(dir.equals("r"))
+				guy.getVel().setX(10);
 		}
 	}

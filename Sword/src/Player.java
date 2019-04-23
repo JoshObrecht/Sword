@@ -6,7 +6,7 @@ public class Player extends Entity
 		public Player(Vector v, String t)
 		{
 			super(v, t);
-			lives = 2;
+			lives = 3;
 		}
 		
 		
