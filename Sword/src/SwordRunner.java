@@ -57,12 +57,15 @@ public class SwordRunner extends JPanel
 							switch(e.getKeyCode())
 							{
 								case KeyEvent.VK_RIGHT:
+								case KeyEvent.VK_D:
 									xDir = "r";
 									break;
 								case KeyEvent.VK_LEFT:
+								case KeyEvent.VK_A:
 									xDir = "l";
 									break;
 								case KeyEvent.VK_UP:
+								case KeyEvent.VK_W:
 									isJumping = true;
 									break;
 								default:
@@ -76,14 +79,17 @@ public class SwordRunner extends JPanel
 							switch(e.getKeyCode())
 							{
 								case KeyEvent.VK_RIGHT:
+								case KeyEvent.VK_D:
 									xDir = "";
 									lastDir = "r";
 									break;
 								case KeyEvent.VK_LEFT:
+								case KeyEvent.VK_A:
 									lastDir = "l";
 									xDir = "";
 									break;
 								case KeyEvent.VK_UP:
+								case KeyEvent.VK_W:
 									isJumping = false;
 									break;
 							}
