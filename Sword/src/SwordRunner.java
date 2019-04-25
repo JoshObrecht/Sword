@@ -30,7 +30,7 @@ public class SwordRunner extends JPanel
 		public final int size = 40;
 		public Entity skybox1;
 		public Entity skybox2;
-		public int levelNum = 1;
+		public int levelNum = 3;
 		
 		public static void main(String[] args)
 			{
