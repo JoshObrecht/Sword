@@ -48,17 +48,17 @@ public abstract class SwordObject
 		{
 			this.anim = anim;
 		}
-		public ArrayList<BufferedImage> fillAnim()
+		public ArrayList<BufferedImage> fillAnim(int size)
 		{
 			ArrayList<BufferedImage> newAnim = new ArrayList<BufferedImage>();
 			int frameNum = 0;
-			for(int j = 0; j < image.getHeight(); j+=40)
+			for(int j = 0; j < image.getHeight(); j+=(40 * size))
 				{
-					for(int k = 0; k < image.getWidth(); k+=40)
+					for(int k = 0; k < image.getWidth(); k+=(40 * size))
 						{
 							if(frameNum <= maxFrames)
 								{
-									newAnim.add(image.getSubimage(k, j, 40, 40));
+									newAnim.add(image.getSubimage(k, j, (40 * size), (40 * size)));
 									frameNum++;
 								}
 						}
@@ -92,12 +92,17 @@ public abstract class SwordObject
 							case "enemy":
 								image = ImageIO.read(new File("src/Images/slime.png"));
 								maxFrames = 3;
-								anim = fillAnim();
+								anim = fillAnim(1);
 								break;
 							case "player":
 								image = ImageIO.read(new File("src/Images/swordsprites.png"));
 								maxFrames = 4;
-								anim = fillAnim();
+								anim = fillAnim(1);
+								break;
+							case "boss":
+								image = ImageIO.read(new File("src/Images/Boss.png"));
+								maxFrames = 3;
+								anim = fillAnim(2);
 								break;
 						}
 					} catch (IOException e)

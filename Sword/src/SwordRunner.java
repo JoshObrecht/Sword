@@ -23,6 +23,7 @@ public class SwordRunner extends JPanel
 		public Ghost lostLives = new Ghost(new Vector(5, 10), "death");
 		public static ArrayList<ArrayList<Block>> level;
 		public ArrayList<Enemy> goombas = new ArrayList<Enemy>();
+		public ArrayList<Boss> bosses = new ArrayList<Boss>();
 		public Vector levelVel = new Vector(0,0);
 		public String xDir = "";
 		public String lastDir = "r";
@@ -118,6 +119,7 @@ public class SwordRunner extends JPanel
 						}
 					playerTick();
 					enemyTick();
+					bossTick();
 					repaint();
 				}
 			});
@@ -178,6 +180,10 @@ public class SwordRunner extends JPanel
 						g.drawImage(e.getAnim().get(e.getCurrFrame()), e.getPos().getX(), e.getPos().getY(), e.getPos().getX() + 40, e.getPos().getY() + 40, 0, 0, 40, 40, null, null);
 					else if(e.getVel().getX() < 0)
 						g.drawImage(e.getAnim().get(e.getCurrFrame()), e.getPos().getX(), e.getPos().getY(), e.getPos().getX() + 40, e.getPos().getY() + 40, 40, 0, 0, 40, null, null);
+				}
+			for(Boss b: bosses)
+				{
+					g.drawImage(b.getAnim().get(b.getCurrFrame()), b.getPos().getX(), b.getPos().getY(), b.getPos().getX() + 80, b.getPos().getY() + 80, 0, 0, 80, 80, null, null);
 				}
 			
 			if(guy.getVel().getX() > 0)
@@ -248,6 +254,10 @@ public class SwordRunner extends JPanel
 									b = new Block(new Vector(x,y), Color.RED, "end");
 									newLine.add(b);
 									break;
+								case 'b':
+									bosses.add(new Boss(new Vector(x,y)));
+									newLine.add(null);
+									break;
 								case ' ':
 									newLine.add(null);
 									break;
@@ -289,6 +299,11 @@ public class SwordRunner extends JPanel
 				{
 					e.getPos().setX(e.getPos().getX() - incX);
 					e.getPos().setY(e.getPos().getY() + incY);
+				}
+			for(Boss b: bosses)
+				{
+					b.getPos().setX(b.getPos().getX() - incX);
+					b.getPos().setY(b.getPos().getY() + incY);
 				}
 			skybox1.setCounter(skybox1.getCounter()+1);
 			if(skybox1.getCounter()==3)
@@ -406,6 +421,24 @@ public class SwordRunner extends JPanel
 			goombas.removeAll(gc);
 //			if(shouldReset)
 //				deathReset();
+		}
+		public void bossTick()
+		{
+			ArrayList<SwordObject> gc = new ArrayList<SwordObject>();
+			for(Boss b: bosses)
+				{
+					boolean[] checks = b.checkEverything();
+					if(!checks[0])
+						{
+							b.setCurrFrame(1);
+							b.getVel().setY(10);
+						}
+					else
+						{
+							b.setCurrFrame(0);
+							b.getVel().setY(0);
+						}
+				}
 		}
 		public String checkEnemyCollide(Enemy e)
 		{
