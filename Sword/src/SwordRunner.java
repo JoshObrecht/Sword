@@ -437,7 +437,6 @@ public class SwordRunner extends JPanel
 					else
 						{
 							b.setCurrFrame(0);
-							b.getVel().setY(0);
 						}
 					for(int i = 0; i < Math.abs(b.getVel().getY()); i++)
 						{
@@ -450,6 +449,25 @@ public class SwordRunner extends JPanel
 							if(b.checkEverything()[0])
 								{
 									b.getVel().setY(0);
+									break;
+								}
+						}
+					int rand = (int) ((Math.random() * 100) + 1);
+					if(rand == 55)
+						b.getVel().setY(-20);
+					if(guy.getPos().getX() - b.getPos().getX() != 0)
+						b.getVel().setX(((guy.getPos().getX() - b.getPos().getX()) / Math.abs((guy.getPos().getX() - b.getPos().getX()))) * 5);
+					for(int i = 0; i < Math.abs(b.getVel().getX()); i++)
+						{
+							if(b.getVel().getX() != 0)
+								{
+									int increment = b.getVel().getX() / Math.abs(b.getVel().getX());
+									b.getPos().setX(b.getPos().getX() + increment);
+									b.updateHitBoxes();
+								}
+							if(b.checkEverything()[2])
+								{
+									b.getVel().setX(0);
 									break;
 								}
 						}
