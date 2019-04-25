@@ -11,12 +11,12 @@ w
 w
 w
 w
-w            cg     b
+w            cg
 w            cr
 w            cr
 w            cr
 w            cr
-w            cr 
+w            cr     b
 w p          cr
 wgggggggggggggrgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
 wrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr

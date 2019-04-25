@@ -431,12 +431,27 @@ public class SwordRunner extends JPanel
 					if(!checks[0])
 						{
 							b.setCurrFrame(1);
-							b.getVel().setY(10);
+							if(b.getVel().getY() <= 5)
+								b.getVel().setY(b.getVel().getY() + 1);
 						}
 					else
 						{
 							b.setCurrFrame(0);
 							b.getVel().setY(0);
+						}
+					for(int i = 0; i < Math.abs(b.getVel().getY()); i++)
+						{
+							if(b.getVel().getY() != 0)
+								{
+									int increment = b.getVel().getY() / Math.abs(b.getVel().getY());
+									b.getPos().setY(b.getPos().getY() + increment);
+									b.updateHitBoxes();
+								}
+							if(b.checkEverything()[0])
+								{
+									b.getVel().setY(0);
+									break;
+								}
 						}
 				}
 		}
