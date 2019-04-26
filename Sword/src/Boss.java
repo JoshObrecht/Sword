@@ -1,8 +1,10 @@
 import java.awt.Rectangle;
+import java.util.ArrayList;
 
 public class Boss extends Enemy
 	{
 		private boolean jumpingRight;
+		private ArrayList<Ghost> hearts = new ArrayList<Ghost>();
 		
 		public Boss(Vector v)
 			{
@@ -26,7 +28,15 @@ public class Boss extends Enemy
 			{
 				this.jumpingRight = jumpingRight;
 			}
-		
+		public ArrayList<Ghost> getHearts()
+			{
+				return hearts;
+			}
+		public void setHearts(ArrayList<Ghost> hearts)
+			{
+				this.hearts = hearts;
+			}
+
 		public void updateHitBoxes()
 		{
 			hitBoxes[0] = new Rectangle(pos.getX() - 1, pos.getY(), 1, 80);

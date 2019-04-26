@@ -203,6 +203,9 @@ public class SwordRunner extends JPanel
 				{
 					g.drawImage(lostLives.getImage(), (45 * guy.getLives()) + (45 * i) + lostLives.getPos().getX(), lostLives.getPos().getY(), null);
 				}
+			for(Boss b: bosses)
+				for(int i = 0; i < b.getHearts().size(); i++)
+					g.drawImage(b.getHearts().get(i).getImage(), b.getHearts().get(i).getPos().getX(), b.getHearts().get(i).getPos().getY(), null);
 		}
 		public void readLevel()
 		{
@@ -256,6 +259,8 @@ public class SwordRunner extends JPanel
 									break;
 								case 'b':
 									bosses.add(new Boss(new Vector(x,y)));
+									for(int k = 0; k < 3; k++)
+										bosses.get(bosses.size() - 1).getHearts().add(new Ghost(new Vector(x,y), "bossLife"));
 									newLine.add(null);
 									break;
 								case ' ':
@@ -478,6 +483,12 @@ public class SwordRunner extends JPanel
 									b.getVel().setX(0);
 									break;
 								}
+						}
+					for(int g = 0; g < b.getHearts().size(); g++)
+						{
+							Ghost l = b.getHearts().get(g);
+							l.getPos().setX(b.getPos().getX() + 8 + (21 * g));;
+							l.getPos().setY(b.getPos().getY() - 15);
 						}
 				}
 		}
