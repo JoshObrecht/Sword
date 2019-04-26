@@ -86,6 +86,9 @@ public abstract class SwordObject
 							case "dirt":
 								image = ImageIO.read(new File("src/Images/dirtblock.png"));
 								break;
+							case "stone":
+								image = ImageIO.read(new File("src/Images/stonebrick.png"));
+								break;
 							case "cloud":
 								image = ImageIO.read(new File("src/Images/cloud.png"));
 								break;

@@ -266,6 +266,10 @@ public class SwordRunner extends JPanel
 								case ' ':
 									newLine.add(null);
 									break;
+								case 't':
+									b = new Block(new Vector(x,y), Color.GRAY, "stone");
+									newLine.add(b);
+									break;
 							}
 							x += size;
 						}
@@ -472,16 +476,16 @@ public class SwordRunner extends JPanel
 						b.getVel().setX(-4);
 					for(int i = 0; i < Math.abs(b.getVel().getX()); i++)
 						{
+							if(b.checkEverything()[2])
+								{
+									b.getVel().setX(0);
+									break;
+								}
 							if(b.getVel().getX() != 0 && b.getVel().getY() != 0)
 								{
 									int increment = b.getVel().getX() / Math.abs(b.getVel().getX());
 									b.getPos().setX(b.getPos().getX() + increment);
 									b.updateHitBoxes();
-								}
-							if(b.checkEverything()[2])
-								{
-									b.getVel().setX(0);
-									break;
 								}
 						}
 					for(int g = 0; g < b.getHearts().size(); g++)
