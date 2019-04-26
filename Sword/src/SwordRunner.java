@@ -454,12 +454,20 @@ public class SwordRunner extends JPanel
 						}
 					int rand = (int) ((Math.random() * 100) + 1);
 					if(rand == 55)
-						b.getVel().setY(-20);
-					if(guy.getPos().getX() - b.getPos().getX() != 0)
-						b.getVel().setX(((guy.getPos().getX() - b.getPos().getX()) / Math.abs((guy.getPos().getX() - b.getPos().getX()))) * 5);
+						{
+							b.getVel().setY(-20);
+							if(guy.getPos().getX() - b.getPos().getX() < 0)
+								b.setJumpingRight(false);
+							else if(guy.getPos().getX() - b.getPos().getX() > 0)
+								b.setJumpingRight(true);
+						}
+					if(b.isJumpingRight())
+						b.getVel().setX(4);
+					else
+						b.getVel().setX(-4);
 					for(int i = 0; i < Math.abs(b.getVel().getX()); i++)
 						{
-							if(b.getVel().getX() != 0)
+							if(b.getVel().getX() != 0 && b.getVel().getY() != 0)
 								{
 									int increment = b.getVel().getX() / Math.abs(b.getVel().getX());
 									b.getPos().setX(b.getPos().getX() + increment);

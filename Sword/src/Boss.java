@@ -2,6 +2,8 @@ import java.awt.Rectangle;
 
 public class Boss extends Entity
 	{
+		private boolean jumpingRight;
+		
 		public Boss(Vector v)
 			{
 				super(v, "boss");
@@ -15,6 +17,16 @@ public class Boss extends Entity
 				hitBoxes[4] = new Rectangle(pos.getX(), pos.getY(), 80, 80);
 				lives = 3;
 			}
+				
+		public boolean isJumpingRight()
+			{
+				return jumpingRight;
+			}
+		public void setJumpingRight(boolean jumpingRight)
+			{
+				this.jumpingRight = jumpingRight;
+			}
+		
 		public void updateHitBoxes()
 		{
 			hitBoxes[0] = new Rectangle(pos.getX() - 1, pos.getY(), 1, 80);
