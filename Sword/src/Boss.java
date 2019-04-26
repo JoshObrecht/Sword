@@ -1,6 +1,6 @@
 import java.awt.Rectangle;
 
-public class Boss extends Entity
+public class Boss extends Enemy
 	{
 		private boolean jumpingRight;
 		
