@@ -316,6 +316,7 @@ public class SwordRunner extends JPanel
 				{
 					b.getPos().setX(b.getPos().getX() - incX);
 					b.getPos().setY(b.getPos().getY() + incY);
+					b.updateHitBoxes();
 				}
 			skybox1.setCounter(skybox1.getCounter()+1);
 			if(skybox1.getCounter()==3)
