@@ -3,13 +3,24 @@ import java.util.ArrayList;
 
 public class Player extends Entity
 	{
+		private Vector selfVel;
+		
 		public Player(Vector v, String t)
 		{
 			super(v, t);
 			lives = 3;
+			selfVel = new Vector(v.getX(), v.getY());
 		}
 		
-		
+		public Vector getSelfVel()
+			{
+				return selfVel;
+			}
+		public void setSelfVel(Vector selfVel)
+			{
+				this.selfVel = selfVel;
+			}
+
 		public boolean[] checkEverything()
 		{
 			boolean[] checks = super.checkEverything();

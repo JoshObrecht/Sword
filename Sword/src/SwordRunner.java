@@ -102,15 +102,15 @@ public class SwordRunner extends JPanel
 				{
 					if(xDir.equals("r"))
 						{
-							guy.getVel().setX(5);
+							guy.getSelfVel().setX(5);
 						}
 					else if(xDir.equals("l"))
 						{
-							guy.getVel().setX(-5);
+							guy.getSelfVel().setX(-5);
 						}
 					else
 						{
-							guy.getVel().setX(0); 
+							guy.getSelfVel().setX(0); 
 						}
 					if(isJumping)
 						{
@@ -339,7 +339,7 @@ public class SwordRunner extends JPanel
 		public void playerTick()
 		{
 			boolean[] checks;
-			for(int i = 0; i < Math.abs(guy.getVel().getX()); i++)
+			for(int i = 0; i < Math.abs(guy.getVel().getX()) + Math.abs(guy.getSelfVel().getX()); i++)
 				{
 					checks = guy.checkEverything();
 					if(!checks[1])
