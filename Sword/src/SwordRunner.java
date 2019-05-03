@@ -475,7 +475,7 @@ public class SwordRunner extends JPanel
 								}
 						}
 					int rand = (int) ((Math.random() * 100) + 1);
-					if(rand == 55)
+					if(rand == 55 && b.checkEverything()[0])
 						{
 							b.getVel().setY(-20);
 							if(guy.getPos().getX() - b.getPos().getX() < 0)
@@ -489,7 +489,7 @@ public class SwordRunner extends JPanel
 						b.getVel().setX(-4);
 					for(int i = 0; i < Math.abs(b.getVel().getX()); i++)
 						{
-							if(b.checkEverything()[2])
+							if(b.checkEverything()[1])
 								{
 									b.getVel().setX(0);
 									break;
