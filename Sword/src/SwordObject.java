@@ -110,6 +110,11 @@ public abstract class SwordObject
 								maxFrames = 3;
 								anim = fillAnim(2);
 								break;
+							case "spike":
+								image = ImageIO.read(new File("src/Images/spikey.png"));
+								maxFrames = 3;
+								anim = fillAnim();
+								break;
 						}
 					} catch (IOException e)
 					{
