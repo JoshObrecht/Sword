@@ -32,7 +32,7 @@ public class SwordRunner extends JPanel
 		public final int size = 40;
 		public Entity skybox1;
 		public Entity skybox2;
-		public int levelNum = 1;
+		public int levelNum = 3;
 		
 		public static void main(String[] args)
 			{
@@ -292,7 +292,7 @@ public class SwordRunner extends JPanel
 									for(int k = 0; k < 3; k++)
 										bosses.get(bosses.size() - 1).getHearts().add(new Ghost(new Vector(x,y), "bossLife"));
 									newLine.add(null);
-                  break;
+									break;
 								case 's':
 									b = new Block(new Vector(x,y), null, "spike");
 									newLine.add(b);
@@ -549,6 +549,7 @@ public class SwordRunner extends JPanel
 							l.getPos().setY(b.getPos().getY() - 15);
 						}
 				}
+			bosses.removeAll(gc);
 		}
 		public void checkAllEnemies()
 		{
@@ -568,12 +569,19 @@ public class SwordRunner extends JPanel
 							break;
 						}
 				}
-			for(Enemy b: bosses)
+			for(Boss b: bosses)
 				{
 					String collideCheck = checkEnemyCollide(b);
 					if(collideCheck.equals("bounce"))
 						{
 							guy.getVel().setY(-15);
+							if(b.getHearts().size() > 0)
+								{
+									b.getHearts().remove(b.getHearts().size() - 1);
+									b.setCurrFrame(2);
+								}
+							else
+								gc.add(b);
 							break;
 						}
 					else if(collideCheck.substring(0,5).equals("death"))

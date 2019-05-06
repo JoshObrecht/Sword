@@ -5,6 +5,7 @@ public class Boss extends Enemy
 	{
 		private boolean jumpingRight;
 		private ArrayList<Ghost> hearts = new ArrayList<Ghost>();
+		private int hurtTicks;
 		
 		public Boss(Vector v)
 			{
@@ -18,6 +19,7 @@ public class Boss extends Enemy
 				hitBoxes[3] = new Rectangle(pos.getX(), pos.getY() + 80, 80, 1);
 				hitBoxes[4] = new Rectangle(pos.getX(), pos.getY(), 80, 80);
 				lives = 3;
+				hurtTicks = 0;
 			}
 				
 		public boolean isJumpingRight()
@@ -35,6 +37,14 @@ public class Boss extends Enemy
 		public void setHearts(ArrayList<Ghost> hearts)
 			{
 				this.hearts = hearts;
+			}
+		public int getHurtTicks()
+			{
+				return hurtTicks;
+			}
+		public void setHurtTicks(int hurtTicks)
+			{
+				this.hurtTicks = hurtTicks;
 			}
 
 		public void updateHitBoxes()
