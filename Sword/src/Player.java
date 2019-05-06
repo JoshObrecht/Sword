@@ -17,15 +17,28 @@ public class Player extends Entity
 				{
 					for(Block b: line)
 						{
-							if(b != null && b.getType().equals("end"))
+							if(b != null)
 								{
-									for(Rectangle r: hitBoxes)
-										{
-											if(b.getBounds().intersects(r))
+									switch(b.getType())
+									{
+										case "end":
+											for(Rectangle r: hitBoxes)
 												{
-													checks[3] = true;
+													if(b.getBounds().intersects(r))
+														{
+															checks[3] = true;
+														}
 												}
-										}
+											break;
+										case "spike":
+											for(Rectangle r: hitBoxes)
+												{
+													if(b.getBounds().intersects(r))
+														{
+															checks[5] = true;
+														}
+												}
+									}
 								}
 						}
 				}

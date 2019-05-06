@@ -134,6 +134,30 @@ public class SwordRunner extends JPanel
 									e.setCurrFrame(0);
 								}
 							}
+						for(int i=level.size()-1; i>=0; i--)
+							{
+								for(int j=0; j< level.get(i).size(); j++)
+									{
+										if(level.get(i).get(j)!=null)
+											{
+												if(level.get(i).get(j).getType().equals("spike"))
+													{
+														if(Math.abs(guy.getPos().getX()-level.get(i).get(j).getPos().getX())<160)
+															{
+																if(level.get(i).get(j).getCurrFrame()!=level.get(i).get(j).getMaxFrames()-1)
+																	level.get(i).get(j).setCurrFrame(level.get(i).get(j).getCurrFrame()+1);
+//																else
+//																	level.get(i).get(j).setCurrFrame(level.get(i).get(j).getMaxFrames()-1);
+															}
+														else
+															{
+																if(level.get(i).get(j).getCurrFrame()!=0)
+																	level.get(i).get(j).setCurrFrame(level.get(i).get(j).getCurrFrame()-1);
+															}
+													}
+											}
+									}
+							}
 						if(guy.getCurrFrame()<guy.getMaxFrames()&&!(xDir.equals("")))
 							{
 								guy.setCurrFrame(guy.getCurrFrame()+1);
@@ -158,7 +182,12 @@ public class SwordRunner extends JPanel
 						{
 							if(level.get(r).get(c) != null)
 								{
-									if(!level.get(r).get(c).getType().equals(""))
+								    if(level.get(r).get(c).getType().equals("spike"))
+								    	{
+								    		Block e = level.get(r).get(c);
+								    		g.drawImage(e.getAnim().get(e.getCurrFrame()), e.getPos().getX(), e.getPos().getY(), e.getPos().getX() + 40, e.getPos().getY() + 40, 0, 0, 40, 40, null, null);
+								    	}
+									if(!level.get(r).get(c).getType().equals("")&&!level.get(r).get(c).getType().equals("spike"))
 										{
 											g.drawImage(level.get(r).get(c).getImage(), level.get(r).get(c).getPos().getX(), level.get(r).get(c).getPos().getY(), null);	
 										}
@@ -248,6 +277,10 @@ public class SwordRunner extends JPanel
 									b = new Block(new Vector(x,y), Color.RED, "end");
 									newLine.add(b);
 									break;
+								case 's':
+									b = new Block(new Vector(x,y), null, "spike");
+									newLine.add(b);
+									break;
 								case ' ':
 									newLine.add(null);
 									break;
@@ -322,10 +355,15 @@ public class SwordRunner extends JPanel
 							else
 								guy.getPos().setX(guy.getPos().getX() + increment);
 						}
+					if(checks[5])
+						getHurt("l");
 					guy.getLeftB().setLocation(guy.getPos().getX() - 1, guy.getPos().getY());
 					guy.getRightB().setLocation(guy.getPos().getX() + size, guy.getPos().getY());
 					guy.getHitBoxes()[4].setLocation(guy.getPos().getX(), guy.getPos().getY());
 				}
+			checks = guy.checkEverything();
+			if(checks[5])
+				getHurt("l");
 			for(int i = 0; i < Math.abs(guy.getVel().getY()); i++)
 				{
 					checks = guy.checkEverything();
