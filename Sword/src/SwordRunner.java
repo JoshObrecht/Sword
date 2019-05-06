@@ -22,7 +22,9 @@ public class SwordRunner extends JPanel
 		public Ghost guyLives = new Ghost(new Vector(5,10), "life");
 		public Ghost lostLives = new Ghost(new Vector(5, 10), "death");
 		public static ArrayList<ArrayList<Block>> level;
+		public ArrayList<Enemy> gc = new ArrayList<Enemy>();
 		public ArrayList<Enemy> goombas = new ArrayList<Enemy>();
+		public ArrayList<Boss> bosses = new ArrayList<Boss>();
 		public Vector levelVel = new Vector(0,0);
 		public String xDir = "";
 		public String lastDir = "r";
@@ -118,6 +120,7 @@ public class SwordRunner extends JPanel
 						}
 					playerTick();
 					enemyTick();
+					bossTick();
 					repaint();
 				}
 			});
@@ -208,6 +211,10 @@ public class SwordRunner extends JPanel
 					else if(e.getVel().getX() < 0)
 						g.drawImage(e.getAnim().get(e.getCurrFrame()), e.getPos().getX(), e.getPos().getY(), e.getPos().getX() + 40, e.getPos().getY() + 40, 40, 0, 0, 40, null, null);
 				}
+			for(Boss b: bosses)
+				{
+					g.drawImage(b.getAnim().get(b.getCurrFrame()), b.getPos().getX(), b.getPos().getY(), b.getPos().getX() + 80, b.getPos().getY() + 80, 0, 0, 80, 80, null, null);
+				}
 			
 			if(guy.getVel().getX() > 0)
 				g.drawImage(guy.getAnim().get(guy.getCurrFrame()), guy.getPos().getX(), guy.getPos().getY(), guy.getPos().getX() + 40, guy.getPos().getY() + 40, 0, 0, 40, 40, null, null);
@@ -226,6 +233,12 @@ public class SwordRunner extends JPanel
 				{
 					g.drawImage(lostLives.getImage(), (45 * guy.getLives()) + (45 * i) + lostLives.getPos().getX(), lostLives.getPos().getY(), null);
 				}
+			for(Boss b: bosses)
+				for(int i = 0; i < b.getHearts().size(); i++)
+					g.drawImage(b.getHearts().get(i).getImage(), b.getHearts().get(i).getPos().getX(), b.getHearts().get(i).getPos().getY(), null);
+			for(Boss b: bosses)
+				for(Rectangle r: b.getHitBoxes())
+					g.drawRect((int)r.getX(), (int)r.getY(), (int)r.getWidth(), (int)r.getHeight());
 		}
 		public void readLevel()
 		{
@@ -277,12 +290,22 @@ public class SwordRunner extends JPanel
 									b = new Block(new Vector(x,y), Color.RED, "end");
 									newLine.add(b);
 									break;
+								case 'b':
+									bosses.add(new Boss(new Vector(x,y)));
+									for(int k = 0; k < 3; k++)
+										bosses.get(bosses.size() - 1).getHearts().add(new Ghost(new Vector(x,y), "bossLife"));
+									newLine.add(null);
+                  break;
 								case 's':
 									b = new Block(new Vector(x,y), null, "spike");
 									newLine.add(b);
 									break;
 								case ' ':
 									newLine.add(null);
+									break;
+								case 't':
+									b = new Block(new Vector(x,y), Color.GRAY, "stone");
+									newLine.add(b);
 									break;
 							}
 							x += size;
@@ -323,6 +346,12 @@ public class SwordRunner extends JPanel
 					e.getPos().setX(e.getPos().getX() - incX);
 					e.getPos().setY(e.getPos().getY() + incY);
 				}
+			for(Boss b: bosses)
+				{
+					b.getPos().setX(b.getPos().getX() - incX);
+					b.getPos().setY(b.getPos().getY() + incY);
+					b.updateHitBoxes();
+				}
 			skybox1.setCounter(skybox1.getCounter()+1);
 			if(skybox1.getCounter()==3)
 				{
@@ -346,6 +375,7 @@ public class SwordRunner extends JPanel
 			boolean[] checks;
 			for(int i = 0; i < Math.abs(guy.getVel().getX()); i++)
 				{
+					checkAllEnemies();
 					checks = guy.checkEverything();
 					if(!checks[1])
 						{
@@ -361,11 +391,36 @@ public class SwordRunner extends JPanel
 					guy.getRightB().setLocation(guy.getPos().getX() + size, guy.getPos().getY());
 					guy.getHitBoxes()[4].setLocation(guy.getPos().getX(), guy.getPos().getY());
 				}
+			for(int i = 0; i < Math.abs(guy.getPushVel().getX()); i++)
+				{
+					checkAllEnemies();
+					checks = guy.checkEverything();
+					if(!checks[1])
+						{
+							int increment = guy.getPushVel().getX() / Math.abs(guy.getPushVel().getX());
+							if(checks[4])
+								tick(increment, 0);
+							else
+								guy.getPos().setX(guy.getPos().getX() + increment);
+						}
+					guy.getLeftB().setLocation(guy.getPos().getX() - 1, guy.getPos().getY());
+					guy.getRightB().setLocation(guy.getPos().getX() + size, guy.getPos().getY());
+					guy.getHitBoxes()[4].setLocation(guy.getPos().getX(), guy.getPos().getY());
+				}
+			if(guy.getPushVel().getX() > 0)
+				{
+					guy.getPushVel().setX(guy.getPushVel().getX() - 1);
+				}
+			else if(guy.getPushVel().getX() < 0)
+				{
+					guy.getPushVel().setX(guy.getPushVel().getX() + 1);
+				}
 			checks = guy.checkEverything();
 			if(checks[5])
 				getHurt("l");
 			for(int i = 0; i < Math.abs(guy.getVel().getY()); i++)
 				{
+					checkAllEnemies();
 					checks = guy.checkEverything();
 					if(!checks[0] || guy.getVel().getY() < 0)
 						{
@@ -409,24 +464,11 @@ public class SwordRunner extends JPanel
 		public void enemyTick()
 		{
 			boolean shouldReset = false;
-			ArrayList<Enemy> gc = new ArrayList<Enemy>();
 			for(Enemy e: goombas)
 				{
 					for(int i = 0; i < Math.abs(e.getVel().getX()); i++)
 						{
-							String collideCheck = checkEnemyCollide(e);
-							if(collideCheck.substring(0, 5).equals("death"))
-								{
-									gc.add(e);
-									getHurt(collideCheck.substring(5));
-									break;
-								}
-							else if(collideCheck.equals("bounce"))
-								{
-									gc.add(e);
-									guy.getVel().setY(-15);
-									break;
-								}
+							checkAllEnemies();
 							boolean[] checks = e.checkEverything();
 							if(!checks[1])
 								{
@@ -444,6 +486,105 @@ public class SwordRunner extends JPanel
 			goombas.removeAll(gc);
 //			if(shouldReset)
 //				deathReset();
+		}
+		public void bossTick()
+		{
+			for(Boss b: bosses)
+				{
+					boolean[] checks = b.checkEverything();
+					if(!checks[0])
+						{
+							b.setCurrFrame(1);
+							if(b.getVel().getY() <= 5)
+								b.getVel().setY(b.getVel().getY() + 1);
+						}
+					else
+						{
+							b.setCurrFrame(0);
+						}
+					for(int i = 0; i < Math.abs(b.getVel().getY()); i++)
+						{
+							checkAllEnemies();
+							if(b.getVel().getY() != 0)
+								{
+									int increment = b.getVel().getY() / Math.abs(b.getVel().getY());
+									b.getPos().setY(b.getPos().getY() + increment);
+									b.updateHitBoxes();
+								}
+							if(b.checkEverything()[0])
+								{
+									b.getVel().setY(0);
+									break;
+								}
+						}
+					int rand = (int) ((Math.random() * 100) + 1);
+					if(rand == 55 && b.checkEverything()[0])
+						{
+							b.getVel().setY(-20);
+							if(guy.getPos().getX() - b.getPos().getX() < 0)
+								b.setJumpingRight(false);
+							else if(guy.getPos().getX() - b.getPos().getX() > 0)
+								b.setJumpingRight(true);
+						}
+					if(b.isJumpingRight())
+						b.getVel().setX(4);
+					else
+						b.getVel().setX(-4);
+					for(int i = 0; i < Math.abs(b.getVel().getX()); i++)
+						{
+							checkAllEnemies();
+							if(b.checkEverything()[1])
+								{
+									b.getVel().setX(0);
+									break;
+								}
+							if(b.getVel().getX() != 0 && b.getVel().getY() != 0)
+								{
+									int increment = b.getVel().getX() / Math.abs(b.getVel().getX());
+									b.getPos().setX(b.getPos().getX() + increment);
+									b.updateHitBoxes();
+								}
+						}
+					for(int g = 0; g < b.getHearts().size(); g++)
+						{
+							Ghost l = b.getHearts().get(g);
+							l.getPos().setX(b.getPos().getX() + 8 + (21 * g));;
+							l.getPos().setY(b.getPos().getY() - 15);
+						}
+				}
+		}
+		public void checkAllEnemies()
+		{
+			for(Enemy e: goombas)
+				{
+					String collideCheck = checkEnemyCollide(e);
+					if(collideCheck.substring(0,5).equals("death"))
+						{
+							gc.add(e);
+							getHurt(collideCheck.substring(5));
+							break;
+						}
+					else if(collideCheck.equals("bounce"))
+						{
+							gc.add(e);
+							guy.getVel().setY(-15);
+							break;
+						}
+				}
+			for(Enemy b: bosses)
+				{
+					String collideCheck = checkEnemyCollide(b);
+					if(collideCheck.equals("bounce"))
+						{
+							guy.getVel().setY(-15);
+							break;
+						}
+					else if(collideCheck.substring(0,5).equals("death"))
+						{
+							getHurt(collideCheck.substring(5));
+							break;
+						}
+				}
 		}
 		public String checkEnemyCollide(Enemy e)
 		{
@@ -465,8 +606,8 @@ public class SwordRunner extends JPanel
 			guy.setLives(guy.getLives() - 1);
 			guy.getVel().setY(-10);
 			if(dir.equals("l"))
-				guy.getVel().setX(-10);
+				guy.getPushVel().setX(-12);
 			else if(dir.equals("r"))
-				guy.getVel().setX(10);
+				guy.getPushVel().setX(12);
 		}
 	}
