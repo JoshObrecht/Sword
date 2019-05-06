@@ -22,6 +22,7 @@ public class SwordRunner extends JPanel
 		public Ghost guyLives = new Ghost(new Vector(5,10), "life");
 		public Ghost lostLives = new Ghost(new Vector(5, 10), "death");
 		public static ArrayList<ArrayList<Block>> level;
+		public ArrayList<Enemy> gc = new ArrayList<Enemy>();
 		public ArrayList<Enemy> goombas = new ArrayList<Enemy>();
 		public ArrayList<Boss> bosses = new ArrayList<Boss>();
 		public Vector levelVel = new Vector(0,0);
@@ -341,6 +342,7 @@ public class SwordRunner extends JPanel
 			boolean[] checks;
 			for(int i = 0; i < Math.abs(guy.getVel().getX()); i++)
 				{
+					checkAllEnemies();
 					checks = guy.checkEverything();
 					if(!checks[1])
 						{
@@ -356,6 +358,7 @@ public class SwordRunner extends JPanel
 				}
 			for(int i = 0; i < Math.abs(guy.getPushVel().getX()); i++)
 				{
+					checkAllEnemies();
 					checks = guy.checkEverything();
 					if(!checks[1])
 						{
@@ -379,19 +382,7 @@ public class SwordRunner extends JPanel
 				}
 			for(int i = 0; i < Math.abs(guy.getVel().getY()); i++)
 				{
-					for(Boss b: bosses)
-						{
-							String collideCheck = checkEnemyCollide(b);
-							if(collideCheck.equals("bounce"))
-								{
-									guy.getVel().setY(-15);
-									break;
-								}
-							else if(collideCheck.equals("deathl"))
-								{
-									guy.getPushVel().setX(-10);
-								}
-						}
+					checkAllEnemies();
 					checks = guy.checkEverything();
 					if(!checks[0] || guy.getVel().getY() < 0)
 						{
@@ -435,24 +426,11 @@ public class SwordRunner extends JPanel
 		public void enemyTick()
 		{
 			boolean shouldReset = false;
-			ArrayList<Enemy> gc = new ArrayList<Enemy>();
 			for(Enemy e: goombas)
 				{
 					for(int i = 0; i < Math.abs(e.getVel().getX()); i++)
 						{
-							String collideCheck = checkEnemyCollide(e);
-							if(collideCheck.substring(0,5).equals("death"))
-								{
-									gc.add(e);
-									getHurt(collideCheck.substring(5));
-									break;
-								}
-							else if(collideCheck.equals("bounce"))
-								{
-									gc.add(e);
-									guy.getVel().setY(-15);
-									break;
-								}
+							checkAllEnemies();
 							boolean[] checks = e.checkEverything();
 							if(!checks[1])
 								{
@@ -473,7 +451,6 @@ public class SwordRunner extends JPanel
 		}
 		public void bossTick()
 		{
-			ArrayList<SwordObject> gc = new ArrayList<SwordObject>();
 			for(Boss b: bosses)
 				{
 					boolean[] checks = b.checkEverything();
@@ -489,6 +466,7 @@ public class SwordRunner extends JPanel
 						}
 					for(int i = 0; i < Math.abs(b.getVel().getY()); i++)
 						{
+							checkAllEnemies();
 							if(b.getVel().getY() != 0)
 								{
 									int increment = b.getVel().getY() / Math.abs(b.getVel().getY());
@@ -516,6 +494,7 @@ public class SwordRunner extends JPanel
 						b.getVel().setX(-4);
 					for(int i = 0; i < Math.abs(b.getVel().getX()); i++)
 						{
+							checkAllEnemies();
 							if(b.checkEverything()[1])
 								{
 									b.getVel().setX(0);
@@ -533,6 +512,39 @@ public class SwordRunner extends JPanel
 							Ghost l = b.getHearts().get(g);
 							l.getPos().setX(b.getPos().getX() + 8 + (21 * g));;
 							l.getPos().setY(b.getPos().getY() - 15);
+						}
+				}
+		}
+		public void checkAllEnemies()
+		{
+			for(Enemy e: goombas)
+				{
+					String collideCheck = checkEnemyCollide(e);
+					if(collideCheck.substring(0,5).equals("death"))
+						{
+							gc.add(e);
+							getHurt(collideCheck.substring(5));
+							break;
+						}
+					else if(collideCheck.equals("bounce"))
+						{
+							gc.add(e);
+							guy.getVel().setY(-15);
+							break;
+						}
+				}
+			for(Enemy b: bosses)
+				{
+					String collideCheck = checkEnemyCollide(b);
+					if(collideCheck.equals("bounce"))
+						{
+							guy.getVel().setY(-15);
+							break;
+						}
+					else if(collideCheck.substring(0,5).equals("death"))
+						{
+							getHurt(collideCheck.substring(5));
+							break;
 						}
 				}
 		}
