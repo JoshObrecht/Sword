@@ -31,7 +31,7 @@ public class SwordRunner extends JPanel
 		public final int size = 40;
 		public Entity skybox1;
 		public Entity skybox2;
-		public int levelNum = 3;
+		public int levelNum = 1;
 		
 		public static void main(String[] args)
 			{
@@ -102,15 +102,15 @@ public class SwordRunner extends JPanel
 				{
 					if(xDir.equals("r"))
 						{
-							guy.getSelfVel().setX(5);
+							guy.getVel().setX(5);
 						}
 					else if(xDir.equals("l"))
 						{
-							guy.getSelfVel().setX(-5);
+							guy.getVel().setX(-5);
 						}
 					else
 						{
-							guy.getSelfVel().setX(0); 
+							guy.getVel().setX(0); 
 						}
 					if(isJumping)
 						{
@@ -339,7 +339,7 @@ public class SwordRunner extends JPanel
 		public void playerTick()
 		{
 			boolean[] checks;
-			for(int i = 0; i < Math.abs(guy.getVel().getX()) + Math.abs(guy.getSelfVel().getX()); i++)
+			for(int i = 0; i < Math.abs(guy.getVel().getX()); i++)
 				{
 					checks = guy.checkEverything();
 					if(!checks[1])
@@ -354,6 +354,29 @@ public class SwordRunner extends JPanel
 					guy.getRightB().setLocation(guy.getPos().getX() + size, guy.getPos().getY());
 					guy.getHitBoxes()[4].setLocation(guy.getPos().getX(), guy.getPos().getY());
 				}
+			for(int i = 0; i < Math.abs(guy.getPushVel().getX()); i++)
+				{
+					checks = guy.checkEverything();
+					if(!checks[1])
+						{
+							int increment = guy.getPushVel().getX() / Math.abs(guy.getPushVel().getX());
+							if(checks[4])
+								tick(increment, 0);
+							else
+								guy.getPos().setX(guy.getPos().getX() + increment);
+						}
+					guy.getLeftB().setLocation(guy.getPos().getX() - 1, guy.getPos().getY());
+					guy.getRightB().setLocation(guy.getPos().getX() + size, guy.getPos().getY());
+					guy.getHitBoxes()[4].setLocation(guy.getPos().getX(), guy.getPos().getY());
+				}
+			if(guy.getPushVel().getX() > 0)
+				{
+					guy.getPushVel().setX(guy.getPushVel().getX() - 1);
+				}
+			else if(guy.getPushVel().getX() < 0)
+				{
+					guy.getPushVel().setX(guy.getPushVel().getX() + 1);
+				}
 			for(int i = 0; i < Math.abs(guy.getVel().getY()); i++)
 				{
 					for(Boss b: bosses)
@@ -363,6 +386,10 @@ public class SwordRunner extends JPanel
 								{
 									guy.getVel().setY(-15);
 									break;
+								}
+							else if(collideCheck.equals("deathl"))
+								{
+									guy.getPushVel().setX(-10);
 								}
 						}
 					checks = guy.checkEverything();
@@ -414,7 +441,7 @@ public class SwordRunner extends JPanel
 					for(int i = 0; i < Math.abs(e.getVel().getX()); i++)
 						{
 							String collideCheck = checkEnemyCollide(e);
-							if(collideCheck.substring(0, 5).equals("death"))
+							if(collideCheck.substring(0,5).equals("death"))
 								{
 									gc.add(e);
 									getHurt(collideCheck.substring(5));
@@ -529,8 +556,8 @@ public class SwordRunner extends JPanel
 			guy.setLives(guy.getLives() - 1);
 			guy.getVel().setY(-10);
 			if(dir.equals("l"))
-				guy.getVel().setX(-10);
+				guy.getPushVel().setX(-12);
 			else if(dir.equals("r"))
-				guy.getVel().setX(10);
+				guy.getPushVel().setX(12);
 		}
 	}
