@@ -236,9 +236,6 @@ public class SwordRunner extends JPanel
 			for(Boss b: bosses)
 				for(int i = 0; i < b.getHearts().size(); i++)
 					g.drawImage(b.getHearts().get(i).getImage(), b.getHearts().get(i).getPos().getX(), b.getHearts().get(i).getPos().getY(), null);
-			for(Boss b: bosses)
-				for(Rectangle r: b.getHitBoxes())
-					g.drawRect((int)r.getX(), (int)r.getY(), (int)r.getWidth(), (int)r.getHeight());
 		}
 		public void readLevel()
 		{
