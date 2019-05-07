@@ -233,6 +233,7 @@ public class SwordRunner extends JPanel
 				{
 					g.drawImage(lostLives.getImage(), (45 * guy.getLives()) + (45 * i) + lostLives.getPos().getX(), lostLives.getPos().getY(), null);
 				}
+			
 			for(Boss b: bosses)
 				for(int i = 0; i < b.getHearts().size(); i++)
 					g.drawImage(b.getHearts().get(i).getImage(), b.getHearts().get(i).getPos().getX(), b.getHearts().get(i).getPos().getY(), null);
@@ -566,6 +567,8 @@ public class SwordRunner extends JPanel
 							l.getPos().setX(b.getPos().getX() + 8 + (21 * g));;
 							l.getPos().setY(b.getPos().getY() - 15);
 						}
+					if(b.isInvinc())
+						b.setCurrFrame(2);
 				}
 			bosses.removeAll(gc);
 		}
