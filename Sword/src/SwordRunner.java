@@ -21,7 +21,7 @@ public class SwordRunner extends JPanel
 		public Ghost lostLives = new Ghost(new Vector(5, 10), "death");
 		public Ghost score = new Ghost(new Vector(860, 10), "coin");
 		public int scoreTotal = 0;
-		public int scoreCounter = 0;
+		public static int scoreCounter = 0;
 		public static ArrayList<ArrayList<Block>> level;
 		public ArrayList<Enemy> gc = new ArrayList<Enemy>();
 		public ArrayList<Enemy> goombas = new ArrayList<Enemy>();
@@ -246,7 +246,7 @@ public class SwordRunner extends JPanel
 			g.drawImage(score.getImage(), score.getPos().getX(), score.getPos().getY(), null);
 			Font f = new Font("Arial", Font.PLAIN, 30);
 			g.setFont(f);
-			g.drawString(scoreCounter+" / "+scoreTotal, 910, 40);
+			g.drawString(scoreCounter + " / " + scoreTotal, 910, 40);
 			
 			
 
@@ -414,11 +414,11 @@ public class SwordRunner extends JPanel
 							else
 								guy.getPos().setX(guy.getPos().getX() + increment);
 						}
-					if(checks[5])
-						getHurt("l");
 					guy.getLeftB().setLocation(guy.getPos().getX() - 1, guy.getPos().getY());
 					guy.getRightB().setLocation(guy.getPos().getX() + size, guy.getPos().getY());
 					guy.getHitBoxes()[4].setLocation(guy.getPos().getX(), guy.getPos().getY());
+					if(checks[5])
+						getHurt(lastDir);
 				}
 			for(int i = 0; i < Math.abs(guy.getPushVel().getX()); i++)
 				{
@@ -435,6 +435,8 @@ public class SwordRunner extends JPanel
 					guy.getLeftB().setLocation(guy.getPos().getX() - 1, guy.getPos().getY());
 					guy.getRightB().setLocation(guy.getPos().getX() + size, guy.getPos().getY());
 					guy.getHitBoxes()[4].setLocation(guy.getPos().getX(), guy.getPos().getY());
+					if(checks[5])
+						getHurt(lastDir);
 				}
 			if(guy.getPushVel().getX() > 0)
 				{
@@ -444,14 +446,6 @@ public class SwordRunner extends JPanel
 				{
 					guy.getPushVel().setX(guy.getPushVel().getX() + 1);
 				}
-
-			checks = guy.checkEverything();
-			
-			if(checks[5])
-				getHurt("l");
-			
-			if(checks[6])
-				scoreCounter++;
 			
 			for(int i = 0; i < Math.abs(guy.getVel().getY()); i++)
 				{
@@ -477,6 +471,8 @@ public class SwordRunner extends JPanel
 					guy.getUpB().setLocation(guy.getPos().getX(), guy.getPos().getY() - 1);
 					guy.getDownB().setLocation(guy.getPos().getX(), guy.getPos().getY() + size);
 					guy.getHitBoxes()[4].setLocation(guy.getPos().getX(), guy.getPos().getY());
+					if(checks[5])
+						getHurt(lastDir);
 //					checkEnemyCollide();
 				}
 			guy.getLeftB().setLocation(guy.getPos().getX() - 1, guy.getPos().getY());
@@ -495,6 +491,8 @@ public class SwordRunner extends JPanel
 					levelNum++;
 					readLevel();
 				}
+			if(checks[5])
+				getHurt(lastDir);
 		}
 		public void enemyTick()
 		{
@@ -660,8 +658,9 @@ public class SwordRunner extends JPanel
 		}
 		public void getHurt(String dir)
 		{
+			if(!guy.isInvinc())
+				guy.setLives(guy.getLives() - 1);
 			guy.setInvinc(true);
-			guy.setLives(guy.getLives() - 1);
 			guy.getVel().setY(-10);
 			if(dir.equals("l"))
 				guy.getPushVel().setX(-12);
