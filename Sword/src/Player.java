@@ -57,6 +57,7 @@ public class Player extends Entity
 													if(b.getBounds().intersects(r))
 														{
 															checks[6] = true;
+															SwordRunner.scoreCounter++;
 															gc.add(b);
 														}
 												}
