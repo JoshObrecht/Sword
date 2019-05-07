@@ -8,6 +8,9 @@ public class Entity extends SwordObject
 		protected Rectangle[] hitBoxes; //hitboxes stored clockwise starting with left
 		protected int counter;
 		protected int lives;
+		protected boolean invinc;
+		protected int invFrames;
+		protected final int maxInvinc = 150;
 		
 		public Entity(Vector v, String t)
 			{
@@ -21,6 +24,8 @@ public class Entity extends SwordObject
 				hitBoxes[3] = new Rectangle(pos.getX(), pos.getY() + 40, 40, 1);
 				hitBoxes[4] = new Rectangle(pos.getX(), pos.getY(), 40, 40);
 				lives = 1;
+				invinc = false;
+				invFrames = 0;
 			}
 		
 		public int getCounter()
@@ -87,8 +92,27 @@ public class Entity extends SwordObject
 			{
 				this.lives = lives;
 			}
+		public boolean isInvinc()
+			{
+				return invinc;
+			}
+		public void setInvinc(boolean invinc)
+			{
+				this.invinc = invinc;
+			}
+		public int getInvFrames()
+			{
+				return invFrames;
+			}
+		public void setInvFrames(int invFrames)
+			{
+				this.invFrames = invFrames;
+			}
+		public int getMaxInvinc()
+			{
+				return maxInvinc;
+			}
 
-		
 		public boolean[] checkEverything()
 		{
 			/*

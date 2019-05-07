@@ -32,7 +32,7 @@ public class SwordRunner extends JPanel
 		public final int size = 40;
 		public Entity skybox1;
 		public Entity skybox2;
-		public int levelNum = 3;
+		public int levelNum = 1;
 		
 		public static void main(String[] args)
 			{
@@ -215,16 +215,21 @@ public class SwordRunner extends JPanel
 				{
 					g.drawImage(b.getAnim().get(b.getCurrFrame()), b.getPos().getX(), b.getPos().getY(), b.getPos().getX() + 80, b.getPos().getY() + 80, 0, 0, 80, 80, null, null);
 				}
-			
-			if(guy.getVel().getX() > 0)
-				g.drawImage(guy.getAnim().get(guy.getCurrFrame()), guy.getPos().getX(), guy.getPos().getY(), guy.getPos().getX() + 40, guy.getPos().getY() + 40, 0, 0, 40, 40, null, null);
-			else if(guy.getVel().getX() < 0)
-				g.drawImage(guy.getAnim().get(guy.getCurrFrame()), guy.getPos().getX(), guy.getPos().getY(), guy.getPos().getX() + 40, guy.getPos().getY() + 40, 40, 0, 0, 40, null, null);
-			else if(guy.getVel().getX() == 0 && lastDir.equals("r"))
-				g.drawImage(guy.getAnim().get(guy.getCurrFrame()), guy.getPos().getX(), guy.getPos().getY(), guy.getPos().getX() + 40, guy.getPos().getY() + 40, 0, 0, 40, 40, null, null);
-			else if(guy.getVel().getX() == 0 && lastDir.equals("l"))
-				g.drawImage(guy.getAnim().get(guy.getCurrFrame()), guy.getPos().getX(), guy.getPos().getY(), guy.getPos().getX() + 40, guy.getPos().getY() + 40, 40, 0, 0, 40, null, null);
-			
+			if(guy.isInvinc() && (guy.getInvFrames() % 2 == 0))
+				{
+					//Don't draw the guy
+				}
+			else
+				{
+					if(guy.getVel().getX() > 0)
+						g.drawImage(guy.getAnim().get(guy.getCurrFrame()), guy.getPos().getX(), guy.getPos().getY(), guy.getPos().getX() + 40, guy.getPos().getY() + 40, 0, 0, 40, 40, null, null);
+					else if(guy.getVel().getX() < 0)
+						g.drawImage(guy.getAnim().get(guy.getCurrFrame()), guy.getPos().getX(), guy.getPos().getY(), guy.getPos().getX() + 40, guy.getPos().getY() + 40, 40, 0, 0, 40, null, null);
+					else if(guy.getVel().getX() == 0 && lastDir.equals("r"))
+						g.drawImage(guy.getAnim().get(guy.getCurrFrame()), guy.getPos().getX(), guy.getPos().getY(), guy.getPos().getX() + 40, guy.getPos().getY() + 40, 0, 0, 40, 40, null, null);
+					else if(guy.getVel().getX() == 0 && lastDir.equals("l"))
+						g.drawImage(guy.getAnim().get(guy.getCurrFrame()), guy.getPos().getX(), guy.getPos().getY(), guy.getPos().getX() + 40, guy.getPos().getY() + 40, 40, 0, 0, 40, null, null);
+				}
 			for(int i = 0; i < guy.getLives(); i++)
 				{
 					g.drawImage(guyLives.getImage(), guyLives.getPos().getX() + (45 * i), guyLives.getPos().getY(), null);
@@ -233,6 +238,7 @@ public class SwordRunner extends JPanel
 				{
 					g.drawImage(lostLives.getImage(), (45 * guy.getLives()) + (45 * i) + lostLives.getPos().getX(), lostLives.getPos().getY(), null);
 				}
+			
 			for(Boss b: bosses)
 				for(int i = 0; i < b.getHearts().size(); i++)
 					g.drawImage(b.getHearts().get(i).getImage(), b.getHearts().get(i).getPos().getX(), b.getHearts().get(i).getPos().getY(), null);
@@ -369,6 +375,15 @@ public class SwordRunner extends JPanel
 		}
 		public void playerTick()
 		{
+			if(guy.isInvinc())
+				{
+					guy.setInvFrames(guy.getInvFrames() + 1);
+					if(guy.getInvFrames() > guy.getMaxInvinc())
+						{
+							guy.setInvinc(false);
+							guy.setInvFrames(0);
+						}
+				}
 			boolean[] checks;
 			for(int i = 0; i < Math.abs(guy.getVel().getX()); i++)
 				{
@@ -488,6 +503,15 @@ public class SwordRunner extends JPanel
 		{
 			for(Boss b: bosses)
 				{
+					if(b.isInvinc())
+						{
+							b.setInvFrames(b.getInvFrames() + 1);
+							if(b.getInvFrames() > b.getMaxInvinc())
+								{
+									b.setInvinc(false);
+									b.setInvFrames(0);
+								}
+						}
 					boolean[] checks = b.checkEverything();
 					if(!checks[0])
 						{
@@ -548,6 +572,8 @@ public class SwordRunner extends JPanel
 							l.getPos().setX(b.getPos().getX() + 8 + (21 * g));;
 							l.getPos().setY(b.getPos().getY() - 15);
 						}
+					if(b.isInvinc())
+						b.setCurrFrame(2);
 				}
 			bosses.removeAll(gc);
 		}
@@ -575,13 +601,16 @@ public class SwordRunner extends JPanel
 					if(collideCheck.equals("bounce"))
 						{
 							guy.getVel().setY(-15);
-							if(b.getHearts().size() > 0)
+							if(!b.isInvinc())
 								{
-									b.getHearts().remove(b.getHearts().size() - 1);
-									b.setCurrFrame(2);
+									if(b.getHearts().size() > 0)
+										{
+											b.getHearts().remove(b.getHearts().size() - 1);
+											b.setInvinc(true);
+										}
+									else
+										gc.add(b);
 								}
-							else
-								gc.add(b);
 							break;
 						}
 					else if(collideCheck.substring(0,5).equals("death"))
@@ -596,9 +625,9 @@ public class SwordRunner extends JPanel
 			for(Rectangle r: e.getHitBoxes())
 				for(Rectangle h: guy.getHitBoxes())
 					{
-						if(r.intersects(h) && !h.equals(guy.getDownB()) && h.equals(guy.getRightB()))
+						if(r.intersects(h) && !h.equals(guy.getDownB()) && h.equals(guy.getRightB()) && !guy.isInvinc())
 							return "deathl";
-						else if(r.intersects(h) && !h.equals(guy.getDownB()) && h.equals(guy.getLeftB()))
+						else if(r.intersects(h) && !h.equals(guy.getDownB()) && h.equals(guy.getLeftB()) && !guy.isInvinc())
 							return "deathr";
 						else if(r.intersects(h) && h.equals(guy.getDownB()))
 							return "bounce";
@@ -608,6 +637,7 @@ public class SwordRunner extends JPanel
 		}
 		public void getHurt(String dir)
 		{
+			guy.setInvinc(true);
 			guy.setLives(guy.getLives() - 1);
 			guy.getVel().setY(-10);
 			if(dir.equals("l"))
