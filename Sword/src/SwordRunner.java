@@ -8,8 +8,6 @@ import javax.swing.*;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
-import sun.invoke.empty.Empty;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
@@ -17,10 +15,13 @@ import java.util.Scanner;
 @SuppressWarnings({ "serial", "unused" })
 public class SwordRunner extends JPanel
 	{
-		public Player guy = new Player(new Vector(-40,-40), "player");
+		public Player guy = new Player(new Vector(40,-40), "player");
 		public final int maxLives = 3;
 		public Ghost guyLives = new Ghost(new Vector(5,10), "life");
 		public Ghost lostLives = new Ghost(new Vector(5, 10), "death");
+		public Ghost score = new Ghost(new Vector(860, 10), "coin");
+		public int scoreTotal = 0;
+		public int scoreCounter = 0;
 		public static ArrayList<ArrayList<Block>> level;
 		public ArrayList<Enemy> gc = new ArrayList<Enemy>();
 		public ArrayList<Enemy> goombas = new ArrayList<Enemy>();
@@ -145,7 +146,8 @@ public class SwordRunner extends JPanel
 											{
 												if(level.get(i).get(j).getType().equals("spike"))
 													{
-														if(Math.abs(guy.getPos().getX()-level.get(i).get(j).getPos().getX())<160)
+														if(Math.sqrt(Math.pow(guy.getPos().getX()-level.get(i).get(j).getPos().getX(), 2)+Math.pow(guy.getPos().getY()-level.get(i).get(j).getPos().getY(), 2))<160)
+															
 															{
 																if(level.get(i).get(j).getCurrFrame()!=level.get(i).get(j).getMaxFrames()-1)
 																	level.get(i).get(j).setCurrFrame(level.get(i).get(j).getCurrFrame()+1);
@@ -211,6 +213,7 @@ public class SwordRunner extends JPanel
 					else if(e.getVel().getX() < 0)
 						g.drawImage(e.getAnim().get(e.getCurrFrame()), e.getPos().getX(), e.getPos().getY(), e.getPos().getX() + 40, e.getPos().getY() + 40, 40, 0, 0, 40, null, null);
 				}
+
 			for(Boss b: bosses)
 				{
 					g.drawImage(b.getAnim().get(b.getCurrFrame()), b.getPos().getX(), b.getPos().getY(), b.getPos().getX() + 80, b.getPos().getY() + 80, 0, 0, 80, 80, null, null);
@@ -230,6 +233,7 @@ public class SwordRunner extends JPanel
 					else if(guy.getVel().getX() == 0 && lastDir.equals("l"))
 						g.drawImage(guy.getAnim().get(guy.getCurrFrame()), guy.getPos().getX(), guy.getPos().getY(), guy.getPos().getX() + 40, guy.getPos().getY() + 40, 40, 0, 0, 40, null, null);
 				}
+
 			for(int i = 0; i < guy.getLives(); i++)
 				{
 					g.drawImage(guyLives.getImage(), guyLives.getPos().getX() + (45 * i), guyLives.getPos().getY(), null);
@@ -239,9 +243,17 @@ public class SwordRunner extends JPanel
 					g.drawImage(lostLives.getImage(), (45 * guy.getLives()) + (45 * i) + lostLives.getPos().getX(), lostLives.getPos().getY(), null);
 				}
 			
+			g.drawImage(score.getImage(), score.getPos().getX(), score.getPos().getY(), null);
+			Font f = new Font("Arial", Font.PLAIN, 30);
+			g.setFont(f);
+			g.drawString(scoreCounter+" / "+scoreTotal, 910, 40);
+			
+			
+
 			for(Boss b: bosses)
 				for(int i = 0; i < b.getHearts().size(); i++)
 					g.drawImage(b.getHearts().get(i).getImage(), b.getHearts().get(i).getPos().getX(), b.getHearts().get(i).getPos().getY(), null);
+
 		}
 		public void readLevel()
 		{
@@ -301,6 +313,11 @@ public class SwordRunner extends JPanel
 									break;
 								case 's':
 									b = new Block(new Vector(x,y), null, "spike");
+									newLine.add(b);
+									break;
+								case '$':
+									b = new Block(new Vector(x,y), null, "coin");
+									scoreTotal++;
 									newLine.add(b);
 									break;
 								case ' ':
@@ -427,9 +444,15 @@ public class SwordRunner extends JPanel
 				{
 					guy.getPushVel().setX(guy.getPushVel().getX() + 1);
 				}
+
 			checks = guy.checkEverything();
+			
 			if(checks[5])
 				getHurt("l");
+			
+			if(checks[6])
+				scoreCounter++;
+			
 			for(int i = 0; i < Math.abs(guy.getVel().getY()); i++)
 				{
 					checkAllEnemies();

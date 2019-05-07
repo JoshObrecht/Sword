@@ -116,9 +116,9 @@ public class Entity extends SwordObject
 		public boolean[] checkEverything()
 		{
 			/*
-			 * For the checks, checks[0] is Standing, 1 is Wall, 2 is Ceiling, 3 is End, 4 is LevelMove, and 5 is Spike
+			 * For the checks, checks[0] is Standing, 1 is Wall, 2 is Ceiling, 3 is End, 4 is LevelMove, and 5 is Spike, 6 is coin
 			*/
-			boolean[] checks = new boolean[6];
+			boolean[] checks = new boolean[7];
 			for(ArrayList<Block> line: SwordRunner.level)
 				{
 					for(Block b: line)
