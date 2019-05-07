@@ -17,6 +17,6 @@ w                                                                               
 w                   g                                                                               ggggg                  w
 w                                                           g                        g               rrr                   w
 w            ccc                                                                    g                 r                    w
-w p  ggg         e e e    e  e                   ggg             e e               g                                  x    w
-wggggrrrgggggggggggggggggggggggggggggggggggggggggrrrgggggggggggggggggggggggggggggggrggggggggggggggggggggggggggggggggggggggg
-wrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
+w p  ggg                                         ggg             e e               g                                  x    w
+wggggrrrgggggggggggg   ggggggggggggggggggggggggggrrrgggggggggggggggggggggggggggggggrggggggggggggggggggggggggggggggggggggggg
+wrrrrrrrrrrrrrrrrrrrsssssssssssssssssssssssssssrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
