@@ -369,6 +369,15 @@ public class SwordRunner extends JPanel
 		}
 		public void playerTick()
 		{
+			if(guy.isInvinc())
+				{
+					guy.setInvFrames(guy.getInvFrames() + 1);
+					if(guy.getInvFrames() > guy.getMaxInvinc())
+						{
+							guy.setInvinc(false);
+							guy.setInvFrames(0);
+						}
+				}
 			boolean[] checks;
 			for(int i = 0; i < Math.abs(guy.getVel().getX()); i++)
 				{
@@ -488,6 +497,15 @@ public class SwordRunner extends JPanel
 		{
 			for(Boss b: bosses)
 				{
+					if(b.isInvinc())
+						{
+							b.setInvFrames(b.getInvFrames() + 1);
+							if(b.getInvFrames() > b.getMaxInvinc())
+								{
+									b.setInvinc(false);
+									b.setInvFrames(0);
+								}
+						}
 					boolean[] checks = b.checkEverything();
 					if(!checks[0])
 						{
