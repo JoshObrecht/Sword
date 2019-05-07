@@ -575,13 +575,16 @@ public class SwordRunner extends JPanel
 					if(collideCheck.equals("bounce"))
 						{
 							guy.getVel().setY(-15);
-							if(b.getHearts().size() > 0)
+							if(!b.isInvinc())
 								{
-									b.getHearts().remove(b.getHearts().size() - 1);
-									b.setCurrFrame(2);
+									if(b.getHearts().size() > 0)
+										{
+											b.getHearts().remove(b.getHearts().size() - 1);
+											b.setInvinc(true);
+										}
+									else
+										gc.add(b);
 								}
-							else
-								gc.add(b);
 							break;
 						}
 					else if(collideCheck.substring(0,5).equals("death"))
@@ -596,9 +599,9 @@ public class SwordRunner extends JPanel
 			for(Rectangle r: e.getHitBoxes())
 				for(Rectangle h: guy.getHitBoxes())
 					{
-						if(r.intersects(h) && !h.equals(guy.getDownB()) && h.equals(guy.getRightB()))
+						if(r.intersects(h) && !h.equals(guy.getDownB()) && h.equals(guy.getRightB()) && !guy.isInvinc())
 							return "deathl";
-						else if(r.intersects(h) && !h.equals(guy.getDownB()) && h.equals(guy.getLeftB()))
+						else if(r.intersects(h) && !h.equals(guy.getDownB()) && h.equals(guy.getLeftB()) && !guy.isInvinc())
 							return "deathr";
 						else if(r.intersects(h) && h.equals(guy.getDownB()))
 							return "bounce";
@@ -608,6 +611,7 @@ public class SwordRunner extends JPanel
 		}
 		public void getHurt(String dir)
 		{
+			guy.setInvinc(true);
 			guy.setLives(guy.getLives() - 1);
 			guy.getVel().setY(-10);
 			if(dir.equals("l"))
