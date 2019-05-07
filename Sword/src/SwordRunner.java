@@ -215,16 +215,21 @@ public class SwordRunner extends JPanel
 				{
 					g.drawImage(b.getAnim().get(b.getCurrFrame()), b.getPos().getX(), b.getPos().getY(), b.getPos().getX() + 80, b.getPos().getY() + 80, 0, 0, 80, 80, null, null);
 				}
-			
-			if(guy.getVel().getX() > 0)
-				g.drawImage(guy.getAnim().get(guy.getCurrFrame()), guy.getPos().getX(), guy.getPos().getY(), guy.getPos().getX() + 40, guy.getPos().getY() + 40, 0, 0, 40, 40, null, null);
-			else if(guy.getVel().getX() < 0)
-				g.drawImage(guy.getAnim().get(guy.getCurrFrame()), guy.getPos().getX(), guy.getPos().getY(), guy.getPos().getX() + 40, guy.getPos().getY() + 40, 40, 0, 0, 40, null, null);
-			else if(guy.getVel().getX() == 0 && lastDir.equals("r"))
-				g.drawImage(guy.getAnim().get(guy.getCurrFrame()), guy.getPos().getX(), guy.getPos().getY(), guy.getPos().getX() + 40, guy.getPos().getY() + 40, 0, 0, 40, 40, null, null);
-			else if(guy.getVel().getX() == 0 && lastDir.equals("l"))
-				g.drawImage(guy.getAnim().get(guy.getCurrFrame()), guy.getPos().getX(), guy.getPos().getY(), guy.getPos().getX() + 40, guy.getPos().getY() + 40, 40, 0, 0, 40, null, null);
-			
+			if(guy.isInvinc() && (guy.getInvFrames() % 2 == 0))
+				{
+					//Don't draw the guy
+				}
+			else
+				{
+					if(guy.getVel().getX() > 0)
+						g.drawImage(guy.getAnim().get(guy.getCurrFrame()), guy.getPos().getX(), guy.getPos().getY(), guy.getPos().getX() + 40, guy.getPos().getY() + 40, 0, 0, 40, 40, null, null);
+					else if(guy.getVel().getX() < 0)
+						g.drawImage(guy.getAnim().get(guy.getCurrFrame()), guy.getPos().getX(), guy.getPos().getY(), guy.getPos().getX() + 40, guy.getPos().getY() + 40, 40, 0, 0, 40, null, null);
+					else if(guy.getVel().getX() == 0 && lastDir.equals("r"))
+						g.drawImage(guy.getAnim().get(guy.getCurrFrame()), guy.getPos().getX(), guy.getPos().getY(), guy.getPos().getX() + 40, guy.getPos().getY() + 40, 0, 0, 40, 40, null, null);
+					else if(guy.getVel().getX() == 0 && lastDir.equals("l"))
+						g.drawImage(guy.getAnim().get(guy.getCurrFrame()), guy.getPos().getX(), guy.getPos().getY(), guy.getPos().getX() + 40, guy.getPos().getY() + 40, 40, 0, 0, 40, null, null);
+				}
 			for(int i = 0; i < guy.getLives(); i++)
 				{
 					g.drawImage(guyLives.getImage(), guyLives.getPos().getX() + (45 * i), guyLives.getPos().getY(), null);
