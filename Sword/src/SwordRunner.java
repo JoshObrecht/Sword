@@ -92,6 +92,13 @@ public class SwordRunner extends JPanel
 											goombas.clear();
 											guy = new Player(new Vector(40,-40), "player");
 										}
+									else if(stage == 2)
+										{
+											levelNum++;
+											readLevel();
+											guy = new Player(new Vector(40,-40), "player");
+											stage = 1;
+										}
 								}
 						}
 						public void keyReleased(KeyEvent e)
@@ -156,6 +163,16 @@ public class SwordRunner extends JPanel
 							playerTick();
 							enemyTick();
 							bossTick();
+							repaint();
+							break;
+						case 2:
+							if(tickNum < 60)
+								tickNum++;
+							else
+								{
+									tickNum = 0;
+									letterNum++;
+								}
 							repaint();
 							break;
 					}
@@ -365,6 +382,14 @@ public class SwordRunner extends JPanel
 						for(int i = 0; i < b.getHearts().size(); i++)
 							g.drawImage(b.getHearts().get(i).getImage(), b.getHearts().get(i).getPos().getX(), b.getHearts().get(i).getPos().getY(), null);
 
+					break;
+				case 2:
+					g.drawImage(skybox1.getImage(), skybox1.getPos().getX(), skybox1.getPos().getY(), null);
+					g.drawImage(skybox2.getImage(), skybox2.getPos().getX(), skybox2.getPos().getY(), null);
+					Font z1 = new Font("Arial", Font.BOLD, 75);
+					Font z2 = new Font("Arial", Font.PLAIN, 40);
+					g.setFont(z1);
+					g.drawString("LEVEL "+levelNum+" COMPLETE!", 130, 250);
 					break;
 			}
 		}
@@ -605,8 +630,8 @@ public class SwordRunner extends JPanel
 				}
 			if(checks[3])
 				{
-					levelNum++;
-					readLevel();
+					stage = 2;
+					letterNum = 0;
 				}
 			if(checks[5])
 				getHurt(lastDir);
