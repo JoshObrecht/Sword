@@ -33,7 +33,10 @@ public class SwordRunner extends JPanel
 		public final int size = 40;
 		public Entity skybox1;
 		public Entity skybox2;
-		public int levelNum = 1;
+		public int levelNum = 0;
+		public int stage = 0;
+		public int tickNum = 0;
+		public int letterNum = 0;
 		
 		public static void main(String[] args)
 			{
@@ -57,72 +60,105 @@ public class SwordRunner extends JPanel
 						@Override
 						public void keyPressed(KeyEvent e)
 						{
-							switch(e.getKeyCode())
-							{
-								case KeyEvent.VK_RIGHT:
-								case KeyEvent.VK_D:
-									xDir = "r";
-									break;
-								case KeyEvent.VK_LEFT:
-								case KeyEvent.VK_A:
-									xDir = "l";
-									break;
-								case KeyEvent.VK_UP:
-								case KeyEvent.VK_W:
-									isJumping = true;
-									break;
-								default:
-									xDir = "";
-									guy.setCurrFrame(0);
-									break;
-							}
+							if(stage == 1)
+								{
+									switch(e.getKeyCode())
+									{
+										case KeyEvent.VK_RIGHT:
+										case KeyEvent.VK_D:
+											xDir = "r";
+											break;
+										case KeyEvent.VK_LEFT:
+										case KeyEvent.VK_A:
+											xDir = "l";
+											break;
+										case KeyEvent.VK_UP:
+										case KeyEvent.VK_W:
+											isJumping = true;
+											break;
+										default:
+											xDir = "";
+											guy.setCurrFrame(0);
+											break;
+									}
+								}
+							else if(e.getKeyCode() == KeyEvent.VK_ENTER)
+								{
+									if(stage == 0)
+										{
+											stage++;
+											levelNum++;
+											readLevel();
+											goombas.clear();
+											guy = new Player(new Vector(40,-40), "player");
+										}
+								}
 						}
 						public void keyReleased(KeyEvent e)
 						{
-							switch(e.getKeyCode())
-							{
-								case KeyEvent.VK_RIGHT:
-								case KeyEvent.VK_D:
-									xDir = "";
-									lastDir = "r";
-									break;
-								case KeyEvent.VK_LEFT:
-								case KeyEvent.VK_A:
-									lastDir = "l";
-									xDir = "";
-									break;
-								case KeyEvent.VK_UP:
-								case KeyEvent.VK_W:
-									isJumping = false;
-									break;
-							}
+							if(stage == 1)
+								{
+									switch(e.getKeyCode())
+									{
+										case KeyEvent.VK_RIGHT:
+										case KeyEvent.VK_D:
+											xDir = "";
+											lastDir = "r";
+											break;
+										case KeyEvent.VK_LEFT:
+										case KeyEvent.VK_A:
+											lastDir = "l";
+											xDir = "";
+											break;
+										case KeyEvent.VK_UP:
+										case KeyEvent.VK_W:
+											isJumping = false;
+											break;
+									}
+								}
 						}
 					});
 			readLevel();
 			Timer timer = new Timer(10, new ActionListener(){
 				public void actionPerformed(ActionEvent e)
 				{
-					if(xDir.equals("r"))
-						{
-							guy.getVel().setX(5);
-						}
-					else if(xDir.equals("l"))
-						{
-							guy.getVel().setX(-5);
-						}
-					else
-						{
-							guy.getVel().setX(0); 
-						}
-					if(isJumping)
-						{
-							if(guy.checkEverything()[0])
-								guy.getVel().setY(-20);
-						}
-					playerTick();
-					enemyTick();
-					bossTick();
-					repaint();
+					switch(stage)
+					{
+						case 0:
+							if(tickNum < 60)
+								tickNum++;
+							else
+								{
+									tickNum = 0;
+									letterNum++;
+								}
+							enemyTick();
+							repaint();
+							break;
+						case 1:
+							if(xDir.equals("r"))
+								{
+									guy.getVel().setX(5);
+								}
+							else if(xDir.equals("l"))
+								{
+									guy.getVel().setX(-5);
+								}
+							else
+								{
+									guy.getVel().setX(0); 
+								}
+							if(isJumping)
+								{
+									if(guy.checkEverything()[0])
+										guy.getVel().setY(-20);
+								}
+							playerTick();
+							enemyTick();
+							bossTick();
+							repaint();
+							break;
+					}
 				}
 			});
 			timer.start();
@@ -146,18 +182,29 @@ public class SwordRunner extends JPanel
 											{
 												if(level.get(i).get(j).getType().equals("spike"))
 													{
-														if(Math.sqrt(Math.pow(guy.getPos().getX()-level.get(i).get(j).getPos().getX(), 2)+Math.pow(guy.getPos().getY()-level.get(i).get(j).getPos().getY(), 2))<160)
-															
+														if(stage == 0)
 															{
-																if(level.get(i).get(j).getCurrFrame()!=level.get(i).get(j).getMaxFrames()-1)
-																	level.get(i).get(j).setCurrFrame(level.get(i).get(j).getCurrFrame()+1);
-//																else
-//																	level.get(i).get(j).setCurrFrame(level.get(i).get(j).getMaxFrames()-1);
+																if(level.get(i).get(j).getPos().getX() < letterNum * 40 * 5)
+																	{
+																		if(level.get(i).get(j).getCurrFrame()!=level.get(i).get(j).getMaxFrames()-1)
+																			level.get(i).get(j).setCurrFrame(level.get(i).get(j).getCurrFrame()+1);
+																	}
 															}
 														else
 															{
-																if(level.get(i).get(j).getCurrFrame()!=0)
-																	level.get(i).get(j).setCurrFrame(level.get(i).get(j).getCurrFrame()-1);
+																if(Math.sqrt(Math.pow(guy.getPos().getX()-level.get(i).get(j).getPos().getX(), 2)+Math.pow(guy.getPos().getY()-level.get(i).get(j).getPos().getY(), 2))<160)
+																	
+																	{
+																		if(level.get(i).get(j).getCurrFrame()!=level.get(i).get(j).getMaxFrames()-1)
+																			level.get(i).get(j).setCurrFrame(level.get(i).get(j).getCurrFrame()+1);
+//																		else
+//																			level.get(i).get(j).setCurrFrame(level.get(i).get(j).getMaxFrames()-1);
+																	}
+																else
+																	{
+																		if(level.get(i).get(j).getCurrFrame()!=0)
+																			level.get(i).get(j).setCurrFrame(level.get(i).get(j).getCurrFrame()-1);
+																	}
 															}
 													}
 												if(level.get(i).get(j).getType().equals("lava") && level.get(i).get(j).getCurrFrame()<level.get(i).get(j).getMaxFrames())
@@ -185,86 +232,141 @@ public class SwordRunner extends JPanel
 		public void paintComponent(Graphics g)
 		{
 			super.paintComponent(g);
-			g.drawImage(skybox1.getImage(), skybox1.getPos().getX(), skybox1.getPos().getY(), null);
-			g.drawImage(skybox2.getImage(), skybox2.getPos().getX(), skybox2.getPos().getY(), null);
-			for(int r = level.size() - 1; r >= 0; r--)
-				{
-					for(int c = 0; c < level.get(r).size(); c++)
+			switch(stage)
+			{
+				case 0:
+					g.drawImage(skybox1.getImage(), skybox1.getPos().getX(), skybox1.getPos().getY(), null);
+					g.drawImage(skybox2.getImage(), skybox2.getPos().getX(), skybox2.getPos().getY(), null);
+					for(int r = level.size() - 1; r >= 0; r--)
 						{
-							if(level.get(r).get(c) != null)
+							for(int c = 0; c < level.get(r).size(); c++)
 								{
-								    if(level.get(r).get(c).getType().equals("spike"))
-								    	{
-								    		Block e = level.get(r).get(c);
-								    		g.drawImage(e.getAnim().get(e.getCurrFrame()), e.getPos().getX(), e.getPos().getY(), e.getPos().getX() + 40, e.getPos().getY() + 40, 0, 0, 40, 40, null, null);
-								    	}
-								    else if(level.get(r).get(c).getType().equals("lava"))
-								    	{
-								    		Block e = level.get(r).get(c);
-								    		g.drawImage(e.getAnim().get(e.getCurrFrame()), e.getPos().getX(), e.getPos().getY(), e.getPos().getX() + 40, e.getPos().getY() + 40, 0, 0, 40, 40, null, null);
-								    	}
-								    else if(!level.get(r).get(c).getType().equals(""))
+									if(level.get(r).get(c) != null)
 										{
-											g.drawImage(level.get(r).get(c).getImage(), level.get(r).get(c).getPos().getX(), level.get(r).get(c).getPos().getY(), null);	
-										}
-									else
-										{	
+										    if(level.get(r).get(c).getType().equals("spike"))
+										    	{
+										    		Block e = level.get(r).get(c);
+										    		g.drawImage(e.getAnim().get(e.getCurrFrame()), e.getPos().getX(), e.getPos().getY(), e.getPos().getX() + 40, e.getPos().getY() + 40, 0, 0, 40, 40, null, null);
+										    	}
+										    else if(level.get(r).get(c).getType().equals("lava"))
+										    	{
+										    		Block e = level.get(r).get(c);
+										    		g.drawImage(e.getAnim().get(e.getCurrFrame()), e.getPos().getX(), e.getPos().getY(), e.getPos().getX() + 40, e.getPos().getY() + 40, 0, 0, 40, 40, null, null);
+										    	}
+										    else if(!level.get(r).get(c).getType().equals(""))
+												{
+													g.drawImage(level.get(r).get(c).getImage(), level.get(r).get(c).getPos().getX(), level.get(r).get(c).getPos().getY(), null);	
+												}
+											else
+												{	
+//													g.setColor(level.get(r).get(c).getColor());
+//													g.fillRect(level.get(r).get(c).getPos().getX(), level.get(r).get(c).getPos().getY(), size, size);
+												}	
 //											g.setColor(level.get(r).get(c).getColor());
 //											g.fillRect(level.get(r).get(c).getPos().getX(), level.get(r).get(c).getPos().getY(), size, size);
-										}	
-//									g.setColor(level.get(r).get(c).getColor());
-//									g.fillRect(level.get(r).get(c).getPos().getX(), level.get(r).get(c).getPos().getY(), size, size);
+										}
 								}
 						}
-				}
-			for(Enemy e: goombas)
-				{
-					if(e.getVel().getX() > 0)
-						g.drawImage(e.getAnim().get(e.getCurrFrame()), e.getPos().getX(), e.getPos().getY(), e.getPos().getX() + 40, e.getPos().getY() + 40, 0, 0, 40, 40, null, null);
-					else if(e.getVel().getX() < 0)
-						g.drawImage(e.getAnim().get(e.getCurrFrame()), e.getPos().getX(), e.getPos().getY(), e.getPos().getX() + 40, e.getPos().getY() + 40, 40, 0, 0, 40, null, null);
-				}
+					if(letterNum >= 6)
+						{
+							Font s = new Font("Arial", Font.BOLD, 50);
+							g.setFont(s);
+							g.setColor(Color.BLACK);
+							g.drawString("PRESS ENTER TO START", 210, 550);
+						}				
+					g.drawImage(guy.getAnim().get(guy.getCurrFrame()), guy.getPos().getX(), guy.getPos().getY(), guy.getPos().getX() + 40, guy.getPos().getY() + 40, 0, 0, 40, 40, null, null);
+					for(Enemy e: goombas)
+						{
+							if(e.getVel().getX() > 0)
+								g.drawImage(e.getAnim().get(e.getCurrFrame()), e.getPos().getX(), e.getPos().getY(), e.getPos().getX() + 40, e.getPos().getY() + 40, 0, 0, 40, 40, null, null);
+							else if(e.getVel().getX() < 0)
+								g.drawImage(e.getAnim().get(e.getCurrFrame()), e.getPos().getX(), e.getPos().getY(), e.getPos().getX() + 40, e.getPos().getY() + 40, 40, 0, 0, 40, null, null);
+						}
 
-			for(Boss b: bosses)
-				{
-					g.drawImage(b.getAnim().get(b.getCurrFrame()), b.getPos().getX(), b.getPos().getY(), b.getPos().getX() + 80, b.getPos().getY() + 80, 0, 0, 80, 80, null, null);
-				}
-			if(guy.isInvinc() && (guy.getInvFrames() % 2 == 0))
-				{
-					//Don't draw the guy
-				}
-			else
-				{
-					if(guy.getVel().getX() > 0)
-						g.drawImage(guy.getAnim().get(guy.getCurrFrame()), guy.getPos().getX(), guy.getPos().getY(), guy.getPos().getX() + 40, guy.getPos().getY() + 40, 0, 0, 40, 40, null, null);
-					else if(guy.getVel().getX() < 0)
-						g.drawImage(guy.getAnim().get(guy.getCurrFrame()), guy.getPos().getX(), guy.getPos().getY(), guy.getPos().getX() + 40, guy.getPos().getY() + 40, 40, 0, 0, 40, null, null);
-					else if(guy.getVel().getX() == 0 && lastDir.equals("r"))
-						g.drawImage(guy.getAnim().get(guy.getCurrFrame()), guy.getPos().getX(), guy.getPos().getY(), guy.getPos().getX() + 40, guy.getPos().getY() + 40, 0, 0, 40, 40, null, null);
-					else if(guy.getVel().getX() == 0 && lastDir.equals("l"))
-						g.drawImage(guy.getAnim().get(guy.getCurrFrame()), guy.getPos().getX(), guy.getPos().getY(), guy.getPos().getX() + 40, guy.getPos().getY() + 40, 40, 0, 0, 40, null, null);
-				}
+					break;
+				case 1:
+					g.drawImage(skybox1.getImage(), skybox1.getPos().getX(), skybox1.getPos().getY(), null);
+					g.drawImage(skybox2.getImage(), skybox2.getPos().getX(), skybox2.getPos().getY(), null);
+					for(int r = level.size() - 1; r >= 0; r--)
+						{
+							for(int c = 0; c < level.get(r).size(); c++)
+								{
+									if(level.get(r).get(c) != null)
+										{
+										    if(level.get(r).get(c).getType().equals("spike"))
+										    	{
+										    		Block e = level.get(r).get(c);
+										    		g.drawImage(e.getAnim().get(e.getCurrFrame()), e.getPos().getX(), e.getPos().getY(), e.getPos().getX() + 40, e.getPos().getY() + 40, 0, 0, 40, 40, null, null);
+										    	}
+										    else if(level.get(r).get(c).getType().equals("lava"))
+										    	{
+										    		Block e = level.get(r).get(c);
+										    		g.drawImage(e.getAnim().get(e.getCurrFrame()), e.getPos().getX(), e.getPos().getY(), e.getPos().getX() + 40, e.getPos().getY() + 40, 0, 0, 40, 40, null, null);
+										    	}
+										    else if(!level.get(r).get(c).getType().equals(""))
+												{
+													g.drawImage(level.get(r).get(c).getImage(), level.get(r).get(c).getPos().getX(), level.get(r).get(c).getPos().getY(), null);	
+												}
+											else
+												{	
+//													g.setColor(level.get(r).get(c).getColor());
+//													g.fillRect(level.get(r).get(c).getPos().getX(), level.get(r).get(c).getPos().getY(), size, size);
+												}	
+//											g.setColor(level.get(r).get(c).getColor());
+//											g.fillRect(level.get(r).get(c).getPos().getX(), level.get(r).get(c).getPos().getY(), size, size);
+										}
+								}
+						}
+					for(Enemy e: goombas)
+						{
+							if(e.getVel().getX() > 0)
+								g.drawImage(e.getAnim().get(e.getCurrFrame()), e.getPos().getX(), e.getPos().getY(), e.getPos().getX() + 40, e.getPos().getY() + 40, 0, 0, 40, 40, null, null);
+							else if(e.getVel().getX() < 0)
+								g.drawImage(e.getAnim().get(e.getCurrFrame()), e.getPos().getX(), e.getPos().getY(), e.getPos().getX() + 40, e.getPos().getY() + 40, 40, 0, 0, 40, null, null);
+						}
 
-			for(int i = 0; i < guy.getLives(); i++)
-				{
-					g.drawImage(guyLives.getImage(), guyLives.getPos().getX() + (45 * i), guyLives.getPos().getY(), null);
-				}
-			for(int i = 0; i < maxLives - guy.getLives(); i++)
-				{
-					g.drawImage(lostLives.getImage(), (45 * guy.getLives()) + (45 * i) + lostLives.getPos().getX(), lostLives.getPos().getY(), null);
-				}
-			
-			g.drawImage(score.getImage(), score.getPos().getX(), score.getPos().getY(), null);
-			Font f = new Font("Arial", Font.PLAIN, 30);
-			g.setFont(f);
-			g.drawString(scoreCounter + " / " + scoreTotal, 910, 40);
-			
-			
+					for(Boss b: bosses)
+						{
+							g.drawImage(b.getAnim().get(b.getCurrFrame()), b.getPos().getX(), b.getPos().getY(), b.getPos().getX() + 80, b.getPos().getY() + 80, 0, 0, 80, 80, null, null);
+						}
+					if(guy.isInvinc() && (guy.getInvFrames() % 2 == 0))
+						{
+							//Don't draw the guy
+						}
+					else
+						{
+							if(guy.getVel().getX() > 0)
+								g.drawImage(guy.getAnim().get(guy.getCurrFrame()), guy.getPos().getX(), guy.getPos().getY(), guy.getPos().getX() + 40, guy.getPos().getY() + 40, 0, 0, 40, 40, null, null);
+							else if(guy.getVel().getX() < 0)
+								g.drawImage(guy.getAnim().get(guy.getCurrFrame()), guy.getPos().getX(), guy.getPos().getY(), guy.getPos().getX() + 40, guy.getPos().getY() + 40, 40, 0, 0, 40, null, null);
+							else if(guy.getVel().getX() == 0 && lastDir.equals("r"))
+								g.drawImage(guy.getAnim().get(guy.getCurrFrame()), guy.getPos().getX(), guy.getPos().getY(), guy.getPos().getX() + 40, guy.getPos().getY() + 40, 0, 0, 40, 40, null, null);
+							else if(guy.getVel().getX() == 0 && lastDir.equals("l"))
+								g.drawImage(guy.getAnim().get(guy.getCurrFrame()), guy.getPos().getX(), guy.getPos().getY(), guy.getPos().getX() + 40, guy.getPos().getY() + 40, 40, 0, 0, 40, null, null);
+						}
 
-			for(Boss b: bosses)
-				for(int i = 0; i < b.getHearts().size(); i++)
-					g.drawImage(b.getHearts().get(i).getImage(), b.getHearts().get(i).getPos().getX(), b.getHearts().get(i).getPos().getY(), null);
+					for(int i = 0; i < guy.getLives(); i++)
+						{
+							g.drawImage(guyLives.getImage(), guyLives.getPos().getX() + (45 * i), guyLives.getPos().getY(), null);
+						}
+					for(int i = 0; i < maxLives - guy.getLives(); i++)
+						{
+							g.drawImage(lostLives.getImage(), (45 * guy.getLives()) + (45 * i) + lostLives.getPos().getX(), lostLives.getPos().getY(), null);
+						}
+					
+					g.drawImage(score.getImage(), score.getPos().getX(), score.getPos().getY(), null);
+					Font f = new Font("Arial", Font.PLAIN, 30);
+					g.setFont(f);
+					g.drawString(scoreCounter + " / " + scoreTotal, 910, 40);
+					
+					
 
+					for(Boss b: bosses)
+						for(int i = 0; i < b.getHearts().size(); i++)
+							g.drawImage(b.getHearts().get(i).getImage(), b.getHearts().get(i).getPos().getX(), b.getHearts().get(i).getPos().getY(), null);
+
+					break;
+			}
 		}
 		public void readLevel()
 		{
