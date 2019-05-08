@@ -160,6 +160,12 @@ public class SwordRunner extends JPanel
 																	level.get(i).get(j).setCurrFrame(level.get(i).get(j).getCurrFrame()-1);
 															}
 													}
+												if(level.get(i).get(j).getType().equals("lava") && level.get(i).get(j).getCurrFrame()<level.get(i).get(j).getMaxFrames())
+													{
+														level.get(i).get(j).setCurrFrame(level.get(i).get(j).getCurrFrame()+1);
+														if(level.get(i).get(j).getCurrFrame()==level.get(i).get(j).getMaxFrames())
+															level.get(i).get(j).setCurrFrame(0);
+													}
 											}
 									}
 							}
@@ -192,7 +198,12 @@ public class SwordRunner extends JPanel
 								    		Block e = level.get(r).get(c);
 								    		g.drawImage(e.getAnim().get(e.getCurrFrame()), e.getPos().getX(), e.getPos().getY(), e.getPos().getX() + 40, e.getPos().getY() + 40, 0, 0, 40, 40, null, null);
 								    	}
-									if(!level.get(r).get(c).getType().equals("")&&!level.get(r).get(c).getType().equals("spike"))
+								    else if(level.get(r).get(c).getType().equals("lava"))
+								    	{
+								    		Block e = level.get(r).get(c);
+								    		g.drawImage(e.getAnim().get(e.getCurrFrame()), e.getPos().getX(), e.getPos().getY(), e.getPos().getX() + 40, e.getPos().getY() + 40, 0, 0, 40, 40, null, null);
+								    	}
+								    else if(!level.get(r).get(c).getType().equals(""))
 										{
 											g.drawImage(level.get(r).get(c).getImage(), level.get(r).get(c).getPos().getX(), level.get(r).get(c).getPos().getY(), null);	
 										}
@@ -325,6 +336,10 @@ public class SwordRunner extends JPanel
 									break;
 								case 't':
 									b = new Block(new Vector(x,y), Color.GRAY, "stone");
+									newLine.add(b);
+									break;
+								case 'l':
+									b = new Block(new Vector(x,y), null, "lava");
 									newLine.add(b);
 									break;
 							}

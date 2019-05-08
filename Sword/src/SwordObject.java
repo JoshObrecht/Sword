@@ -118,6 +118,11 @@ public abstract class SwordObject
 							case "coin":
 								image = ImageIO.read(new File("src/Images/coin.png"));
 								break;
+							case "lava":
+								image = ImageIO.read(new File("src/Images/lava.png"));
+								maxFrames = 6;
+								anim = fillAnim(1);
+								break;
 						}
 					} catch (IOException e)
 					{

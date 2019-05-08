@@ -43,6 +43,7 @@ public class Player extends Entity
 												}
 											break;
 										case "spike":
+										case "lava":
 											for(Rectangle r: hitBoxes)
 												{
 													if(b.getBounds().intersects(r))
