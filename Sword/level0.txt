@@ -1,0 +1,22 @@
+w              ccccccc
+w  ccc        ccccccc    c
+w ccccc       cccccc   ccc
+w  ccc                  cc
+w
+wssss s s s  ss  ssss sss
+ws    s s s s  s s  s s  s
+wssss s s s s  s ssss s  s
+w   s s s s s  s s s  s  s
+wssss  s s   ss  s  s sss
+w
+w
+w
+w
+w           
+w           
+w            p
+w            t
+w
+w                  e      w
+wggggggggggggggggggggggggg
+wrrrrrrrrrrrrrrrrrrrrrrrrr
