@@ -1,22 +1,22 @@
-w
-w
-w
-w
-w
-w
-w
-w
-w
-w
-w
-w
-w
-w            ct
-w            ct
-w            ct
-w            ct
-w            ct
-w            ct      b
-w p          ct
-wgggggggggggggtttttttttttttttttttttgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-wrrrrrrrrrrrrtttttttttttttttttttttttrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
+w 
+w    $ 
+w    c                                                                                    s
+w           $                                                                            $s
+w       c   c    c   $                                                                    c     
+w                    c
+w                          $          $$$
+w                          c       ccccccccc                                        $
+w    $ ssss    ssss      sss   cccc                                                 c
+w                             c
+w  
+w                         $                                                    $
+w                        ggg                                                   c
+w                                           
+w                                                                                                                                                    w
+w                         $                                                                $                                       $                 w
+w                       ggggg                                                              c                                                         w
+w                                                                                  $                  g gggggggggggcg                                w
+w                                                 $        $                  $    c   $         $    r       $$$$$$r           g     g              w
+w         $$$                               g  e  e  e          g             c        c         c    r  eeeeeeeeee r           r     r             xw
+wggggggggggggggggggggggg     gggggggggggggggrgggggggggggggggggggrgggggggggg                          grgggggggggggggrgggggggggggr     rggggggggggggggg
+wrrrrrrrrrrrrrrrrrrrrrrrsssssrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrssssssssssssssssssssssssssrrrrrrrrrrrrrrrrrrrrrrrrrrrrsssssrrrrrrrrrrrrrrrr
