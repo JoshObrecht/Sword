@@ -34,7 +34,7 @@ public class SwordRunner extends JPanel
 		public Entity skybox1;
 		public Entity skybox2;
 		public int levelNum = 0;
-		public int stage = 0;
+		public int stage = 2;
 		public int tickNum = 0;
 		public int letterNum = 0;
 		
@@ -50,7 +50,6 @@ public class SwordRunner extends JPanel
 				frame.setResizable(false);
 				game.setFocusable(true);
 				frame.setLocation((int)(screenSize.getWidth() / 2) - 600, (int)(screenSize.getHeight() / 2) - 480);
-				
 			}
 		public SwordRunner()
 		{
@@ -91,6 +90,13 @@ public class SwordRunner extends JPanel
 											readLevel();
 											goombas.clear();
 											guy = new Player(new Vector(40,-40), "player");
+										}
+									else if(stage == 2)
+										{
+											levelNum++;
+											readLevel();
+											guy = new Player(new Vector(40,-40), "player");
+											stage = 1;
 										}
 								}
 						}
@@ -156,6 +162,16 @@ public class SwordRunner extends JPanel
 							playerTick();
 							enemyTick();
 							bossTick();
+							repaint();
+							break;
+						case 2:
+							if(tickNum < 60)
+								tickNum++;
+							else
+								{
+									tickNum = 0;
+									letterNum++;
+								}
 							repaint();
 							break;
 					}
@@ -367,6 +383,27 @@ public class SwordRunner extends JPanel
 						for(int i = 0; i < b.getHearts().size(); i++)
 							g.drawImage(b.getHearts().get(i).getImage(), b.getHearts().get(i).getPos().getX(), b.getHearts().get(i).getPos().getY(), null);
 
+					break;
+				case 2:
+					g.drawImage(skybox1.getImage(), skybox1.getPos().getX(), skybox1.getPos().getY(), null);
+					g.drawImage(skybox2.getImage(), skybox2.getPos().getX(), skybox2.getPos().getY(), null);
+					Font z1 = new Font("Arial", Font.BOLD, 75);
+					Font z2 = new Font("Arial", Font.PLAIN, 40);
+					g.setFont(z1);
+					g.drawString("LEVEL "+levelNum+" COMPLETE!", 130, 250);
+					String scoreString = "";
+					if(letterNum > 0)
+						scoreString += "YOU GOT";
+					if(letterNum > 1)
+						scoreString += " "+scoreCounter;
+					if(letterNum > 2)
+						scoreString += " /";
+					if(letterNum > 3)
+						scoreString += " "+scoreTotal;
+					if(letterNum > 4)
+						g.drawImage(score.getImage(), 300 + (scoreString.length() * 21), 365, null);
+					g.setFont(z2);
+					g.drawString(scoreString, 300, 400);
 					break;
 				}
 			}
@@ -614,8 +651,9 @@ public class SwordRunner extends JPanel
 				}
 			if(checks[3])
 				{
-					levelNum++;
-					readLevel();
+					stage = 2;
+					tickNum = 0;
+					letterNum = 0;
 				}
 			if(checks[5])
 				getHurt(lastDir);
