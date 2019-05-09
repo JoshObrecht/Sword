@@ -318,7 +318,7 @@ public class SwordRunner extends JPanel
 								}
 						}
 
-				}
+				
 			for(Enemy e: goombas)
 				{
 					if(e.getVel().getX() > 0)
@@ -368,9 +368,11 @@ public class SwordRunner extends JPanel
 							g.drawImage(b.getHearts().get(i).getImage(), b.getHearts().get(i).getPos().getX(), b.getHearts().get(i).getPos().getY(), null);
 
 					break;
+				}
 			}
 
-		}
+	     
+
 		public void readLevel()
 		{
 			level = new ArrayList<ArrayList<Block>>();
