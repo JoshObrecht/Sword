@@ -333,14 +333,16 @@ public class SwordRunner extends JPanel
 										}
 								}
 						}
-					for(Enemy e: goombas)
-						{
-							if(e.getVel().getX() > 0)
-								g.drawImage(e.getAnim().get(e.getCurrFrame()), e.getPos().getX(), e.getPos().getY(), e.getPos().getX() + 40, e.getPos().getY() + 40, 0, 0, 40, 40, null, null);
-							else if(e.getVel().getX() < 0)
-								g.drawImage(e.getAnim().get(e.getCurrFrame()), e.getPos().getX(), e.getPos().getY(), e.getPos().getX() + 40, e.getPos().getY() + 40, 40, 0, 0, 40, null, null);
-						}
 
+				
+			for(Enemy e: goombas)
+				{
+					if(e.getVel().getX() > 0)
+						g.drawImage(e.getAnim().get(e.getCurrFrame()), e.getPos().getX(), e.getPos().getY(), e.getPos().getX() + 40, e.getPos().getY() + 40, 0, 0, 40, 40, null, null);
+					else if(e.getVel().getX() < 0)
+						g.drawImage(e.getAnim().get(e.getCurrFrame()), e.getPos().getX(), e.getPos().getY(), e.getPos().getX() + 40, e.getPos().getY() + 40, 40, 0, 0, 40, null, null);
+				}
+					
 					for(Boss b: bosses)
 						{
 							g.drawImage(b.getAnim().get(b.getCurrFrame()), b.getPos().getX(), b.getPos().getY(), b.getPos().getX() + 80, b.getPos().getY() + 80, 0, 0, 80, 80, null, null);
@@ -403,8 +405,11 @@ public class SwordRunner extends JPanel
 					g.setFont(z2);
 					g.drawString(scoreString, 300, 400);
 					break;
+				}
 			}
-		}
+
+	     
+
 		public void readLevel()
 		{
 			level = new ArrayList<ArrayList<Block>>();
@@ -560,6 +565,7 @@ public class SwordRunner extends JPanel
 				{
 					checkAllEnemies();
 					checks = guy.checkEverything();
+					
 					if(!checks[1])
 						{
 							int increment = guy.getVel().getX() / Math.abs(guy.getVel().getX());
@@ -571,6 +577,7 @@ public class SwordRunner extends JPanel
 					guy.getLeftB().setLocation(guy.getPos().getX() - 1, guy.getPos().getY());
 					guy.getRightB().setLocation(guy.getPos().getX() + size, guy.getPos().getY());
 					guy.getHitBoxes()[4].setLocation(guy.getPos().getX(), guy.getPos().getY());
+        
 					if(checks[5])
 						getHurt(lastDir);
 				}
@@ -586,6 +593,7 @@ public class SwordRunner extends JPanel
 							else
 								guy.getPos().setX(guy.getPos().getX() + increment);
 						}
+
 					guy.getLeftB().setLocation(guy.getPos().getX() - 1, guy.getPos().getY());
 					guy.getRightB().setLocation(guy.getPos().getX() + size, guy.getPos().getY());
 					guy.getHitBoxes()[4].setLocation(guy.getPos().getX(), guy.getPos().getY());
@@ -600,6 +608,7 @@ public class SwordRunner extends JPanel
 				{
 					guy.getPushVel().setX(guy.getPushVel().getX() + 1);
 				}
+
 			
 			for(int i = 0; i < Math.abs(guy.getVel().getY()); i++)
 				{

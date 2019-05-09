@@ -76,8 +76,9 @@ public class Player extends Entity
 			
 			if(SwordRunner.level.get(0).get(0).getPos().getX() == -40 && vel.getX() < 0)
 				checks[4] = false;
-			else if((pos.getX() == 40 && (vel.getX() < 0 || pushVel.getX() < 0)) || (pos.getX() == 460 && (vel.getX() > 0 || pushVel.getX() > 0)))
+			else if((pos.getX() == 120 && (vel.getX() < 0 || pushVel.getX() < 0)) || (pos.getX() == 460 && (vel.getX() > 0 || pushVel.getX() > 0)))
 				checks[4] = true;
 			return checks;
 		}
 	}
+
