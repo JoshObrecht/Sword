@@ -34,7 +34,7 @@ public class SwordRunner extends JPanel
 		public Entity skybox1;
 		public Entity skybox2;
 		public int levelNum = 0;
-		public int stage = 0;
+		public int stage = 2;
 		public int tickNum = 0;
 		public int letterNum = 0;
 		
@@ -50,7 +50,6 @@ public class SwordRunner extends JPanel
 				frame.setResizable(false);
 				game.setFocusable(true);
 				frame.setLocation((int)(screenSize.getWidth() / 2) - 600, (int)(screenSize.getHeight() / 2) - 480);
-				
 			}
 		public SwordRunner()
 		{
@@ -390,6 +389,19 @@ public class SwordRunner extends JPanel
 					Font z2 = new Font("Arial", Font.PLAIN, 40);
 					g.setFont(z1);
 					g.drawString("LEVEL "+levelNum+" COMPLETE!", 130, 250);
+					String scoreString = "";
+					if(letterNum > 0)
+						scoreString += "YOU GOT";
+					if(letterNum > 1)
+						scoreString += " "+scoreCounter;
+					if(letterNum > 2)
+						scoreString += " /";
+					if(letterNum > 3)
+						scoreString += " "+scoreTotal;
+					if(letterNum > 4)
+						g.drawImage(score.getImage(), 300 + (scoreString.length() * 21), 365, null);
+					g.setFont(z2);
+					g.drawString(scoreString, 300, 400);
 					break;
 			}
 		}
@@ -631,6 +643,7 @@ public class SwordRunner extends JPanel
 			if(checks[3])
 				{
 					stage = 2;
+					tickNum = 0;
 					letterNum = 0;
 				}
 			if(checks[5])
