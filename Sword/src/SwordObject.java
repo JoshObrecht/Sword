@@ -48,17 +48,17 @@ public abstract class SwordObject
 		{
 			this.anim = anim;
 		}
-		public ArrayList<BufferedImage> fillAnim()
+		public ArrayList<BufferedImage> fillAnim(int size)
 		{
 			ArrayList<BufferedImage> newAnim = new ArrayList<BufferedImage>();
 			int frameNum = 0;
-			for(int j = 0; j < image.getHeight(); j+=40)
+			for(int j = 0; j < image.getHeight(); j+=(40 * size))
 				{
-					for(int k = 0; k < image.getWidth(); k+=40)
+					for(int k = 0; k < image.getWidth(); k+=(40 * size))
 						{
 							if(frameNum <= maxFrames)
 								{
-									newAnim.add(image.getSubimage(k, j, 40, 40));
+									newAnim.add(image.getSubimage(k, j, (40 * size), (40 * size)));
 									frameNum++;
 								}
 						}
@@ -77,11 +77,17 @@ public abstract class SwordObject
 							case "death":
 								image = ImageIO.read(new File("src/Images/lostLife.png"));
 								break;
+							case "bossLife":
+								image = ImageIO.read(new File("src/Images/bosshearts.png"));
+								break;
 							case "grass":
 								image = ImageIO.read(new File("src/Images/grassblock2.png"));
 								break;
 							case "dirt":
 								image = ImageIO.read(new File("src/Images/dirtblock.png"));
+								break;
+							case "stone":
+								image = ImageIO.read(new File("src/Images/stonebrick.png"));
 								break;
 							case "cloud":
 								image = ImageIO.read(new File("src/Images/cloud.png"));
@@ -92,20 +98,30 @@ public abstract class SwordObject
 							case "enemy":
 								image = ImageIO.read(new File("src/Images/slime.png"));
 								maxFrames = 3;
-								anim = fillAnim();
+								anim = fillAnim(1);
 								break;
 							case "player":
 								image = ImageIO.read(new File("src/Images/swordsprites.png"));
 								maxFrames = 4;
-								anim = fillAnim();
+								anim = fillAnim(1);
+								break;
+							case "boss":
+								image = ImageIO.read(new File("src/Images/Boss.png"));
+								maxFrames = 3;
+								anim = fillAnim(2);
 								break;
 							case "spike":
 								image = ImageIO.read(new File("src/Images/spikey.png"));
 								maxFrames = 3;
-								anim = fillAnim();
+								anim = fillAnim(1);
 								break;
 							case "coin":
 								image = ImageIO.read(new File("src/Images/coin.png"));
+								break;
+							case "lava":
+								image = ImageIO.read(new File("src/Images/lava.png"));
+								maxFrames = 6;
+								anim = fillAnim(1);
 								break;
 						}
 					} catch (IOException e)

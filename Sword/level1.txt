@@ -1,22 +1,22 @@
+w 
+w 
+w 
+w 
+w     
 w
+w                                     $$$
+w                                  ccccccccc
+w                        sss   cccc
+w                             c
+w  
+w                         $
+w                        ggg
 w
-w
-w
-w
-w
-w
-w
-w
-w
-w                           g
-w                           r
-w                           r             rccrrrrrrrrrrrrrrrrrrr
-w                           r             rccrc      eeeeeeee  r
-w                           r             rccrcrrrrrrrrrrrrrrrrr						    
-w                           r             rccrcr
-w              gggccccccccc r             rccccr
-w             grrr cccccccccr             rccccr
-w            grrrrccccccccc r             rccccr                               ccccc 
-w  p        grrrrr ccccccccc                           e    e    e     c c c c c                                                 x
-wccccccccccgrrccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-wcccccccccgrrcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+w 
+w                         $
+w                       ggggg
+w              
+w                    
+w              
+wggggggggggggggggggggggg     ggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
+wrrrrrrrrrrrrrrrrrrrrrrrsssssrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
