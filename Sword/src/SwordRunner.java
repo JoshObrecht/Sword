@@ -233,7 +233,7 @@ public class SwordRunner extends JPanel
 			g.drawImage(score.getImage(), score.getPos().getX(), score.getPos().getY(), null);
 			Font f = new Font("Arial", Font.PLAIN, 30);
 			g.setFont(f);
-			g.drawString(scoreCounter+" / "+scoreTotal, 910, 40);
+			g.drawString(scoreCounter+" / "+scoreTotal, 900, 40);
 			
 			
 		}
@@ -362,6 +362,7 @@ public class SwordRunner extends JPanel
 			for(int i = 0; i < Math.abs(guy.getVel().getX()); i++)
 				{
 					checks = guy.checkEverything();
+					
 					if(!checks[1])
 						{
 							int increment = guy.getVel().getX() / Math.abs(guy.getVel().getX());
@@ -372,6 +373,7 @@ public class SwordRunner extends JPanel
 						}
 					if(checks[5])
 						getHurt("l");
+					
 					guy.getLeftB().setLocation(guy.getPos().getX() - 1, guy.getPos().getY());
 					guy.getRightB().setLocation(guy.getPos().getX() + size, guy.getPos().getY());
 					guy.getHitBoxes()[4].setLocation(guy.getPos().getX(), guy.getPos().getY());
@@ -381,7 +383,6 @@ public class SwordRunner extends JPanel
 			
 			if(checks[5])
 				getHurt("l");
-			
 			if(checks[6])
 				scoreCounter++;
 			
