@@ -16,7 +16,7 @@ import java.util.Scanner;
 public class SwordRunner extends JPanel
 	{
 		public Player guy = new Player(new Vector(40,-40), "player");
-		public final int maxLives = 3;
+		public final int maxLives = 5;
 		public Ghost guyLives = new Ghost(new Vector(5,10), "life");
 		public Ghost lostLives = new Ghost(new Vector(5, 10), "death");
 		public Ghost score = new Ghost(new Vector(860, 10), "coin");
@@ -90,6 +90,8 @@ public class SwordRunner extends JPanel
 											readLevel();
 											goombas.clear();
 											guy = new Player(new Vector(40,-40), "player");
+											xDir = "";
+											isJumping = false;
 										}
 									else if(stage == 2)
 										{
@@ -97,6 +99,17 @@ public class SwordRunner extends JPanel
 											readLevel();
 											guy = new Player(new Vector(40,-40), "player");
 											stage = 1;
+											xDir = "";
+											isJumping = false;
+										}
+									else if(stage == 3)
+										{
+											goombas.clear();
+											readLevel();
+											guy = new Player(new Vector(40,-40), "player");
+											stage = 1;
+											xDir = "";
+											isJumping = false;
 										}
 								}
 						}
@@ -165,6 +178,16 @@ public class SwordRunner extends JPanel
 							repaint();
 							break;
 						case 2:
+							if(tickNum < 60)
+								tickNum++;
+							else
+								{
+									tickNum = 0;
+									letterNum++;
+								}
+							repaint();
+							break;
+						case 3:
 							if(tickNum < 60)
 								tickNum++;
 							else
@@ -248,6 +271,8 @@ public class SwordRunner extends JPanel
 		public void paintComponent(Graphics g)
 		{
 			super.paintComponent(g);
+			Font z1 = new Font("Arial", Font.BOLD, 75);
+			Font z2 = new Font("Arial", Font.PLAIN, 40);
 			switch(stage)
 			{
 				case 0:
@@ -387,10 +412,9 @@ public class SwordRunner extends JPanel
 				case 2:
 					g.drawImage(skybox1.getImage(), skybox1.getPos().getX(), skybox1.getPos().getY(), null);
 					g.drawImage(skybox2.getImage(), skybox2.getPos().getX(), skybox2.getPos().getY(), null);
-					Font z1 = new Font("Arial", Font.BOLD, 75);
-					Font z2 = new Font("Arial", Font.PLAIN, 40);
 					g.setFont(z1);
 					g.drawString("LEVEL "+levelNum+" COMPLETE!", 130, 250);
+					
 					String scoreString = "";
 					if(letterNum > 0)
 						scoreString += "YOU GOT";
@@ -404,6 +428,19 @@ public class SwordRunner extends JPanel
 						g.drawImage(score.getImage(), 300 + (scoreString.length() * 21), 365, null);
 					g.setFont(z2);
 					g.drawString(scoreString, 300, 400);
+					break;
+				case 3:
+					Font z3 = new Font("ARIAL", Font.BOLD, 100);
+					g.drawImage(skybox1.getImage(), skybox1.getPos().getX(), skybox1.getPos().getY(), null);
+					g.drawImage(skybox2.getImage(), skybox2.getPos().getX(), skybox2.getPos().getY(), null);
+					g.setFont(z3);
+					g.setColor(Color.BLACK);
+					g.drawString("YOU DIED", 260, 300);
+					if(letterNum > 1)
+						{
+							g.setFont(z2);
+							g.drawString("PRESS ENTER TO RETRY...", 260, 500);
+						}
 					break;
 				}
 			}
@@ -824,6 +861,13 @@ public class SwordRunner extends JPanel
 		{
 			if(!guy.isInvinc())
 				guy.setLives(guy.getLives() - 1);
+			if(guy.getLives() == 0)
+				{
+					stage = 3;
+					letterNum = 0;
+					tickNum = 0;
+					return;
+				}
 			guy.setInvinc(true);
 			guy.getVel().setY(-10);
 			if(dir.equals("l"))
