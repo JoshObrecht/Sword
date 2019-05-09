@@ -101,6 +101,7 @@ public class SwordRunner extends JPanel
 											stage = 1;
 											xDir = "";
 											isJumping = false;
+											scoreCounter = 0;
 										}
 									else if(stage == 3)
 										{
@@ -110,6 +111,7 @@ public class SwordRunner extends JPanel
 											stage = 1;
 											xDir = "";
 											isJumping = false;
+											scoreCounter = 0;
 										}
 								}
 						}
