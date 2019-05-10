@@ -100,6 +100,11 @@ public abstract class SwordObject
 								maxFrames = 3;
 								anim = fillAnim(1);
 								break;
+							case "skyenemy":
+								image = ImageIO.read(new File("src/Images/slimesky.png"));
+								maxFrames = 3;
+								anim = fillAnim(1);
+								break;
 							case "player":
 								image = ImageIO.read(new File("src/Images/swordsprites.png"));
 								maxFrames = 4;

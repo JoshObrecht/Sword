@@ -33,8 +33,8 @@ public class SwordRunner extends JPanel
 		public final int size = 40;
 		public Entity skybox1;
 		public Entity skybox2;
-		public int levelNum = 0;
-		public int stage = 0;
+		public int levelNum = 2;
+		public int stage = 1;
 		public int tickNum = 0;
 		public int letterNum = 0;
 		public int colorNum = 0;
@@ -494,6 +494,7 @@ public class SwordRunner extends JPanel
 		public void readLevel()
 		{
 			level = new ArrayList<ArrayList<Block>>();
+			scoreTotal = 0;
 			Scanner levelReader = null;
 			int position = 0;
 			try
@@ -532,6 +533,9 @@ public class SwordRunner extends JPanel
 									break;
 								case 'e':
 									goombas.add(new Enemy(new Vector(x,y), "enemy"));
+									break;
+								case 'k':
+									goombas.add(new Enemy(new Vector(x,y), "skyenemy"));
 									break;
 								case 'c':
 									b = new Block(new Vector(x,y), Color.CYAN, "cloud");
