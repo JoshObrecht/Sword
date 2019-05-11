@@ -59,6 +59,7 @@ public class Player extends Entity
 														{
 															checks[6] = true;
 															SwordRunner.scoreCounter++;
+															SoundEffect.COIN.play();
 															gc.add(b);
 														}
 												}
