@@ -33,8 +33,8 @@ public class SwordRunner extends JPanel
 		public final int size = 40;
 		public Entity skybox1;
 		public Entity skybox2;
-		public int levelNum = 2;
-		public int stage = 1;
+		public int levelNum = 0;
+		public int stage = 0;
 		public int tickNum = 0;
 		public int letterNum = 0;
 		public int colorNum = 0;
