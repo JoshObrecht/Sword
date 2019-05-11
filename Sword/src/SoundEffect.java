@@ -12,6 +12,7 @@ import javax.sound.sampled.*;
  */
 public enum SoundEffect {
    TEST("piano2.wav"),
+   COIN("coin.wav"),
    MARIO("mario2.wav");// explosion
 //   SHOOT("shoot.wav");       // bullet
    
