@@ -11,7 +11,8 @@ import javax.sound.sampled.*;
  * 4. You can use the static variable SoundEffect.volume to mute the sound.
  */
 public enum SoundEffect {
-   TEST("piano2.wav");  // explosion
+   TEST("piano2.wav"),
+   MARIO("mario2.wav");// explosion
 //   SHOOT("shoot.wav");       // bullet
    
    // Nested class for specifying volume
@@ -52,6 +53,11 @@ public enum SoundEffect {
          clip.setFramePosition(0); // rewind to the beginning
          clip.start();     // Start playing
       }
+   }
+   public void loop()
+   {
+	   if(!clip.isRunning())
+		   play();
    }
    
    // Optional static method to pre-load all the sound files.
