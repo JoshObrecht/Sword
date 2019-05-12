@@ -2,11 +2,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.sound.sampled.*;
-import javax.sound.sampled.LineEvent.Type;
 import javax.swing.*;
 import javax.swing.JFrame;
 import javax.swing.Timer;
@@ -43,7 +40,7 @@ public class SwordRunner extends JPanel
 		public int colorNum = 0;
 		public Color[] colors = {Color.WHITE, Color.RED, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.BLUE, Color.PINK};
 		
-		public static void main(String[] args) throws IOException, UnsupportedAudioFileException, LineUnavailableException, InterruptedException
+		public static void main(String[] args)
 			{
 				Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 				JFrame frame = new JFrame("Sword");
@@ -55,9 +52,8 @@ public class SwordRunner extends JPanel
 				frame.setResizable(false);
 				game.setFocusable(true);
 				frame.setLocation((int)(screenSize.getWidth() / 2) - 600, (int)(screenSize.getHeight() / 2) - 480);
-				SoundEffect.init();
 			}
-		public SwordRunner() throws IOException, UnsupportedAudioFileException, LineUnavailableException, InterruptedException
+		public SwordRunner()
 		{
 			setBackground(Color.BLACK);
 			addKeyListener(new KeyAdapter()
@@ -80,9 +76,6 @@ public class SwordRunner extends JPanel
 										case KeyEvent.VK_UP:
 										case KeyEvent.VK_W:
 											isJumping = true;
-											break;
-										case KeyEvent.VK_O:
-											SoundEffect.TEST.play();
 											break;
 										default:
 											xDir = "";
@@ -166,7 +159,6 @@ public class SwordRunner extends JPanel
 							repaint();
 							break;
 						case 1:
-							SoundEffect.MARIO.loop();
 							if(xDir.equals("r"))
 								{
 									guy.getVel().setX(5);
