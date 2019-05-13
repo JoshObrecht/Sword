@@ -87,8 +87,8 @@ public class SwordRunner extends JPanel
 										{
 											stage++;
 											levelNum++;
-											readLevel();
 											goombas.clear();
+											readLevel();
 											guy = new Player(new Vector(40,-40), "player");
 										}
 									else if(stage == 2)
@@ -497,10 +497,17 @@ public class SwordRunner extends JPanel
 				{
 					
 			skybox1 = new Entity(new Vector(0,0), "");
-			skybox1.setImage(ImageIO.read(new File("src/Images/grasslandskybox1.png")));
-			
 			skybox2 = new Entity(new Vector(1000,0), "");
-			skybox2.setImage(ImageIO.read(new File("src/Images/grasslandskybox2.png")));
+			if(levelNum>=4)
+				{
+					skybox1.setImage(ImageIO.read(new File("src/Images/hellskybox1.png")));
+					skybox2.setImage(ImageIO.read(new File("src/Images/hellskybox2.png")));
+				}
+			else
+				{
+					skybox1.setImage(ImageIO.read(new File("src/Images/grasslandskybox1.png")));
+					skybox2.setImage(ImageIO.read(new File("src/Images/grasslandskybox2.png")));
+				}
 			
 				}
 			catch(Exception e){}

@@ -2,21 +2,21 @@ w
 w 
 w 
 w 
-w                        ccccc
-w                         ccc
-w 
-w 
-w                   gggg
-w                   r
-w      gg        c                                          gg
-w             ccc                                         grrg
 w
-w           gggg
-w                                   gggggg
 w
-w                   g                                                               rrr             ggggg
-w                                                           g                      rrr               rrr
-w            ccc                                                                  rrr                 r
-w p  ggg     ccc             e                   ggg             e e            rrr
-wggggrrrgggggggggggggggggggggggggggggggggggggggggrrrggggggggggggggggggggggggggggrrrgggggggggggggggggggggggggggggggggggggggg
-wrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
+w
+w
+w
+w
+w
+w
+w
+w
+w
+w
+w
+w
+w
+w
+wtttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt
+wtttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt
