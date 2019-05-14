@@ -13,7 +13,8 @@ import javax.sound.sampled.*;
 public enum SoundEffect {
    TEST("piano2.wav"),
    COIN("coin.wav"),
-   MARIO("mario2.wav");// explosion
+   MARIO("mario2.wav"),
+   WARD("ward.wav");// explosion
 //   SHOOT("shoot.wav");       // bullet
    
    // Nested class for specifying volume
@@ -59,6 +60,14 @@ public enum SoundEffect {
    {
 	   if(!clip.isRunning())
 		   play();
+   }
+   public void end()
+   {
+	   if(clip.isRunning())
+		   {
+			   clip.stop();
+			   clip.setFramePosition(0);
+		   }
    }
    
    // Optional static method to pre-load all the sound files.

@@ -81,9 +81,6 @@ public class SwordRunner extends JPanel
 										case KeyEvent.VK_W:
 											isJumping = true;
 											break;
-										case KeyEvent.VK_O:
-											SoundEffect.TEST.play();
-											break;
 										default:
 											xDir = "";
 											guy.setCurrFrame(0);
@@ -166,7 +163,16 @@ public class SwordRunner extends JPanel
 							repaint();
 							break;
 						case 1:
-							SoundEffect.MARIO.loop();
+							if(levelNum < 4)
+								{
+									SoundEffect.WARD.end();
+									SoundEffect.MARIO.loop();
+								}
+							else
+								{
+									SoundEffect.MARIO.end();
+									SoundEffect.WARD.loop();
+								}
 							if(xDir.equals("r"))
 								{
 									guy.getVel().setX(5);
