@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -42,8 +43,9 @@ public class SwordRunner extends JPanel
 		public int letterNum = 0;
 		public int colorNum = 0;
 		public Color[] colors = {Color.WHITE, Color.RED, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.BLUE, Color.PINK};
+		public BufferedImage[] skyboxes;
 		
-		public static void main(String[] args) throws IOException, UnsupportedAudioFileException, LineUnavailableException, InterruptedException
+		public static void main(String[] args)
 			{
 				Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 				JFrame frame = new JFrame("Sword");
@@ -57,7 +59,7 @@ public class SwordRunner extends JPanel
 				frame.setLocation((int)(screenSize.getWidth() / 2) - 600, (int)(screenSize.getHeight() / 2) - 480);
 				SoundEffect.init();
 			}
-		public SwordRunner() throws IOException, UnsupportedAudioFileException, LineUnavailableException, InterruptedException
+		public SwordRunner()
 		{
 			setBackground(Color.BLACK);
 			addKeyListener(new KeyAdapter()
@@ -112,6 +114,7 @@ public class SwordRunner extends JPanel
 									else if(stage == 3)
 										{
 											goombas.clear();
+											bosses.clear();
 											readLevel();
 											guy = new Player(new Vector(40,-40), "player");
 											stage = 1;
@@ -163,16 +166,6 @@ public class SwordRunner extends JPanel
 							repaint();
 							break;
 						case 1:
-							if(levelNum < 4)
-								{
-									SoundEffect.WARD.end();
-									SoundEffect.MARIO.loop();
-								}
-							else
-								{
-									SoundEffect.MARIO.end();
-									SoundEffect.WARD.loop();
-								}
 							if(xDir.equals("r"))
 								{
 									guy.getVel().setX(5);
@@ -507,6 +500,16 @@ public class SwordRunner extends JPanel
 
 		public void readLevel()
 		{
+			if(levelNum > 0 && levelNum < 4)
+				{
+					SoundEffect.WARD.end();
+					SoundEffect.MARIO.loop();
+				}
+			else
+				{
+					SoundEffect.MARIO.end();
+					SoundEffect.WARD.loop();
+				}
 			level = new ArrayList<ArrayList<Block>>();
 			scoreTotal = 0;
 			Scanner levelReader = null;
@@ -595,24 +598,16 @@ public class SwordRunner extends JPanel
 					x = size * -1;
 					y += size;
 				}
-			try
+			if(levelNum < 4)
 				{
-					
-			skybox1 = new Entity(new Vector(0,0), "");
-			skybox2 = new Entity(new Vector(1000,0), "");
-			if(levelNum>=4)
-				{
-					skybox1.setImage(ImageIO.read(new File("src/Images/hellskybox1.png")));
-					skybox2.setImage(ImageIO.read(new File("src/Images/hellskybox2.png")));
+					skybox1 = new Entity(new Vector(0,0), "sky1");
+					skybox2 = new Entity(new Vector(1000,0), "sky2");
 				}
 			else
 				{
-					skybox1.setImage(ImageIO.read(new File("src/Images/grasslandskybox1.png")));
-					skybox2.setImage(ImageIO.read(new File("src/Images/grasslandskybox2.png")));
+					skybox1 = new Entity(new Vector(0,0), "hellsky1");
+					skybox2 = new Entity(new Vector(1000,0), "hellsky2");
 				}
-			
-				}
-			catch(Exception e){}
 			
 		}
 
@@ -769,7 +764,6 @@ public class SwordRunner extends JPanel
 		}
 		public void enemyTick()
 		{
-			boolean shouldReset = false;
 			for(Enemy e: goombas)
 				{
 					for(int i = 0; i < Math.abs(e.getVel().getX()); i++)
@@ -790,8 +784,6 @@ public class SwordRunner extends JPanel
 						}
 				}
 			goombas.removeAll(gc);
-//			if(shouldReset)
-//				deathReset();
 		}
 		public void bossTick()
 		{
@@ -875,46 +867,53 @@ public class SwordRunner extends JPanel
 		{
 			for(Enemy e: goombas)
 				{
-					String collideCheck = checkEnemyCollide(e);
-					if(collideCheck.substring(0,5).equals("death"))
+					if(Math.abs(guy.getPos().getX() - e.getPos().getX()) <= 40)
 						{
-							gc.add(e);
-							getHurt(collideCheck.substring(5));
-							break;
-						}
-					else if(collideCheck.equals("bounce"))
-						{
-							gc.add(e);
-							guy.getVel().setY(-15);
-							break;
+							String collideCheck = checkEnemyCollide(e);
+							if(collideCheck.substring(0,5).equals("death"))
+								{
+									gc.add(e);
+									getHurt(collideCheck.substring(5));
+									break;
+								}
+							else if(collideCheck.equals("bounce"))
+								{
+									gc.add(e);
+									guy.getVel().setY(-15);
+									break;
+								}
 						}
 				}
 			for(Boss b: bosses)
 				{
-					String collideCheck = checkEnemyCollide(b);
-					if(collideCheck.equals("bounce"))
+					if(Math.abs(guy.getPos().getX() - b.getPos().getX()) <= 80)
 						{
-							guy.getVel().setY(-15);
-							if(!b.isInvinc())
+							String collideCheck = checkEnemyCollide(b);
+							if(collideCheck.equals("bounce"))
 								{
-									if(b.getHearts().size() > 0)
+									guy.getVel().setY(-15);
+									if(!b.isInvinc())
 										{
-											b.getHearts().remove(b.getHearts().size() - 1);
-											b.setInvinc(true);
+											if(b.getHearts().size() > 0)
+												{
+													b.getHearts().remove(b.getHearts().size() - 1);
+													b.setInvinc(true);
+												}
+											else
+												{
+													gc.add(b);
+													stage = 4;
+												}		
 										}
-									else
-										{
-											gc.add(b);
-											stage = 4;
-										}		
+									break;
 								}
-							break;
+							else if(collideCheck.substring(0,5).equals("death"))
+								{
+									getHurt(collideCheck.substring(5));
+									break;
+								}
 						}
-					else if(collideCheck.substring(0,5).equals("death"))
-						{
-							getHurt(collideCheck.substring(5));
-							break;
-						}
+					
 				}
 		}
 		public String checkEnemyCollide(Enemy e)
