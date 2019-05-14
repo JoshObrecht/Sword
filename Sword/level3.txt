@@ -1,8 +1,8 @@
 w 
 w    $ 
-w    c                                                                                    s
-w           $                                                                            $s
-w       c   c    c   $                                                                    c     
+w    c                                                                                   s
+w           $                                                                           $s
+w       c   c    c   $                                                                   c     
 w                    c
 w                          $          $$$
 w                          c       ccccccccc                                        $
@@ -12,8 +12,8 @@ w
 w                         $                                                    $
 w                        ggg                                                   c
 w                                           
-w                                                                                                                                                    w
-w                         $                                                                $                                       $                 w
+w                                                                                                                                  $                 w
+w                         $                                                                $                                                         w
 w                       ggggg                                                              c                                                         w
 w                                                                                  $                  g gggggggggggcg                                w
 w                                                 $        $                  $    c   $         $    r       $$$$$$r           g     g              w

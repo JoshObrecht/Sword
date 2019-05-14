@@ -4,19 +4,19 @@ w
 w 
 w     
 w
-w                                     $$$
-w                                  ccccccccc
-w                        sss   cccc
-w                             c
-w  
-w                         $
-w                        ggg
-w
-w 
-w                         $
-w                       ggggg
-w              
-w                    
-w                                                           x
-wggggggggggggggggggggggg     ggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-wrrrrrrrrrrrrrrrrrrrrrrrsssssrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
+w                                     
+w                                
+w                                                                                                              $                        
+w                                                                                                            ccccc$
+w                                                                                                    c  $ccccc ccccc$                                                             w
+w                                                                                              $     ccccc         cccc                                                           w
+w                                                                                        $     g                                                                 t                w
+w                                                         $                              g                                                                      tt                w
+w                                                         g                                                                                                    ttt                w
+w          $                       $                   $  r  $                       $                                                                        tttt                w
+w         ggg                      g                   g  r  g                       g                                                                       ttttt                w
+w                                  r                $  r  r  r  $                                                                                           tttttt                w
+w                                  r                g  r  r  r  g                                                                                          ttttttt                w
+w     $         $           g e  e r  e   e  e      rssrssrssrssr                         eeeeeeeeeeeeee                        ggg  eeeee                ttttttttsssssss        xw                         
+wgggggggggggggggggggggggggggrggggggrggggggggggggggggrggrggrggrggrgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggrrrgggggggggggggggggggggggggggggggggggggggggggggggw
+wrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrw
