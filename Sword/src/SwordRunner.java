@@ -545,6 +545,9 @@ public class SwordRunner extends JPanel
 								case 'k':
 									goombas.add(new Enemy(new Vector(x,y), "skyenemy"));
 									break;
+								case 'q':
+									goombas.add(new Enemy(new Vector(x,y), "lavaenemy"));
+									break;
 								case 'c':
 									b = new Block(new Vector(x,y), Color.CYAN, "cloud");
 									newLine.add(b);
