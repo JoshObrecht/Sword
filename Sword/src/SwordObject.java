@@ -133,6 +133,18 @@ public abstract class SwordObject
 								maxFrames = 6;
 								anim = fillAnim(1);
 								break;
+							case "sky1":
+								image = ImageIO.read(new File("src/Images/grasslandskybox1.png"));
+								break;
+							case "sky2":
+								image = ImageIO.read(new File("src/Images/grasslandskybox2.png"));
+								break;
+							case "hellsky1":
+								image = ImageIO.read(new File("src/Images/hellskybox1.png"));
+								break;
+							case "hellsky2":
+								image = ImageIO.read(new File("src/Images/hellskybox2.png"));
+								break;
 						}
 					} catch (IOException e)
 					{
