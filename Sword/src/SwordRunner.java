@@ -2,8 +2,11 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.*;
+import javax.sound.sampled.LineEvent.Type;
 import javax.swing.*;
 import javax.swing.JFrame;
 import javax.swing.Timer;
@@ -16,7 +19,7 @@ import java.util.Scanner;
 public class SwordRunner extends JPanel
 	{
 		public Player guy = new Player(new Vector(40,-40), "player");
-		public final int maxLives = 3;
+		public final int maxLives = 5;
 		public Ghost guyLives = new Ghost(new Vector(5,10), "life");
 		public Ghost lostLives = new Ghost(new Vector(5, 10), "death");
 		public Ghost score = new Ghost(new Vector(860, 10), "coin");
@@ -37,8 +40,10 @@ public class SwordRunner extends JPanel
 		public int stage = 0;
 		public int tickNum = 0;
 		public int letterNum = 0;
+		public int colorNum = 0;
+		public Color[] colors = {Color.WHITE, Color.RED, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.BLUE, Color.PINK};
 		
-		public static void main(String[] args)
+		public static void main(String[] args) throws IOException, UnsupportedAudioFileException, LineUnavailableException, InterruptedException
 			{
 				Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 				JFrame frame = new JFrame("Sword");
@@ -50,10 +55,11 @@ public class SwordRunner extends JPanel
 				frame.setResizable(false);
 				game.setFocusable(true);
 				frame.setLocation((int)(screenSize.getWidth() / 2) - 600, (int)(screenSize.getHeight() / 2) - 480);
+				SoundEffect.init();
 			}
-		public SwordRunner()
+		public SwordRunner() throws IOException, UnsupportedAudioFileException, LineUnavailableException, InterruptedException
 		{
-			setBackground(Color.CYAN);
+			setBackground(Color.BLACK);
 			addKeyListener(new KeyAdapter()
 					{
 						@Override
@@ -75,6 +81,9 @@ public class SwordRunner extends JPanel
 										case KeyEvent.VK_W:
 											isJumping = true;
 											break;
+										case KeyEvent.VK_O:
+											SoundEffect.TEST.play();
+											break;
 										default:
 											xDir = "";
 											guy.setCurrFrame(0);
@@ -90,6 +99,8 @@ public class SwordRunner extends JPanel
 											goombas.clear();
 											readLevel();
 											guy = new Player(new Vector(40,-40), "player");
+											xDir = "";
+											isJumping = false;
 										}
 									else if(stage == 2)
 										{
@@ -97,6 +108,19 @@ public class SwordRunner extends JPanel
 											readLevel();
 											guy = new Player(new Vector(40,-40), "player");
 											stage = 1;
+											xDir = "";
+											isJumping = false;
+											scoreCounter = 0;
+										}
+									else if(stage == 3)
+										{
+											goombas.clear();
+											readLevel();
+											guy = new Player(new Vector(40,-40), "player");
+											stage = 1;
+											xDir = "";
+											isJumping = false;
+											scoreCounter = 0;
 										}
 								}
 						}
@@ -142,6 +166,7 @@ public class SwordRunner extends JPanel
 							repaint();
 							break;
 						case 1:
+							SoundEffect.MARIO.loop();
 							if(xDir.equals("r"))
 								{
 									guy.getVel().setX(5);
@@ -165,6 +190,8 @@ public class SwordRunner extends JPanel
 							repaint();
 							break;
 						case 2:
+						case 3:
+						case 4:
 							if(tickNum < 60)
 								tickNum++;
 							else
@@ -240,6 +267,15 @@ public class SwordRunner extends JPanel
 							}
 						else
 							guy.setCurrFrame(0);
+					if(stage == 4)
+						{
+							if(colorNum < colors.length - 1)
+								{
+									colorNum++;
+								}
+							else
+								colorNum = 1;
+						}
 					}
 			});
 			animTimer.start();
@@ -248,6 +284,11 @@ public class SwordRunner extends JPanel
 		public void paintComponent(Graphics g)
 		{
 			super.paintComponent(g);
+			Font z1 = new Font("Arial", Font.BOLD, 75);
+			Font z2 = new Font("Arial", Font.PLAIN, 40);
+			Font z3 = new Font("ARIAL", Font.BOLD, 100);
+			Font z4 = new Font("ARIAL", Font.PLAIN, 50);
+			Font z5 = new Font("ARIAL", Font.PLAIN, 30);
 			switch(stage)
 			{
 				case 0:
@@ -387,10 +428,9 @@ public class SwordRunner extends JPanel
 				case 2:
 					g.drawImage(skybox1.getImage(), skybox1.getPos().getX(), skybox1.getPos().getY(), null);
 					g.drawImage(skybox2.getImage(), skybox2.getPos().getX(), skybox2.getPos().getY(), null);
-					Font z1 = new Font("Arial", Font.BOLD, 75);
-					Font z2 = new Font("Arial", Font.PLAIN, 40);
 					g.setFont(z1);
 					g.drawString("LEVEL "+levelNum+" COMPLETE!", 130, 250);
+					
 					String scoreString = "";
 					if(letterNum > 0)
 						scoreString += "YOU GOT";
@@ -405,6 +445,55 @@ public class SwordRunner extends JPanel
 					g.setFont(z2);
 					g.drawString(scoreString, 300, 400);
 					break;
+				case 3:
+					
+					g.drawImage(skybox1.getImage(), skybox1.getPos().getX(), skybox1.getPos().getY(), null);
+					g.drawImage(skybox2.getImage(), skybox2.getPos().getX(), skybox2.getPos().getY(), null);
+					g.setFont(z3);
+					g.setColor(Color.BLACK);
+					g.drawString("YOU DIED", 260, 300);
+					if(letterNum > 1)
+						{
+							g.setFont(z2);
+							g.drawString("PRESS ENTER TO RETRY...", 260, 500);
+						}
+					break;
+				case 4:
+					g.setColor(colors[colorNum]);
+					g.setFont(z3);
+					g.drawString("YOU WIN!", 250, 200);
+					g.setColor(Color.WHITE);
+					g.setFont(z4);
+					if(letterNum > 0)
+						{
+							g.drawString("Thank you for playing the Sword Demo!", 50, 300);
+						}
+					g.setFont(z4);
+					if(letterNum > 1)
+						g.drawString("Credits:", 400, 400);
+					g.setFont(z5);
+					if(letterNum > 2)
+						{
+							g.drawString("Lead Programmer: Andrew Shine", 250, 450);
+							g.drawString("Lead Programmer: Josh Obrecht", 250, 490);
+						}
+					if(letterNum > 3)
+						{
+							g.drawString("Lead Artist: Andrew Shine", 300, 530);
+							g.drawString("Lead Artist: Josh Obrecht", 300, 570);
+						}
+					if(letterNum > 4)
+						{
+							g.drawString("Lead Animator: Andrew Shine", 275, 610);
+							g.drawString("Lead Animator: Josh Obrecht", 275, 650);
+						}
+					if(letterNum > 5)
+						{
+							g.drawString("Chief Credits Writer: Andrew Shine", 250, 690);
+							g.drawString("Professional Rubber Duck: Josh Obrecht", 225, 730);
+						}
+					if(letterNum > 6)
+						g.drawString("Fred Flintstone: Mr. Mike McGuire", 250, 800);
 				}
 			}
 
@@ -413,6 +502,7 @@ public class SwordRunner extends JPanel
 		public void readLevel()
 		{
 			level = new ArrayList<ArrayList<Block>>();
+			scoreTotal = 0;
 			Scanner levelReader = null;
 			int position = 0;
 			try
@@ -451,6 +541,9 @@ public class SwordRunner extends JPanel
 									break;
 								case 'e':
 									goombas.add(new Enemy(new Vector(x,y), "enemy"));
+									break;
+								case 'k':
+									goombas.add(new Enemy(new Vector(x,y), "skyenemy"));
 									break;
 								case 'c':
 									b = new Block(new Vector(x,y), Color.CYAN, "cloud");
@@ -801,7 +894,10 @@ public class SwordRunner extends JPanel
 											b.setInvinc(true);
 										}
 									else
-										gc.add(b);
+										{
+											gc.add(b);
+											stage = 4;
+										}		
 								}
 							break;
 						}
@@ -831,6 +927,13 @@ public class SwordRunner extends JPanel
 		{
 			if(!guy.isInvinc())
 				guy.setLives(guy.getLives() - 1);
+			if(guy.getLives() == 0)
+				{
+					stage = 3;
+					letterNum = 0;
+					tickNum = 0;
+					return;
+				}
 			guy.setInvinc(true);
 			guy.getVel().setY(-10);
 			if(dir.equals("l"))

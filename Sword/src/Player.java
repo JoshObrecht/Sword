@@ -8,7 +8,7 @@ public class Player extends Entity
 		public Player(Vector v, String t)
 		{
 			super(v, t);
-			lives = 3;
+			lives = 5;
 			pushVel = new Vector(0,0);
 		}
 		
@@ -59,6 +59,7 @@ public class Player extends Entity
 														{
 															checks[6] = true;
 															SwordRunner.scoreCounter++;
+															SoundEffect.COIN.play();
 															gc.add(b);
 														}
 												}
