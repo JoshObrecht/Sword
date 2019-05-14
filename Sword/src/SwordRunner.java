@@ -37,8 +37,8 @@ public class SwordRunner extends JPanel
 		public final int size = 40;
 		public Entity skybox1;
 		public Entity skybox2;
-		public int levelNum = 4;
-		public int stage = 1;
+		public int levelNum = 0;
+		public int stage = 0;
 		public int tickNum = 0;
 		public int letterNum = 0;
 		public int colorNum = 0;
@@ -886,30 +886,34 @@ public class SwordRunner extends JPanel
 				}
 			for(Boss b: bosses)
 				{
-					String collideCheck = checkEnemyCollide(b);
-					if(collideCheck.equals("bounce"))
+					if(Math.abs(guy.getPos().getX() - b.getPos().getX()) <= 80)
 						{
-							guy.getVel().setY(-15);
-							if(!b.isInvinc())
+							String collideCheck = checkEnemyCollide(b);
+							if(collideCheck.equals("bounce"))
 								{
-									if(b.getHearts().size() > 0)
+									guy.getVel().setY(-15);
+									if(!b.isInvinc())
 										{
-											b.getHearts().remove(b.getHearts().size() - 1);
-											b.setInvinc(true);
+											if(b.getHearts().size() > 0)
+												{
+													b.getHearts().remove(b.getHearts().size() - 1);
+													b.setInvinc(true);
+												}
+											else
+												{
+													gc.add(b);
+													stage = 4;
+												}		
 										}
-									else
-										{
-											gc.add(b);
-											stage = 4;
-										}		
+									break;
 								}
-							break;
+							else if(collideCheck.substring(0,5).equals("death"))
+								{
+									getHurt(collideCheck.substring(5));
+									break;
+								}
 						}
-					else if(collideCheck.substring(0,5).equals("death"))
-						{
-							getHurt(collideCheck.substring(5));
-							break;
-						}
+					
 				}
 		}
 		public String checkEnemyCollide(Enemy e)
