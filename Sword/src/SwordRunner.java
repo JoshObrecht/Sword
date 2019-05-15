@@ -104,6 +104,7 @@ public class SwordRunner extends JPanel
 									else if(stage == 2)
 										{
 											levelNum++;
+											goombas.clear();
 											readLevel();
 											guy = new Player(new Vector(40,-40), "player");
 											stage = 1;
@@ -502,13 +503,13 @@ public class SwordRunner extends JPanel
 		{
 			if(levelNum > 0 && levelNum < 4)
 				{
-					SoundEffect.WARD.end();
-					SoundEffect.MARIO.loop();
+//					SoundEffect.WARD.end();
+//					SoundEffect.MARIO.loop();
 				}
 			else
 				{
-					SoundEffect.MARIO.end();
-					SoundEffect.WARD.loop();
+//					SoundEffect.MARIO.end();
+//					SoundEffect.WARD.loop();
 				}
 			level = new ArrayList<ArrayList<Block>>();
 			scoreTotal = 0;
